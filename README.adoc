@@ -11,4 +11,15 @@ README.adoc (this file): purpose and general structure
 philosophy.adoc: In depth discussion of the educational and pedagogical issues at play in the DPBoK standard and this course. 
 overview.adoc: Overview of course sequence, modules, lectures, and labs. 
 
+- platform (directory): contains executable examples
+-- svc1
+-- svc2
+-- svc3
+-- ??
+
+- week-00
+-- 1-study
+-- 2-lab
+
+(follow pattern through week 13; 14 week standard semester. No lab week 14; final exam assumed.)
 
