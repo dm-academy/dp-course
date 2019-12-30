@@ -6,6 +6,7 @@ It contains an assortment of text files and links to binaries stored appropriate
 Directory structure: 
 
 .gitignore (Terraform)
+
 LICENSE: master licensing terms. May be overridden in subdirectories.
 
 README.adoc (this file): purpose and general structure
