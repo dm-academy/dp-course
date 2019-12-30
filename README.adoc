@@ -1,0 +1,6 @@
+# dp-course
+This repository contains coursework and labs supporting the Digital Practitioner Body of Knowledge standard delivered as a semester-long, Masters' level course. 
+
+It contains an assortment of text files and links to binaries stored appropriately in package managers. 
+
+
