@@ -1,0 +1,13 @@
+= Educational philosophy for this course
+
+== Theory, practice, and educating the digital practitioner
+
+=== Existing curricular standards
+
+=== Learning progressions
+
+== The scaling progression in practice
+
+=== A more technical sequence
+
+=== A less technical sequence
