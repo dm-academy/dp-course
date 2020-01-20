@@ -8,6 +8,12 @@
 
 == The scaling progression in practice
 
+== Learning approach - student instruction (find technical term)
+
+Key priority - the student has to be comfortable editing the course right away. This way, they can participate in updating the course materials to keep them current semester by semester. 
+
 === A more technical sequence
 
 === A less technical sequence
+
+ontogeny recapitulates phylogeny
