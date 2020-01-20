@@ -21,11 +21,6 @@ Prerequisites: Completion of Linux tutorial, and/or abilities to:
 
 It is not the purpose of this class to teach you software development. However, being an IT professonal means that you need to be very comfortable configuring software. Using your idea, think about a very minimal web site that starts to support your idea. It can be as simple as a web server that presents an HTML page with personal interests, or perhaps a written description of your product idea. You also can start with a prebuilt web app (there are many available), with your value proposition being that you are going to "run it as a service" for end users who will pay you. 
 
-ALL students should run this tutorial: 
-
-https://www.hashicorp.com/blog/kickstart-terraform-on-gcp-with-google-cloud-shell 
-
-IMPORTANT: Going forward, you should ONLY provision and deprovision GCP resources with Terraform. 
 
 There are three options you can take for your first product: beginner, intermediate, and advanced. 
 

@@ -1,7 +1,12 @@
 = Lab 02 (Technical) IT Infrastructure
 
-
 == Terraform
+
+ALL students should run this tutorial: 
+
+https://www.hashicorp.com/blog/kickstart-terraform-on-gcp-with-google-cloud-shell 
+
+IMPORTANT: Going forward, you should ONLY provision and deprovision GCP resources with Terraform. 
 
 * Before starting, review [this article on environment variables. https://phoenixts.com/blog/environment-variables-in-linux. If you do not understand, ask. 
 * Create a new Github repo on your account titled Lab02-<your St. Thomas ID>. That is, if your St. Thomas email is sala0001@stthomas.edu, name it Lab02-sala0001. Include a .gitignore file configured for Terraform. 
