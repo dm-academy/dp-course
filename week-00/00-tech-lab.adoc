@@ -77,8 +77,18 @@ This is the Billing page. It tells you how much money you have in your account. 
 
 === Exploring the Google Cloud Shell
 
+We increasingly avoid any dependence on the computers in this classroom. Instead, we rely on the Google Cloud Shell, which is a specialized VM, as discussed in class. It offers a terminal emulator available in the Chrome browser when you sign into the Google Compute Engine. 
+
+Review 
+
+* https://cloud.google.com/shell/docs/features. 
+
+
 === Linux Tutorial
-Now that you have a functioning Linux instance, run this Linux tutorial. 
+
+IMPORTANT: A note on running tutorials. We rely on other people's tutorials in this class. Sometimes you have to interpret them a bit; this is an important skill to practice. Feel free to raise issues on Slack if a tutorial "doesn't make sense."
+
+Now that you have access to the Google Cloud shell, run this Linux tutorial. 
 
 https://ryanstutorials.net/linuxtutorial/
 
@@ -90,7 +100,7 @@ It's fine if you work on this during the week, but *you need to have it complete
 
 Go to http://github.com and set up a user account (one per individual, even if you are in teams). You do NOT want to use your school email account name for this, as your Github account may be an asset throughout your career. *Choose a suitably professional user name that you can use for the rest of your professional career.* 
 
-Set up a private/public key pair for your Github credentials. Start by going to Git Bash under your Windows menu. 
+Set up a private/public key pair for your Github credentials in the Google Cloud Shell. Start by going to Git Bash under your Windows menu. 
 
 image::images/git-bash.png[]
 
@@ -132,6 +142,8 @@ When you have finished configuring your Github access and tutorials, download th
 
 `git clone git@github.com:dm-academy/aitm-labs.git`
 
-Now, you should have all the lab files locally on your machine. You can open them in VSCode or other text editor. In this way you can change them and submit changes back to the central repo as pull requests. Try submitting a minor change to this file via the techniques presented in the tutorial. Note that you will not be able to accept the change, as I am the maintainer of this file. I would have to approve. 
+Now, you should have all the lab files locally on your machine. You can open them in VSCode or other text editor. In this way you can change them and submit changes back to the central repo as pull requests. 
+
+REQUIRED ASSIGNMENT: Try submitting a minor change as a "pull request" to THIS file (preferably something helpful, but you can propose any kind of change) via the techniques presented in the tutorial. Note that you will not be able to accept the change, as I am the maintainer of this file. I would have to approve. 
 
 IMPORTANT: From this point forward, you are STRONGLY ENCOURAGED to submit issues and enhancements to the course documentation. Extra credit points are readily available for contributing to the class in this manner. Don't allow yourself to "get stuck." Communicate with your classmates in Slack and if you are still stuck then raise a Github issue. If you are stuck, the problem is in the instructions, and we need to fix it. 

@@ -1,0 +1,92 @@
+= Lab 02 (Technical) IT Infrastructure
+
+
+== Terraform
+
+* Before starting, review [this article on environment variables. https://phoenixts.com/blog/environment-variables-in-linux. If you do not understand, ask. 
+* Create a new Github repo on your account titled Lab02-<your St. Thomas ID>. That is, if your St. Thomas email is sala0001@stthomas.edu, name it Lab02-sala0001. Include a .gitignore file configured for Terraform. 
+* Clone it down to the Google Cloud Shell (Request assistance if you need it with Github). 
+* Using the Google Cloud Shell text editor or Nano to edit your files, run the Terraform GCP tutorial https://www.terraform.io/docs/providers/google/getting_started.html 
+* You should not need to configure credentials. (Need to confirm.)
+
+* NOTE: "YOUR GCP PROJECT" is your Google Cloud main project ID, with a name like "proven-sum-252123." You can find it at the top left of your browser. Click on the "friendly" project name to see the project ID. 
+
+IMPORTANT: It is ESSENTIAL to create a .gitignore file properly configured for Terraform. For further information on .gitignore see https://git-scm.com/docs/gitignore. The required contents follow. 
+
+.gitignore contents:
+....
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+.tfstate.
+
+# .tfvars files
+*.tfvars
+
+....
+
+=== Troubleshooting 
+
+If you get 
+
+....
+Error refreshing state: state snapshot was created by Terraform v0.12.8, which is newer than current v0.12.2; upgrade to Terraform v0.12.8 or greater to work with this state
+....
+
+execute 
+`rm -rf terraform.tfstate`
+`terraform init`
+
+== Tonight's major assignment
+Using Terraform and its documentation, figure out how to provision a VM and install your small web server on it. 
+
+At the end, you should have ONE Github repo with all the resources you need. You should be able to open up a clean Google Cloud Shell, clone it down, run it, and get a VM with your website running, every time. 
+
+== Looking forward to next week
+The next goals for the class - feel free to get started, here they are high level: 
+
+* Replatform from webfsd to Node.js, rewriting your Terraformed repo appropriately. 
+
+* Run a Docker tutorial (this would be good to do before class)
+
+* Wrap your replatformed app in a Docker container
+
+== Beyond next week
+
+* Implement some trivial logic in your app, exposed as an API (add 2 numbers, concatenate 2 strings, etc.)
+
+* Implement a CD pipeline that builds and tests your application on a "dev" VM and deploys to a "prod" VM.  
+
+* Deploy the class microservices to a Kubernetes cluster
+
+* Proxies, service mesh, monitoring, Open  Telemetry. 
+
+* Incident management 
+
+* Portfolio management
+
+* Organization
+
+* Security
+
+* Information 
+
+* Architecture
+
+== Beyond next week
+
+
+== Local Terraform (optional)
+
+* The Google Cloud console is flexible and works on the classroom workstations as well as any device of yours. But many run Terraform locally for the greatest flexibility. 
+
+* You can run Terraform on your laptop. https://learn.hashicorp.com/terraform/getting-started/install.html. Terraform does not have an installer. You simply place the file in a directory that is on your $PATH. What is $PATH? It is an environment variable that lists all the directories where applications might be found. I recommend /usr/local/bin on the Mac and C:\Users\<your ID\bin on the PC (assuming you're be using Git Bash; if you are using PowerShell then you'll probably want it in C:\Program Files) You will need administrative privileges to modify either
+
+
+== Using nano in Git Bash for Windows by default (very optional)
+
+* https://coderwall.com/p/ee-law/use-nano-from-git-bash-on-windows-d and then
+* https://github.com/mcandre/nano-win/issues/1. 
+Arrow keys don't work. Alternately, you can type `start nano` and it will open in a separate window. 

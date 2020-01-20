@@ -1,0 +1,79 @@
+= Lab 01 Your initial product
+
+Prerequisites: Completion of Linux tutorial, and/or abilities to: 
+
+* Navigate the Linux file system (cd, pwd, mkdir, ., .., ~, etc)
+* Manage Linux files (nano, touch, rm, mv)
+* Manage permissions on files and directories (chmod)
+* Install Linux software (apt-get install)
+* Issue other Linux commands as necessary
+* Create and run bash scripts
+
+== Thinking about digital value
+
+* Go to any popular online service (Facebook, Netflix, Flickr, Etsy, etc.) How would you describe the "moments of truth" or value experiences these sites offer users? There may be several. Discuss with your team & be prepared to be called on. Who are the user, customer, and sponsor of the app? What are their motivations?
+
+* Considering what you read in the DPBoK section on Digital Value, brainstorm an idea for an IT-based product you could take to market. What is the context? Who are the user, customer, and sponsor of your product? Be prepared to discuss in class.
+
+* You DON'T need to be too elaborate. A webpage showing off pictures of pets, or vacation photos, is fine. Your "customers" might be your family. 
+
+== Your first product
+
+It is not the purpose of this class to teach you software development. However, being an IT professonal means that you need to be very comfortable configuring software. Using your idea, think about a very minimal web site that starts to support your idea. It can be as simple as a web server that presents an HTML page with personal interests, or perhaps a written description of your product idea. You also can start with a prebuilt web app (there are many available), with your value proposition being that you are going to "run it as a service" for end users who will pay you. 
+
+ALL students should run this tutorial: 
+
+https://www.hashicorp.com/blog/kickstart-terraform-on-gcp-with-google-cloud-shell 
+
+IMPORTANT: Going forward, you should ONLY provision and deprovision GCP resources with Terraform. 
+
+There are three options you can take for your first product: beginner, intermediate, and advanced. 
+
+*  *Beginner level*. This project will rely on one virtual machine running a simple Web server. You will configure this server to serve simple Web pages with text and pictures. You may start to experiment with some dynamic behavior using Javascript. 
+
+* *Intermediate level*. This project will feature a simple two-tier application (front and back end). 
+
+* *Advanced level*. This project is at your discrection; you can download any software you find on the Web, e.g. on Github. I would still keep it relatively simple. 
+
+Choose ONE of the following sections and follow the instructions. 
+
+== Beginner
+
+NOTE: These directions are deliberately high level. You may need to refer back to Linux tutorials or other resources to achieve the desired outcomes. This is what IT work is like. 
+
+* Create a GCE micro VM with http enabled.
+* ssh into it. 
+* Install webfsd and configure it to serve pages on the correct port.
+** Installing software requires the `apt-get install` command
+** There are two main ways webfsd is configured. 
+*** Through command line switches
+*** Through a configuration file
+** For this lab, use command line switches. You will need to experiment with command line syntax; it defaults to port 8000 which may not work...) An example: `sudo webfsd -R ~/Documents/www/ -p 80 -f index.html`. This command line specifies directory to be served, port to serve on, and initial file to display. 
+** Try various options (with and without -f flag, for example) and test in your browser; you should at least see your local file system. Once you have the right command line, put it in a shell script.  
+* Upload any images using "Transferring files using SSH in the browser" here: https://cloud.google.com/compute/docs/instances/transfer-files. 
+* If you need basic HTML syntax (to create pages with images in them, for example), there are many short tutorials and guides on the web. Rather than suggesting one, I ask you to look at several to find what you need.
+* Send me a screenshot of the working web site in the browser.
+* If you have time, start working towards next week's lab objectives. Store your web files and shell script in a Github repo. Create another shell script that installs the files and script in two different locations (e.g. files in /var/www/html, script to run the web server in your home directory.)
+
+== Intermediate 
+
+There are a number of two tier applications available to you. GCE has a tutorial with a simple todo list. On the right side of your GCP page, see "Quickly learn how to build a two-tier web app." This is a polished tutorial that should give you no problems. 
+
+Another suitable example, a little more challenging, is here: 
+
+https://closebrace.com/tutorials/2017-03-02/the-dead-simple-step-by-step-guide-for-front-end-developers-to-getting-up-and-running-with-nodejs-express-and-mongodb
+
+*As it assumes Windows, you will have to re-interpret some things.* For example, where it says "Hit the Node.js website and click the big green Install button...", that won't work. You will have to install Node using appropriate methods for the Linux command line. There are about a million places on the Web that describe that. You'll need NPM as well as Node.
+
+You are free to look for other comparable examples. 
+
+Send me a screen shot when your application is working.
+
+If you have time, start working towards next week's lab objectives. Store your web app and shell script in a Github repo. Create another shell script that installs the files in the correct locations, so that if you delete your VM, you can easily install it. done, send me a link to the completed Github repo.
+
+== Advanced
+
+Fully at your discretion. You may experiment with any multi-tier application you find. Please just work with VMs at this point, not containers. The key objective is to bring up a functioning application that can be accessed via the web. Send me screenshots and a description of the first version.   
+
+If you have time, start working towards next week's lab objectives. Store your web app and shell script in a Github repo. Create another shell script that installs the files in the correct locations, so that if you delete your VM, you can easily install it. done, send me a link to the completed Github repo.
+
