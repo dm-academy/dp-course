@@ -100,11 +100,9 @@ It's fine if you work on this during the week, but *you need to have it complete
 
 Go to http://github.com and set up a user account (one per individual, even if you are in teams). You do NOT want to use your school email account name for this, as your Github account may be an asset throughout your career. *Choose a suitably professional user name that you can use for the rest of your professional career.* 
 
-Set up a private/public key pair for your Github credentials in the Google Cloud Shell. Start by going to Git Bash under your Windows menu. 
+Set up a private/public key pair for your Github credentials in the Google Cloud Shell. 
 
-image::images/git-bash.png[]
-
-Next, review these instructions: 
+Review these instructions but do NOT attempt them: 
 
 https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
@@ -112,17 +110,9 @@ https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account
 
 https://help.github.com/en/articles/testing-your-ssh-connection
 
-and follow them. 
+However, this is where things get tricky. In the Google Cloud Shell, you use `ssh-keygen` to generate a public/private key pair. Using what you have learned by reading the instructions, as well as any general instructions related to `ssh-keygen`, associate your Google Cloud Shell correctly with Github via public/private key authentication. 
 
-Autoconfigure your Git Bash to launch the ssh-agent every time: 
-
-https://help.github.com/en/articles/working-with-ssh-key-passphrases
-
-You can create a .profile file using Visual Studio Code (VSCode). 
-
-Close and re-open Git Bash. 
-
-Now, run this tutorial: 
+When you have done that , run this tutorial: 
 
 https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners
 
