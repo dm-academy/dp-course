@@ -86,3 +86,9 @@ Fully at your discretion. You may experiment with any multi-tier application you
 
 If you have time, start working towards next week's lab objectives. Store your web app and shell script in a Github repo. Create another shell script that installs the files in the correct locations, so that if you delete your VM, you can easily install it. done, send me a link to the completed Github repo.
 
+== Assistance with this lab
+
+For the Beginner section, please take screen shots, save as png files, and submit pull requests so that future students have a more graphical experience. 5 points extra credit per image. 
+
+
+
