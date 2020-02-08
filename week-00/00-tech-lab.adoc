@@ -15,13 +15,10 @@ Objectives of this lab:
 By the time you are done with this lab, you will have: 
 
 * A St. Thomas email account (actually, you came in with this)
-* A Slack account, that should have the same name as your St. Thomas email but will have a different password
 * A Github account, that should *not* have the same name as your St. Thomas email. You will configure this with public/private key authentication. 
 * A Google account, for running Google Compute Engine
 
-This is FOUR different passwords, as well as a public/private key pair, with a passphrase, for Github. It's your responsibility to keep these accounts straight and NOT get confused which has what password. I recommend the use of a password keeper such as 1Pasword or LastPass. 
-
-== Setting up Teams
+This is THREE different passwords, as well as a public/private key pair, with a passphrase, for Github. It's your responsibility to keep these accounts straight and NOT get confused which has what password. I recommend the use of a password keeper such as 1Pasword or LastPass. 
 
 == Setting up Teams
 
