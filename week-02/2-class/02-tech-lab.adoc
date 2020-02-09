@@ -45,11 +45,11 @@ execute
 `terraform init`
 
 == Tonight's major assignment
-Using Terraform and its documentation, figure out how to provision a VM and install your small web server on it. 
+Using Terraform and its documentation, figure out how to provision a VM and install your application (from Lab 1) on it. 
 
-At the end, you should have ONE Github repo with all the resources you need. You should be able to open up a clean Google Cloud Shell, clone it down, run it, and get a VM with your website running, every time. 
+At the end, you should have ONE Github repo with all the resources you need. You should be able to open up a clean Google Cloud Shell, clone the repo down, run it, and get a VM with your website running, every time. 
 
-
+Always `terraform destroy` when you are done.
 
 == Local Terraform (optional)
 
