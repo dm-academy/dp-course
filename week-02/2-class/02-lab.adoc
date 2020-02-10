@@ -45,20 +45,37 @@ execute
 `terraform init`
 
 == Tonight's major assignment
+
+=== Option 1 - more difficult
 Using Terraform and its documentation, figure out how to provision a VM and install your application (from Lab 1) on it. 
 
 At the end, you should have ONE Github repo with all the resources you need. You should be able to open up a clean Google Cloud Shell, clone the repo down, run it, and get a VM with your website running, every time. 
 
 Always `terraform destroy` when you are done.
 
-== Local Terraform (optional)
+Check your work against https://github.com/dm-academy/lab-01-webfs.
+
+
+=== Option 2 - easier
+
+Go to https://github.com/dm-academy/lab-01-webfs and review what you find there. Either copy the contents as needed into your own local files, or clone it directly, review, and run `./install.sh`. 
+
+The challenge with this "easier" approach is that you still need to understand what is happening. It is not sufficient to just run the repository. So, in order to complete this lab under this option, you still must:
+
+- Correctly rename the project
+- Alter the HTML and the picture
+
+== Optional material
+
+=== Local Terraform (optional)
 
 * The Google Cloud console is flexible and works on the classroom workstations as well as any device of yours. But many run Terraform locally for the greatest flexibility. 
 
 * You can run Terraform on your laptop. https://learn.hashicorp.com/terraform/getting-started/install.html. Terraform does not have an installer. You simply place the file in a directory that is on your $PATH. What is $PATH? It is an environment variable that lists all the directories where applications might be found. I recommend /usr/local/bin on the Mac and C:\Users\<your ID\bin on the PC (assuming you're be using Git Bash; if you are using PowerShell then you'll probably want it in C:\Program Files) You will need administrative privileges to modify either
 
+Always `terraform destroy` when you are done.
 
-== Using nano in Git Bash for Windows by default (very optional)
+=== Using nano in Git Bash for Windows by default (very optional)
 
 * https://coderwall.com/p/ee-law/use-nano-from-git-bash-on-windows-d and then
 * https://github.com/mcandre/nano-win/issues/1. 
