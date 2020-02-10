@@ -1,7 +1,7 @@
 # dp-course
-This repository contains coursework and labs supporting the Digital Practitioner Body of Knowledge standard delivered as a semester-long, Masters' level course. 
+This repository contains labs supporting the Digital Practitioner Body of Knowledge standard delivered as a semester-long, Masters' level course. 
 
-It contains an assortment of text files and some binaries (small images and Powerpoint files).
+It contains an assortment of text files and some binaries (small images).
 
 Directory structure: 
 
@@ -15,23 +15,14 @@ philosophy.adoc: In depth discussion of the educational and pedagogical issues a
 
 overview.adoc: Overview of course sequence, modules, lectures, and labs. 
 
-* platform (directory): contains executable examples
-** svc1
-** svc2
-** svc3
-** ??
-
 * week-00
 ** 1-study
 ** 2-class
-*** Powerpoint of 1st lecture
 *** lab instructions
 *** other resources as needed
 
 * week-01
 ** 1-study
-*** powerpoint
-*** video
 *** phoenix project study questions
 *** additional readings
 ** 2-class
