@@ -53,16 +53,16 @@ At the end, you should have ONE Github repo with all the resources you need. You
 
 Always `terraform destroy` when you are done.
 
-Check your work against https://github.com/dm-academy/lab-02-webfs-tf.
+Check your work against https://github.com/dm-academy/dp-course/blob/master/week-02/02-lab.adoc.
 
 
 === Option 2 - easier
 
-Go to https://github.com/dm-academy/lab-02-webfs-tf and review what you find there. Either copy the contents as needed into your own local files, or clone it directly, review, and run `terraform apply`. 
+Go tohttps://github.com/dm-academy/dp-course/blob/master/week-02/02-lab.adoc and review what you find there. Either copy the contents as needed into your own local files, or clone it directly, review, and run `terraform apply`. 
 
 The challenge with this "easier" approach is that you still need to understand what is happening. It is not sufficient to just run the repository. So, in order to complete this lab under this option, you still must:
 
-- Correctly rename the project
+- Correctly rename the Google Cloud project
 - Alter the HTML and the picture
 
 And you *must* perform these alterations on the source repo, not on the online system. 
