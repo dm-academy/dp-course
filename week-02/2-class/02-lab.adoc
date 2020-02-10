@@ -53,17 +53,19 @@ At the end, you should have ONE Github repo with all the resources you need. You
 
 Always `terraform destroy` when you are done.
 
-Check your work against https://github.com/dm-academy/lab-01-webfs.
+Check your work against https://github.com/dm-academy/lab-02-webfs-tf.
 
 
 === Option 2 - easier
 
-Go to https://github.com/dm-academy/lab-01-webfs and review what you find there. Either copy the contents as needed into your own local files, or clone it directly, review, and run `./install.sh`. 
+Go to https://github.com/dm-academy/lab-02-webfs-tf and review what you find there. Either copy the contents as needed into your own local files, or clone it directly, review, and run `terraform apply`. 
 
 The challenge with this "easier" approach is that you still need to understand what is happening. It is not sufficient to just run the repository. So, in order to complete this lab under this option, you still must:
 
 - Correctly rename the project
 - Alter the HTML and the picture
+
+And you *must* perform these alterations on the source repo, not on the online system. 
 
 == Optional material
 
