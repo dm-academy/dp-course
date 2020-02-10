@@ -2,34 +2,3 @@
 This repository contains labs supporting the Digital Practitioner Body of Knowledge standard delivered as a semester-long, Masters' level course. 
 
 It contains an assortment of text files and some binaries (small images).
-
-Directory structure: 
-
-\.gitignore (Terraform)
-
-LICENSE: master licensing terms. May be overridden in subdirectories.
-
-README.adoc (this file): purpose and general structure
-
-philosophy.adoc: In depth discussion of the educational and pedagogical issues at play in the DPBoK standard and this course. 
-
-overview.adoc: Overview of course sequence, modules, lectures, and labs. 
-
-* week-00
-** 1-study
-** 2-class
-*** lab instructions
-*** other resources as needed
-
-* week-01
-** 1-study
-*** phoenix project study questions
-*** additional readings
-** 2-class
-*** lab instructions
-*** other resources as needed
-
-
-
-(follow pattern through week 13; 14 week standard semester. No lab week 14; final exam assumed.)
-
