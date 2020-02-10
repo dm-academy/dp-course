@@ -5,7 +5,7 @@ It contains an assortment of text files and some binaries (small images and Powe
 
 Directory structure: 
 
-.gitignore (Terraform)
+\.gitignore (Terraform)
 
 LICENSE: master licensing terms. May be overridden in subdirectories.
 
@@ -23,7 +23,22 @@ overview.adoc: Overview of course sequence, modules, lectures, and labs.
 
 * week-00
 ** 1-study
-** 2-lab
+** 2-class
+*** Powerpoint of 1st lecture
+*** lab instructions
+*** other resources as needed
+
+* week-01
+** 1-study
+*** powerpoint
+*** video
+*** phoenix project study questions
+*** additional readings
+** 2-class
+*** lab instructions
+*** other resources as needed
+
+
 
 (follow pattern through week 13; 14 week standard semester. No lab week 14; final exam assumed.)
 
