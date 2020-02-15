@@ -131,7 +131,7 @@ A key strategy of this course is that the students contribute to the learning ma
 
 Therefore, these instructions you are reading right now are something that we all collaborate on. You need to know how to change the instructions to help correct errors or add insights you may have developed as you work through them. 
 
-When you have finished configuring your Github access and tutorials, download this repo to your computer. Open Git Bash and type: 
+When you have finished configuring your Github access and tutorials, download this repo to your Google Cloud Shell. Open that shell and type: 
 
 `cd`
 
