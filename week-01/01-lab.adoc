@@ -47,7 +47,7 @@ NOTE: These directions are deliberately high level. You may need to refer back t
 ** Allow HTTP traffic
 * ssh into your new instance. 
 ** update the package manager (`sudo apt-get update`) - so you have the most current list of available software
-* Install webfsd (`sudo apt-get webfs`) and configure it to serve pages on the correct port.
+* Install webfsd (`sudo apt-get install webfs`) and configure it to serve pages on the correct port.
 ** Installing software requires the `apt-get install` command
 ** There are two main ways webfsd is configured. 
 *** Through command line switches
