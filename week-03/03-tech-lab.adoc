@@ -1,0 +1,123 @@
+:linkattrs:
+
+= Lab 03 (Technical) Deploying an application with Docker
+
+_This is still an early stage lab. All that is required is that you do your best and present errors to the instructor and your classmates._
+
+Learning objectives for this lab:
+
+* Gain basic Docker skills using GCP
+** Running pre-existing Docker containers
+** Creating a Docker container with a simple application in it
+* Moving your application to Docker
+
+== Priority #1: Destroy all Google VMs. 
+You should never leave anything running on Google. Go to https://console.cloud.google.com/compute and make sure all VMs are destroyed, manually if necessary. 
+
+Get in the habit of running `terraform destroy -auto-approve` at the end of every session. You only should be creating VMs (and networks, firewalls, etc) via Terraform templates. 
+
+== Basic Docker skills
+
+Prerequisite: In-class discussion of port mapping. 
+
+NOTE: You can run most of tutorial within the Google Cloud Shell. The one thing you can't do there is access a running container from an external Web browser, so to see results in Chrome for example you *must* spin up a VM. However, you can validate that a Web server is functioning locally with the `curl` command, which is a very useful tool you will find yourself relying on. 
+
+* Study https://cloud.google.com/containers/.
+
+* Run https://cloud.google.com/cloud-build/docs/quickstart-docker[Quickstart for Docker^]
+
+* Review https://cloud.google.com/compute/docs/containers/ 
+
+* Run https://cloud.google.com/community/tutorials/docker-compose-on-container-optimized-os - just that first page, do not continue with the further links at the end. 
+
+* With those preliminaires out of the way, noting any necessary adaptations, run the full Docker tutorial https://docker-curriculum.com/. In particular, you do not need to install Docker. Use the Google Command Shell natively. 
+
+** You can even navigate to a web page. When you first run your container, the command and its result should look like this: 
+
+
+`<userid>:docker-tutorial$ docker run -p 8080:5000 charlestbetz/catnip`
+
+ `* Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)`
+
+If you click on the suggested link, you will get an error indicating the wrong port. 
+
+image::portError.png[]
+
+If you change the URL 
+
+** We are using Google, not Amazon. Do the beginning of the Amazon section where it describes pushing to the Docker hub. Stop at Elastic Beanstalk.  
+
+** Then, create your own instance using `cos-cloud/cos-stable` and `fi-micro` and the `main.tf` file suggested below. Using what you have learned so far, log into the new VM and run your container from the Docker Hub. 
+
+** Try pinging your new VM from a local command prompt. Are you able to do this right away? 
+
+** Try accessing your website as the tutorial suggests. What issues might you be having with the address? Why? 
+
+** Does the website seem to hang? Don't be impatient. Time how long it takes to display. 
+
+** How might we make it faster? Think about this. (In class discussion.)
+
+** Be sure to destroy. 
+
+== Replatforming your system
+
+* On your Github account, set up an empty repo with the name "YOUREMAIL-dock-tut" (YOUREMAIL is your 8 char email account), and clone it down to your ~/repos directory on Google Cloud Shell. 
+
+* Configure a basic static webserver of your choice (either based on the webfsd ex)
+
+* Move your images and html file over to your new repo. 
+
+* Create an appropriate Dockerfile. Is the `ONBUILD` trigger useful? Review how the tutorial worked with this.  
+
+* Build your container image and push to the Docker hub. Run it and show me a screen shot. 
+
+* Push your newly configured system back up to Github. 
+
+* EXTRA CREDIT: Figure out how to automatically deploy your container to your new VM via an appropriate Terraform operation. See https://cloud.google.com/compute/docs/instances/create-start-instance#from-container-image; you will need to research how to do this via a Terraform template. 
+
+
+== A basic main.tf file
+
+* Using the below code as a basis, you can create a simple Terraform file (`main.tf`) to create a container-optimized VM. 
+* Reminder: To run Terraform, save this file in a directory, changing variables as appropriate, and run `terraform init` and then `terraform apply`. 
+
+....
+provider "google" {
+  project = "INSERT YOUR PROJECT NAME HERE"
+  region  = "us-central1"
+  zone    = "us-central1-c"
+}
+resource "google_compute_instance" "dock-tut" {
+  name         = "dock-tut"
+  machine_type = "f1-micro"
+  zone         = "us-central1-c"
+  boot_disk {
+    initialize_params {
+      image = "cos-cloud/cos-stable"
+    }
+  }
+  network_interface {
+    network = "default"
+    access_config {
+      // Ephemeral IP
+    }
+  }
+}
+resource "google_compute_firewall" "default" {
+ name    = "dock-net"
+ network = "default"
+
+ allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "80", "8080", "1000-2000"]
+  }
+}
+
+  output "ip" {
+     value = "${google_compute_instance.dock-tut.network_interface.0.access_config.0.nat_ip}"
+  }
+....
