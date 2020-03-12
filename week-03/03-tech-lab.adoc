@@ -29,12 +29,11 @@ NOTE: You can run most of tutorial within the Google Cloud Shell. The one thing 
 ** That tutorial only *creates* the container, and builds an image and uploads the image to the Google Container Registry. To *run* it, type: `docker run gcr.io/<your project ID>/quickstart-image`
 ** You have now created and run your first Docker container. 
 
-* Now, run the full Docker tutorial https://docker-curriculum.com/. In particular, *you do not need to install Docker.* Also, we will not use Amazon as indicated. Use the Google Command Shell natively. It already has Docker fully installed, including busybox. 
+* Now, run the full Docker tutorial https://docker-curriculum.com/. In particular, *you do not need to install Docker.* Also, we will not use your local computer, or Amazon as indicated. Use the Google Command Shell natively. It already has Docker fully installed, including busybox. 
 
 ** Note that you will need to be intelligent and make adaptations while you run the tutorial, even if it is somewhat imprecise when you should do so. For example, the tutorial suggests you execute `$ docker rm 305297d7a235 ff0a5c3750b9`, but those will not be the right container IDs for you (almost certainly -- they aren't for me, as I walk through it). 
 ** However, the command `docker rm $(docker ps -a -q -f status=exited)` does *not* need any adaptation. We like commands like this. 
-
-
+** The tutorial suggests: "You can open http://localhost:32769 in your browser." However, this does work. Why not? What would you have to be doing in order for this to work? Try `curl` instead. 
 
 == More
 
