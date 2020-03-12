@@ -24,11 +24,11 @@ Get in the habit of running `terraform destroy -auto-approve` at the end of ever
 ** You do *not* need to run and initialize the Cloud SDK unless you intend to operate Google Cloud from your personal laptop. It is already installed on the Google Cloud Shell. 
 ** That tutorial only *creates* the container, and builds an image and uploads the image to the Google Container Registry. To *run* it, type: `docker run gcr.io/<your project ID>/quickstart-image` and view the results; you should see something like this:
 
-````
+....
 betz4871:docker-tutorial$ docker run gcr.io/proven-sum-252123/quickstart-image
 Hello, world! The time is Thu Mar 12 23:31:41 UTC 2020.
 betz4871:docker-tutorial$
-````
+....
 
 ** You have now created and run your first Docker container. 
 
