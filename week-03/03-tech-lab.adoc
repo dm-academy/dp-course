@@ -25,6 +25,7 @@ NOTE: You can run most of tutorial within the Google Cloud Shell. The one thing 
 * Study https://cloud.google.com/containers/.
 
 * Run https://cloud.google.com/cloud-build/docs/quickstart-docker[Quickstart for Docker^]
+** You do *not* need to run and initialize the Cloud SDK unless you intend to operate Google Cloud from your personal laptop. It is already installed on the Google Cloud Shell. 
 
 * Review https://cloud.google.com/compute/docs/containers/ 
 
@@ -43,7 +44,7 @@ If you click on the suggested link, you will get an error indicating the wrong p
 
 image::portError.png[]
 
-If you change the URL 
+Try changing the URL... 
 
 ** We are using Google, not Amazon. Do the beginning of the Amazon section where it describes pushing to the Docker hub. Stop at Elastic Beanstalk.  
 
