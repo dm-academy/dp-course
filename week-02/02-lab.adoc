@@ -1,5 +1,7 @@
 = Lab 02 (Technical) IT Infrastructure
 
+NOTE: This lab needs to be rewritten due to persistent issues with the Terraform remote-exec provisioner. It will not consistently connect and execute across SSH, and has been a dead end for some students. This lab needs to assume that students automatically provision a VM and then have to manually configure it with a script. This will be a useful contrast to the full automatic building of containers. 
+
 == Terraform
 
 ALL students should run this tutorial: 
