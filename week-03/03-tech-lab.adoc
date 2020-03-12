@@ -34,28 +34,22 @@ NOTE: You can run most of tutorial within the Google Cloud Shell. The one thing 
 ** Note that you will need to be intelligent and make adaptations while you run the tutorial, even if it is somewhat imprecise when you should do so. For example, the tutorial suggests you execute `$ docker rm 305297d7a235 ff0a5c3750b9`, but those will not be the right container IDs for you (almost certainly -- they aren't for me, as I walk through it). 
 ** However, the command `docker rm $(docker ps -a -q -f status=exited)` does *not* need any adaptation. We like commands like this. 
 ** The tutorial suggests: "You can open http://localhost:32769 in your browser." However, this does work. Why not? What would you have to be doing in order for this to work? Try `curl` instead. 
+** Even better than curl: at the top left of the Google Cloud Shell you will see the following icon: image:GCSWebPreviewIcon.png[]. 
+*** If you click on this icon you will HTTP preview whatever the current localhost context is (if you are in the Google Command Shell and running a process there, it will preview that; if you are in a VM, it will preview what the VM is running.)
+*** It offers you some ports: 
+
+image:GCSWebPreviewPortSelect.png[]
+
+*** You change the port your container serves on through the -p flag on Docker Run. For example, `docker run -d -p 8080:80 -P --name static-site prakhar1989/static-site`
 ** The tutorial is a little strange in that you pull down a Dockerfile (it's in the flask-app subdirectory) so it's pointless to create it. But you should open it in nano. 
 ** Note that you do the docker build in the flask-app directory.
-** The tutorial gives you all the information you need to run it. However, we still can't get to it with a browser.  
+** If you get a "cannot remove running container" error, use `docker kill`, e.g. `docker kill static-site` or `docker kill <instance_name>`. To see your instance name, use docker ps. The last column will have two random words separated by an underscore. 
+
+** We are using Google, not Amazon. Stop where it says "Docker on AWS." 
 
 == More
 
-** You can even navigate to a web page. When you first run your container, the command and its result should look like this: 
-
-
-`<userid>:docker-tutorial$ docker run -p 8080:5000 charlestbetz/catnip`
-
- `* Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)`
-
-If you click on the suggested link, you will get an error indicating the wrong port. 
-
-image::portError.png[]
-
-Try changing the URL... 
-
-** We are using Google, not Amazon. Do the beginning of the Amazon section where it describes pushing to the Docker hub. Stop at Elastic Beanstalk.  
-
-** Then, create your own instance using `cos-cloud/cos-stable` and `fi-micro` and the `main.tf` file suggested below. Using what you have learned so far, log into the new VM and run your container from the Docker Hub. 
+** Create your own instance using `cos-cloud/cos-stable` and `fi-micro` and the `main.tf` file suggested below. Using what you have learned so far, log into the new VM and run your container from the Docker Hub. 
 
 ** Try pinging your new VM from a local command prompt. Are you able to do this right away? 
 
