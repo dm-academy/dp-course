@@ -44,7 +44,7 @@ betz4871:docker-tutorial$
 image:GCSWebPreviewPortSelect.png[]
 
 *** You change the port your container serves on through the -p flag on Docker Run. For example, `docker run -d -p 8080:80 -P --name static-site prakhar1989/static-site`
-** The tutorial is a little strange in that it tells you to make a Dockerfile. But you pull down a Dockerfile (it's in the flask-app subdirectory) so it's pointless to create it. But you should open it in nano. 
+** The tutorial is a little strange in that it tells you to make a Dockerfile. But you pull down a Dockerfile (it's in the flask-app subdirectory) so it's pointless to create it. Do however inspect it using `cat` or `nano`. 
 ** Note that you do the docker build in the flask-app directory.
 ** If you get a "cannot remove running container" error, use `docker kill`, e.g. `docker kill static-site` or `docker kill <instance_name>`. To see your instance name, use docker ps. The last column will have two random words separated by an underscore. 
 
