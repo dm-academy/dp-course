@@ -88,12 +88,12 @@ image:GCSWebPreviewPortSelect.png[]
 
 ....
 provider "google" {
-  project = "INSERT YOUR PROJECT NAME HERE"
+  project = "YOUR PROJECT HERE"
   region  = "us-central1"
   zone    = "us-central1-c"
 }
-resource "google_compute_instance" "dock-tut" {
-  name         = "dock-tut"
+resource "google_compute_instance" "dock-vm" {
+  name         = "dock-vm"
   machine_type = "f1-micro"
   zone         = "us-central1-c"
   boot_disk {
@@ -109,21 +109,18 @@ resource "google_compute_instance" "dock-tut" {
   }
 }
 resource "google_compute_firewall" "default" {
- name    = "dock-net"
+ name    = "dock-vm-net"
  network = "default"
-
  allow {
     protocol = "icmp"
   }
-
   allow {
     protocol = "tcp"
     ports    = ["22", "80", "8080", "1000-2000"]
   }
 }
-
   output "ip" {
-     value = "${google_compute_instance.dock-tut.network_interface.0.access_config.0.nat_ip}"
+     value = "${google_compute_instance.dock-vm.network_interface.0.access_config.0.nat_ip}"
   }
 ....
 
