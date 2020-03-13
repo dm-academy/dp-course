@@ -32,7 +32,7 @@ betz4871:docker-tutorial$
 
 ** You have now created and run your first Docker container. 
 
-* Now, run the Docker tutorial https://docker-curriculum.com/  ONLY up to the *Docker on AWS* section. In particular, *you do not need to install Docker.* We will not use your local computer, or Amazon as indicated. Use the Google Command Shell natively to . It already has Docker fully installed, including busybox. 
+* Now, run the Docker tutorial https://docker-curriculum.com/  ONLY up to the *Docker on AWS* section. In particular, *you do not need to install Docker.* We will not use your local computer, or Amazon as indicated. Use the Google Command Shell natively to complete the first part of this lab. It already has Docker fully installed, including busybox. 
 
 ** Note that you will need to be intelligent and make adaptations while you run the tutorial, even if it is somewhat imprecise when you should do so. For example, the tutorial suggests you execute `$ docker rm 305297d7a235 ff0a5c3750b9`, but those will not be the right container IDs for you (almost certainly -- they aren't for me, as I walk through it). 
 ** However, the command `docker rm $(docker ps -a -q -f status=exited)` does *not* need any adaptation. We like commands like this. 
