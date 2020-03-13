@@ -52,7 +52,9 @@ image:GCSWebPreviewPortSelect.png[]
 
 == More
 
-** Create your own instance using `cos-cloud/cos-stable` and `fi-micro` and the `main.tf` file suggested below. Using what you have learned so far, log into the new VM and run your container from the Docker Hub. 
+* Study https://cloud.google.com/compute/docs/containers/deploying-containers. This is the leading edge of course design for me right now (Spring 2020). 
+
+** Create your own instance using `cos-cloud/cos-stable` and `fi-micro` and the `main.tf` file suggested below. Using what you have learned so far, log into the new VM  and run your container from the Docker Hub. 
 
 ** Try pinging your new VM from a local command prompt. Are you able to do this right away? 
 
