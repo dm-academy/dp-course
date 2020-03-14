@@ -51,7 +51,7 @@ image:GCSWebPreviewPortSelect.png[]
 
 ** We are using Google, not Amazon. Stop where it says "Docker on AWS." 
 
-== More
+== More (Optional for now)
 
 * Study https://cloud.google.com/compute/docs/containers/deploying-containers. This is the leading edge of course design for me right now (Spring 2020). 
 
