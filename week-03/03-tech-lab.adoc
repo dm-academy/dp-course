@@ -51,6 +51,11 @@ image:GCSWebPreviewPortSelect.png[]
 
 ** We are using Google, not Amazon. Stop where it says "Docker on AWS." 
 
+March 2020: When you reach this point, go to
+
+https://github.com/dm-academy/infrastructure-as-code-tutorial. 
+
+
 == More (Optional for now)
 
 * Study https://cloud.google.com/compute/docs/containers/deploying-containers. This is the leading edge of course design for me right now (Spring 2020). 
