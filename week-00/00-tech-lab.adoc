@@ -85,28 +85,26 @@ Review
 
 * https://cloud.google.com/shell/docs/features. 
 
-
 === Linux Introduction
 
 IMPORTANT: A note on running tutorials. We may use other people's tutorials in this class. Sometimes you have to interpret them a bit; this is an important skill to practice. Feel free to raise issues on chat if a tutorial "doesn't make sense."
 
-Now that you have access to the Google Cloud shell, review this Linux introduction. Note, it is more of an overview than a "do this, then that" tutorial. 
-
-https://ryanstutorials.net/linuxtutorial/
-
-It's fine if you work on this during the week, but *you need to have it completed by next week.* The quiz will cover it, so do not take the quiz until you are done with the tutorial. 
-
-If you need a more structured tutorial, use this one (skip Tutorial 7):
+Now that you have access to the Google Cloud shell, do this tutorial (skip Tutorial 7):
 
 http://www.ee.surrey.ac.uk/Teaching/Unix/index.html
 
-In Tutorial 2, you can upload the science.txt file to your Google Cloud Shell via the "upload file" command under the triple vertical dots on the right side of the shell menu bar. 
+In Tutorial 2, upload the science.txt file to your Google Cloud Shell via the "upload file" command under the triple vertical dots on the right side of the shell menu bar. Use the file and directory commands you are learning in the tutorial to move it to a suitable location. 
 
 image::images/upload.png[]
 
-Use the file and directory commands you are learning in the tutorial to move it to a suitable location. 
+If you already feel you know Linux well, review this Linux introduction. Note, it is more of an overview than a "do this, then that" tutorial. 
+
+https://ryanstutorials.net/linuxtutorial/
+
+It's fine if you work on the tutorial during the week, but *you need to have it completed by next week.* The quiz will cover it, so do not take the quiz until you are done with the tutorial. 
 
 == Setting up Github account
+
 === Getting started
 
 Go to http://github.com and set up a user account (one per individual, even if you are in teams). You do NOT want to use your school email account name for this, as your Github account may be an asset throughout your career. *Choose a suitably professional user name that you can use for the rest of your professional career.* 
@@ -121,7 +119,7 @@ https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account
 
 https://help.github.com/en/articles/testing-your-ssh-connection
 
-However, this is where things get tricky. In the Google Cloud Shell, you use `ssh-keygen` to generate a public/private key pair. Using what you have learned by reading the instructions, as well as any general instructions related to `ssh-keygen`, associate your Google Cloud Shell correctly with Github via public/private key authentication. 
+This is where things get tricky. In the Google Cloud Shell, you use `ssh-keygen` to generate a public/private key pair. Using what you have learned by reading the instructions, the Linux tutorial, and any general instructions related to `ssh-keygen`, associate your Google Cloud Shell correctly with Github via public/private key authentication. 
 
 When you have done that , run this tutorial: 
 
