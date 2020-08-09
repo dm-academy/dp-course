@@ -18,7 +18,7 @@ By the time you are done with this lab, you will have:
 * A Github account, that should *not* have the same name as your St. Thomas email. You will configure this with public/private key authentication. 
 * A Google account, for running Google Compute Engine
 
-This is THREE different passwords, as well as a public/private key pair, with a passphrase, for Github. It's your responsibility to keep these accounts straight and NOT get confused which has what password. I recommend the use of a password keeper such as 1Pasword or LastPass. 
+This is THREE different passwords, as well as a public/private key pair, with a passphrase, for Github. It's your responsibility to keep these accounts straight and NOT get confused which has what password. I recommend the use of a password keeper such as 1Password or LastPass. 
 
 == Setting up Teams
 
