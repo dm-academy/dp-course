@@ -94,7 +94,7 @@ https://ryanstutorials.net/linuxtutorial/
 
 It's fine if you work on this during the week, but *you need to have it completed by next week.* The quiz will cover it, so do not take the quiz until you are done with the tutorial. 
 
-If you need a more structured tutorial, use this one:
+If you need a more structured tutorial, use this one (skip Tutorial 7):
 
 http://www.ee.surrey.ac.uk/Teaching/Unix/index.html
 
