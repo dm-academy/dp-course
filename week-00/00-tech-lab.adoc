@@ -2,14 +2,19 @@
 
 NOTE: We are in a bootstrapping phase. We need to get you set up on Github and Google Cloud so that you can learn Linux. But that means you need to execute some Linux without knowing much about it. Do your best to follow the instructions. 
 
+NOTE: These instructions are always a work in progress. 
+
+
 Objectives of this lab: 
 
 - Set up MS Teams
 - Set up Google Compute Engine
 - Explore the Google Cloud Shell
+- Run the Linux tutorial 
 - Set up Github 
 - Learn basic git commands, using this course as your first repository
-- Start the Linux tutorial (you may finish it in the week to come)
+
+You will likely need to spend time on the lab in the coming week. You should complete it before you attempt the quiz. 
 
 == A note on accounts
 By the time you are done with this lab, you will have: 
@@ -27,9 +32,6 @@ This is THREE different passwords, as well as a public/private key pair, with a 
 * Open up Microsoft Teams
 * Go to the Teams tab on the side and click the "Join or Create Team" button on the right
 * Use "Join a team with a code"; the class code was sent out via Canvas announcement. 
-
-NOTE: As this is the first class where we are all using Teams these instructions are a work in progress. 
-
 
 == Accessing Google Compute Engine
 
