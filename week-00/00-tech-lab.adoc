@@ -86,7 +86,7 @@ Review
 
 === Linux Introduction
 
-IMPORTANT: A note on running tutorials. We rely on other people's tutorials in this class. Sometimes you have to interpret them a bit; this is an important skill to practice. Feel free to raise issues on chat if a tutorial "doesn't make sense."
+IMPORTANT: A note on running tutorials. We may use other people's tutorials in this class. Sometimes you have to interpret them a bit; this is an important skill to practice. Feel free to raise issues on chat if a tutorial "doesn't make sense."
 
 Now that you have access to the Google Cloud shell, review this Linux introduction. Note, it is more of an overview than a "do this, then that" tutorial. 
 
