@@ -1,23 +1,24 @@
 = Lab 02 (Technical) IT Infrastructure
 
-NOTE: This lab needs to be rewritten due to persistent issues with the Terraform remote-exec provisioner. It will not consistently connect and execute across SSH, and has been a dead end for some students. This lab needs to assume that students automatically provision a VM and then have to manually configure it with a script. This will be a useful contrast to the full automatic building of containers. 
+== Adding a VM
+
+gcloud compute instances create  node-svc-01\
+    --image-family ubuntu-minimal-2004-lts  \
+    --image-project ubuntu-os-cloud \
+    --boot-disk-size 10GB \
+    --machine-type f1-micro
+
+gcloud compute instances create  node-svc-02\
+    --image-family ubuntu-minimal-2004-lts  \
+    --image-project ubuntu-os-cloud \
+    --boot-disk-size 10GB \
+    --machine-type f1-micro
 
 == Terraform
-
-ALL students should run this tutorial: 
-
-https://www.hashicorp.com/blog/kickstart-terraform-on-gcp-with-google-cloud-shell 
-
-IMPORTANT: Going forward, you should ONLY provision and deprovision GCP resources with Terraform. 
 
 * Before starting, review this article on environment variables. https://phoenixts.com/blog/environment-variables-in-linux. If you do not understand, ask. 
 * Create a new Github repo on your account titled Lab02-<your St. Thomas ID>. That is, if your St. Thomas email is sala0001@stthomas.edu, name it Lab02-sala0001. Include a .gitignore file configured for Terraform. 
 * Clone it down to the Google Cloud Shell (Request assistance if you need it with Github). 
-* Using the Google Cloud Shell text editor or Nano to edit your files, run the Terraform GCP tutorial https://www.terraform.io/docs/providers/google/getting_started.html 
-** You should not need to worry about the steps in "Before you begin." 
-* You should not need to configure credentials. 
-
-* NOTE: "YOUR GCP PROJECT" is your Google Cloud main project ID, with a name like "proven-sum-252123." You can find it at the top left of your browser. Click on the "friendly" project name to see the project ID. 
 
 IMPORTANT: It is ESSENTIAL to create a .gitignore file properly configured for Terraform. For further information on .gitignore see https://git-scm.com/docs/gitignore. The required contents follow. 
 
@@ -47,41 +48,3 @@ execute
 `rm -rf terraform.tfstate`
 `terraform init`
 
-== Tonight's major assignment
-
-=== Option 1 - more difficult
-Using Terraform and its documentation, figure out how to provision a VM and install your application (from Lab 1) on it. 
-
-At the end, you should have ONE Github repo with all the resources you need. You should be able to open up a clean Google Cloud Shell, clone the repo down, run it, and get a VM with your website running, every time. 
-
-Always `terraform destroy` when you are done.
-
-Check your work against https://github.com/dm-academy/lab-02-webfs-tf.
-
-
-=== Option 2 - easier
-
-Go to https://github.com/dm-academy/lab-02-webfs-tf and review what you find there. Either copy the contents as needed into your own local files, or clone it directly, review, and run `terraform apply`. 
-
-The challenge with this "easier" approach is that you still need to understand what is happening. It is not sufficient to just run the repository. So, in order to complete this lab under this option, you still must:
-
-- Correctly rename the Google Cloud project
-- Alter the HTML and the picture
-
-And you *must* perform these alterations on the source repo, not on the online system. 
-
-== Optional material
-
-=== Local Terraform (optional)
-
-* The Google Cloud console is flexible and works on the classroom workstations as well as any device of yours. But many run Terraform locally for the greatest flexibility. 
-
-* You can run Terraform on your laptop. https://learn.hashicorp.com/terraform/getting-started/install.html. Terraform does not have an installer. You simply place the file in a directory that is on your $PATH. What is $PATH? It is an environment variable that lists all the directories where applications might be found. I recommend /usr/local/bin on the Mac and C:\Users\<your ID\bin on the PC (assuming you're be using Git Bash; if you are using PowerShell then you'll probably want it in C:\Program Files) You will need administrative privileges to modify either
-
-Always `terraform destroy` when you are done.
-
-=== Using nano in Git Bash for Windows by default (very optional)
-
-* https://coderwall.com/p/ee-law/use-nano-from-git-bash-on-windows-d and then
-* https://github.com/mcandre/nano-win/issues/1. 
-Arrow keys don't work. Alternately, you can type `start nano` and it will open in a separate window. 
