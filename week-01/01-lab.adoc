@@ -256,9 +256,6 @@ $ gcloud compute firewall-rules delete -q allow-node-svc-tcp-9292
 ----
 
 
-== Assistance with this lab
-
-For the Beginner section, please take screen shots, save as png files, and submit pull requests so that future students have a more graphical experience. 5 points extra credit per image. 
 
 
 
