@@ -1,6 +1,8 @@
 = Lab 01 Your initial product
 
-Prerequisites: Completion of Linux tutorial, and/or abilities to: 
+== Prerequisites
+
+Completion of Linux tutorial, and/or abilities to: 
 
 * Navigate the Linux file system (cd, pwd, mkdir, ., .., ~, etc)
 * Manage Linux files (nano, touch, rm, mv)
@@ -10,90 +12,249 @@ Prerequisites: Completion of Linux tutorial, and/or abilities to:
 * Create and run bash scripts
 * Github access; ability to create, clone, and perform basic commit and push operations on a repository. 
 
-== Thinking about digital value
+== Learning objectives
+
+* Discuss digital context and value
+* Build a simple digital product and discuss its stack
+
+== Thinking about digital value (30m)
 
 * Go to any popular online service (Facebook, Netflix, Flickr, Etsy, etc.) How would you describe the "moments of truth" or value experiences these sites offer users? There may be several. Discuss with your team & be prepared to be called on. Who are the user, customer, and sponsor of the app? What are their motivations?
 
 * Considering what you read in the DPBoK section on Digital Value, brainstorm an idea for an IT-based product you could take to market. What is the context? Who are the user, customer, and sponsor of your product? Be prepared to discuss in class.
 
-* You DON'T need to be too elaborate. A webpage showing off pictures of pets, or vacation photos, is fine. Your "customers" might be your family. 
+== Infrastructure as code
+We will talk more about infrastructure in Session 02. However, you will start right away with it. Infrastructure as code means that, for the most part, we will configure our systems using scripts and other text files, as opposed to using a graphical user interface. 
 
-== Your first product
+== A simple "product"
 
-It is not the purpose of this class to teach you software development. However, being an IT professonal means that you need to be very comfortable configuring software. Using your idea, think about a very minimal web site that starts to support your idea. It can be as simple as a web server that presents an HTML page with personal interests, or perhaps a written description of your product idea. You also can start with a prebuilt web app (there are many available), with your value proposition being that you are going to "run it as a service" for end users who will pay you. 
+For your first effort, you will manually configure a virtual machine on Google to run a very simple web service. 
 
-There are three options you can take for your first product: beginner, intermediate, and advanced. 
+== Prerequisites
 
-*  *Beginner level*. This project will rely on one virtual machine running a simple Web server. You will configure this server to serve simple Web pages with text and pictures. You may start to experiment with some dynamic behavior using Javascript. 
+=== Google Cloud Platform
 
-* *Intermediate level*. This project will feature a simple two-tier application (front and back end). 
+In this tutorial, we use the https://cloud.google.com/[Google Cloud Platform] to provision the compute infrastructure.
+You have already signed up.
 
-* *Advanced level*. This project is at your discrection; you can download any software you find on the Web, e.g. on Github. I would still keep it relatively simple. 
+Start in the Google Cloud Shell.
+https://cloud.google.com/shell/docs/using-cloud-shell[(review)]
 
-Choose ONE of the following sections and follow the instructions. 
 
-== Basic
+=== Set a Default Project, Compute Region and Zone
 
-NOTE: These directions are deliberately high level. You may need to refer back to Linux tutorials or other resources to achieve the desired outcomes. Post questions to Teams for your classmates to help with. Do not call on me first. This is what IT work is like. 
+This tutorial assumes a default compute region and zone have been configured.
 
-=== Option 1
+Set a default compute region appropriate to your location (https://cloud.google.com/compute/docs/regions-zones[GCP regions and zones]):
 
-* Reminder, start at https://console.cloud.google.com/.
-* Create a GCP project; you can give it any name. You should note the project ID, which you can see if you click on the project name at the top left (once you have created it). 
-* Create a GCE micro VM with http enabled. 
-** Start with the blue "Create" button
-** Do NOT choose the default. You will use up your money. 
-** Choose the f1-micro machine type
-** Allow HTTP traffic
-* ssh into your new instance. 
-** update the package manager (`sudo apt-get update`) - so you have the most current list of available software
-* Install webfsd (`sudo apt-get install webfs`) and configure it to serve pages on the correct port.
-** Installing software requires the `apt-get install` command
-** There are two main ways webfsd is configured. 
-*** Through command line switches
-*** Through a configuration file
-** For this lab, use command line switches. (You will need to experiment with command line syntax; it defaults to port 8000 which may not work...) An example: `sudo webfsd -R ~/www/ -p 80 -f index.html`. This command line specifies directory to be served, port to serve on, and initial file to display. (Remember ... what gets substituted for the tilde `~` when it appears in a directory path? Review your Linux tutorial.)
-** An `index.html` file with the simple word "test" in it will work just fine to prove connectivity. Be careful of your paths. 
-** The quickest test that webfsd is working is `curl localhost` from your VM's command line. If you are serving on port 80 that should serve back whatever file you have specified. 
-** Try various options (with and without -f flag, for example) and test in your browser; you should at least see your local file system. Once you have the right command line, put it in a shell script.  
-* Upload any images using "Transferring files using SSH in the browser" here: https://cloud.google.com/compute/docs/instances/transfer-files. 
-* If you need basic HTML syntax (to create pages with images in them, for example), there are many short tutorials and guides on the web. Rather than suggesting one, I ask you to look at several to find what you need.
-* Send me a screenshot of the working web site in the browser.
-* If you have time, start working towards next week's lab objectives. Store your web files and shell script in a Github repo. Create another shell script that installs the files and script in two different locations (e.g. files in /var/www/html, script to run the web server in your home directory.)
-* review https://github.com/dm-academy/lab-01-webfs and compare to what you have done. 
-* SHUT DOWN YOUR INSTANCE WHEN YOU ARE DONE.
+[source,bash]
+----
+$ gcloud config set compute/region us-central1
+----
 
-=== Option 2
+Set a default compute zone appropriate to the zone:
 
-Go to https://github.com/dm-academy/lab-01-webfs and review what you find there. Either copy the contents as needed into your own local files, or clone it directly, review, and run `./install.sh`. 
+[source,bash]
+----
+$ gcloud config set compute/zone us-central1-c
+----
 
-The challenge with this "easier" approach is that you still need to understand what is happening. It is not sufficient to just run the repository. So, in order to complete this lab under this option, you still must:
+Verify the configuration settings:
 
-- Alter the HTML and the picture
+[source,bash]
+----
+$ gcloud config list
+----
 
-== Advanced 
 
-It's assumed that you are comfortable with creating VMs. 
+== Intro
 
-There are a number of two tier applications available to you. GCE has a tutorial with a simple todo list. On the right side of your GCP page, see "Quickly learn how to build a two-tier web app." This is a polished tutorial that should give you no problems. 
+You have developed a new cool application called https://github.com/dm-academy/node-svc-v1[node-svc].
 
-Another suitable example, a little more challenging, is here: 
+You want to run your application on a dedicated server and make it available to the Internet users.
 
-https://closebrace.com/tutorials/2017-03-02/the-dead-simple-step-by-step-guide-for-front-end-developers-to-getting-up-and-running-with-nodejs-express-and-mongodb
+You heard about the `public cloud` thing, which allows you to provision compute resources and pay only for what you use.
 
-If the micro VM is too slow, then upgrade it but be very careful to shut it down when not in use.
+You believe it's a great way to test your idea of an application and see if people like it.
 
-*As it assumes Windows, you will have to re-interpret some things.* For example, where it says "Hit the Node.js website and click the big green Install button...", that won't work. You will have to install Node using appropriate methods for the Linux command line. There are about a million places on the Web that describe that. You'll need NPM as well as Node.
+You've signed up for a free tier of https://cloud.google.com/[Google Cloud Platform] (GCP) and are about to start deploying your application.
 
-You are free to look for other comparable examples. 
+== Provision Compute Resources
 
-Send me a screen shot when your application is working.
+First thing we will do is to provision a virtual machine (VM) inside GCP for running the application.
 
-If you have time, start working towards next week's lab objectives. Store your web app and shell script in a Github repo. Create another shell script that installs the files in the correct locations, so that if you delete your VM, you can easily install it. done, send me a link to the completed Github repo.
+Use the following gcloud command in your terminal to launch a VM with Ubuntu 16.04 distro:
 
-Or, fully at your discretion: You may experiment with any multi-tier application you find. Please just work with VMs at this point, not containers. The key objective is to bring up a functioning application that can be accessed via the web. Send me screenshots and a description of the first version.   
+[source,bash]
+----
+$ gcloud compute instances create  node-svc\
+    --image-family ubuntu-minimal-2004-lts  \
+    --image-project ubuntu-os-cloud \
+    --boot-disk-size 10GB \
+    --machine-type f1-micro
+----
 
-If you have time, start working towards next week's lab objectives. Store your web app and shell script in a Github repo. Create another shell script that installs the files in the correct locations, so that if you delete your VM, you can easily install it. done, send me a link to the completed Github repo.
+== Create an SSH key pair
+
+Generate an SSH key pair for future connections to the VM instances (run the command exactly as it is):
+
+[source,bash]
+----
+$ ssh-keygen -t rsa -f ~/.ssh/node-user -C node-user -P ""
+----
+
+Create an SSH public key for your project:
+
+[source,bash]
+----
+$ gcloud compute project-info add-metadata \
+    --metadata ssh-keys="node-user:$(cat ~/.ssh/node-user.pub)"
+----
+
+Check your ssh-agent is running:
+
+[source,bash]
+----
+$ echo $SSH_AGENT_PID
+----
+
+If you get a number, it is running.
+If you get nothing, then run:
+
+[source,bash]
+----
+$ eval `ssh-agent`
+----
+
+Add the SSH private key to the ssh-agent:
+
+ $ ssh-add ~/.ssh/node-user
+
+Verify that the key was added to the ssh-agent:
+
+[source,bash]
+----
+$ ssh-add -l
+----
+
+== Install Application Dependencies
+
+To start the application, you need to first configure the environment for running it.
+
+Connect to the started VM via SSH using the following two commands:
+
+[source,bash]
+----
+$ INSTANCE_IP=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc)
+$ ssh node-user@${INSTANCE_IP}
+----
+
+Install Node and npm:
+
+[source,bash]
+----
+$
+$ sudo apt-get install -y nodejs npm
+----
+
+Check the installed version of Node:
+
+[source,bash]
+----
+$ node -v
+----
+
+Install `git`:
+
+[source,bash]
+----
+$ sudo apt -y install git
+----
+
+Clone the application repo into the home directory of `node-user` user (reminder, how do you clone to the right location?):
+
+[source,bash]
+----
+$ git clone https://github.com/dm-academy/node-svc-v1
+----
+
+Navigate to the repo (`cd node-svc-v1`) and check out the 02 branch (matching this lesson)
+
+[source,bash]
+----
+$ git checkout 02
+Branch 02 set up to track remote branch 02 from origin.
+Switched to a new branch '02'
+----
+
+Initialize npm (Node Package Manager) and install express:
+
+[source,bash]
+----
+$ npm install
+$ npm install express
+----
+
+== Start the Application
+
+Look at the server.js file (`cat`).
+We will discuss in class.
+
+Start the Node web server:
+
+[source,bash]
+----
+$ nodejs server.js &
+Running on 3000
+----
+
+Test it:
+
+[source,bash]
+----
+$ curl localhost:3000
+Successful request.
+----
+
+== Access the Application
+
+Open a firewall port the application is listening on (note that the following command should be run on the Google Cloud Shell):
+
+[source,bash]
+----
+$ gcloud compute firewall-rules create allow-node-svc-tcp-3000 \
+    --network default \
+    --action allow \
+    --direction ingress \
+    --rules tcp:3000 \
+    --source-ranges 0.0.0.0/0
+----
+
+Get the public IP of the VM:
+
+[source,bash]
+----
+$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-instance
+----
+
+Now open your browser and try to reach the application at the public IP and port 3000.
+
+For example, I put in my browser the following URL http://104.155.1.152:3000, but note that you'll have your own IP address.
+
+== Conclusion
+
+Congrats! You've just deployed your application. It is running on a dedicated set of compute resources in the cloud and is accessible by a public IP. Now Internet users can enjoy using your application.
+
+Now that you've got the idea of what sort of steps you have to take to deploy your code from your local machine to a virtual server running in the cloud, let's see how we can do it more efficiently.
+
+Destroy the current VM and firewall rule and move to the next step:
+
+[source,bash]
+----
+$ gcloud compute instances delete -q node-svc
+$ gcloud compute firewall-rules delete -q allow-node-svc-tcp-9292
+----
+
 
 == Assistance with this lab
 
