@@ -2,17 +2,31 @@
 
 == Adding a VM
 
-gcloud compute instances create  node-svc-01\
+It's a rare production system that only has one virtual machine, or container. Therefore we will start early with a simple two-node system. 
+
+NOTE: Rather than using a two-tier system with an application and database node, this initial system uses a single microservice that can both request and reply to API calls, and can easily interoperate with itself. For now, each node will have one installation of this service. 
+
+
+[source,bash]
+----
+$ gcloud compute instances create  node-svc-01\
     --image-family ubuntu-minimal-2004-lts  \
     --image-project ubuntu-os-cloud \
     --boot-disk-size 10GB \
     --machine-type f1-micro
 
-gcloud compute instances create  node-svc-02\
+$ gcloud compute instances create  node-svc-02\
     --image-family ubuntu-minimal-2004-lts  \
     --image-project ubuntu-os-cloud \
     --boot-disk-size 10GB \
     --machine-type f1-micro
+
+$ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01)
+
+$ NODE_IP_02=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01)
+
+$ ssh node-user@${NODE_IP_01}
+----
 
 == Terraform
 
