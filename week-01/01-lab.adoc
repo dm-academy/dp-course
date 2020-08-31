@@ -145,7 +145,7 @@ Connect to the started VM via SSH using the following two commands:
 
 [source,bash]
 ----
-$ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01)
+$ export NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01)
 $ ssh node-user@${NODE_IP_01}
 ----
 
@@ -204,8 +204,8 @@ Start the Node web server:
 
 [source,bash]
 ----
-$   
-Running on 3000
+$ nodejs server.js &
+(various console output)
 ----
 
 Test it:
@@ -213,7 +213,7 @@ Test it:
 [source,bash]
 ----
 $ curl localhost:3000
-Successful request.
+(various console output)
 ----
 
 == Access the Application
@@ -234,7 +234,7 @@ Get the public IP of the VM:
 
 [source,bash]
 ----
-$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-instance
+$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01
 ----
 
 Now open your browser and try to reach the application at the public IP and port 3000.
@@ -251,8 +251,8 @@ Destroy the current VM and firewall rule and move to the next step:
 
 [source,bash]
 ----
-$ gcloud compute instances delete -q node-svc
-$ gcloud compute firewall-rules delete -q allow-node-svc-tcp-9292
+$ gcloud compute instances delete -q node-svc-01
+$ gcloud compute firewall-rules delete -q allow-node-svc-tcp-3000
 ----
 
 
