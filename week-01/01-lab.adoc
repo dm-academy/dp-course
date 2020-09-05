@@ -1,4 +1,4 @@
-= Lab 01 Your initial product
+= Lab 01: Installing a simple system: from manual to scripts
 
 == Prerequisites
 
@@ -15,31 +15,29 @@ Completion of Linux tutorial, and/or abilities to:
 == Learning objectives
 
 * Discuss digital context and value
-* Build a simple digital product and discuss its stack
+* Build a simple digital system
 
-== Thinking about digital value (30m)
+== Thinking about digital value (20m)
 
 * Go to any popular online service (Facebook, Netflix, Flickr, Etsy, etc.) How would you describe the "moments of truth" or value experiences these sites offer users? There may be several. Discuss with your team & be prepared to be called on. Who are the user, customer, and sponsor of the app? What are their motivations?
 
 * Considering what you read in the DPBoK section on Digital Value, brainstorm an idea for an IT-based product you could take to market. What is the context? Who are the user, customer, and sponsor of your product? Be prepared to discuss in class.
 
-== Infrastructure as code
-We will talk more about infrastructure in Session 02. However, you will start right away with it. Infrastructure as code means that, for the most part, we will configure our systems using scripts and other text files, as opposed to using a graphical user interface. 
-
 == A simple "product"
 
-For your first effort, you will manually configure a virtual machine on Google to run a very simple web service. 
+For your first effort, you will manually configure a simple system running a basic web service you can access via a command line or a browser. 
 
 == Prerequisites
+
+NOTE: We will talk more about infrastructure as code in Session 02. However, you will start right away with it. Infrastructure as code means that, for the most part, we will configure our systems using scripts and other text files, as opposed to using a graphical user interface. 
 
 === Google Cloud Platform
 
 In this tutorial, we use the https://cloud.google.com/[Google Cloud Platform] to provision the compute infrastructure.
 You have already signed up.
 
-Start in the Google Cloud Shell.
+Start in the Google Cloud Shell
 https://cloud.google.com/shell/docs/using-cloud-shell[(review)]
-
 
 === Set a Default Project, Compute Region and Zone
 
@@ -66,10 +64,11 @@ Verify the configuration settings:
 $ gcloud config list
 ----
 
+== Manual installation
 
-== Intro
+=== Intro
 
-You have developed a new cool application called https://github.com/dm-academy/node-svc-v1[node-svc].
+You have developed a new cool application called https://github.com/dm-academy/node-svc[node-svc].
 
 You want to run your application on a dedicated server and make it available to the Internet users.
 
@@ -79,7 +78,7 @@ You believe it's a great way to test your idea of an application and see if peop
 
 You've signed up for a free tier of https://cloud.google.com/[Google Cloud Platform] (GCP) and are about to start deploying your application.
 
-== Provision Compute Resources
+=== Provision Compute Resources
 
 First thing we will do is to provision a virtual machine (VM) inside GCP for running the application.
 
@@ -94,7 +93,7 @@ $ gcloud compute instances create  node-svc-01\
     --machine-type f1-micro
 ----
 
-== Create an SSH key pair
+=== Create an SSH key pair
 
 Generate an SSH key pair for future connections to the VM instances (run the command exactly as it is):
 
@@ -137,7 +136,7 @@ Verify that the key was added to the ssh-agent:
 $ ssh-add -l
 ----
 
-== Install Application Dependencies
+=== Install Application Dependencies
 
 To start the application, you need to first configure the environment for running it.
 
@@ -175,10 +174,10 @@ Clone the application repo into the home directory of `node-user` user (reminder
 
 [source,bash]
 ----
-$ git clone https://github.com/dm-academy/node-svc-v1
+$ git clone https://github.com/dm-academy/node-svc
 ----
 
-Navigate to the repo (`cd node-svc-v1`) and check out the 02 branch (matching this lesson)
+Navigate to the repo (`cd node-svc`) and check out the 02 branch (matching this lesson)
 
 [source,bash]
 ----
@@ -195,7 +194,7 @@ $ npm install
 $ npm install express
 ----
 
-== Start the Application
+=== Start the Application
 
 Look at the server.js file (`cat`).
 We will discuss in class.
@@ -216,7 +215,7 @@ $ curl localhost:3000
 (various console output)
 ----
 
-== Access the Application
+=== Access the Application
 
 Open a firewall port the application is listening on (note that the following command should be run on the Google Cloud Shell):
 
@@ -241,7 +240,7 @@ Now open your browser and try to reach the application at the public IP and port
 
 For example, I put in my browser the following URL http://104.155.1.152:3000, but note that you'll have your own IP address.
 
-== Conclusion
+=== Tear it down
 
 Congrats! You've just deployed your application. It is running on a dedicated set of compute resources in the cloud and is accessible by a public IP. Now Internet users can enjoy using your application. (Well, it's not very useful, but it at least responds with "successful request.")
 
@@ -254,6 +253,263 @@ Destroy the current VM and firewall rule and move to the next step:
 $ gcloud compute instances delete -q node-svc-01
 $ gcloud compute firewall-rules delete -q allow-node-svc-tcp-3000
 ----
+
+== Scripted install
+
+In the previous section, you deployed the https://github.com/dm-academy/node-svc[node-svc] application by connecting to a VM via SSH and running commands in the terminal one by one.
+In this lab, we'll try to automate this process a little by using `scripts`.
+
+Also, because systems that only have one node are uncommon and not very interesting for us, you will build a simple two-node system. The node-svc application can interact with multiple versions of itself running on various nodes. 
+
+=== Intro
+
+Now think about what happens if your application becomes so popular that one virtual machine can't handle all the load of incoming requests. Or what happens when your application somehow crashes? Debugging a problem can take a long time and it would most likely be much faster to launch and configure a new VM than trying to fix what's broken.
+
+In all of these cases we face the task of provisioning new virtual machines, installing the required software and repeating all of the configurations we've made in the previous section over and over again.
+
+Doing it manually is boring, error-prone and time-consuming.
+
+The most obvious way for improvement is using Bash scripts which allow us to run sets of commands put in a single file.
+So let's try this.
+
+=== Infrastructure as Code project
+
+Starting from this section, we're going to use a git repo for saving all the work done in this tutorial.
+
+* Go to your Github acccount and create a repository called <my St Thomas ID>-SEIS664. For example, `maty0145-SEIS664`.
+* No README, license, or .gitignore.
+* Copy the URL.
+
+NOTE: In these labs, anything in between <> means you have to think and substitute the appropriate value.
+
+Clone it locally:
+
+[source,bash]
+----
+$ git clone <Github URL of your new repository>
+----
+
+Create a directory for this section:
+
+[source,bash]
+----
+$ cd <your repo>
+$ mkdir 01
+$ cd 01
+----
+
+To push your changes up to Github:
+
+[source,bash]
+----
+$ git add . -A
+$ git commit -m "first section 03 commit" # should be relevant to the changes you made
+$ git push origin master
+----
+
+Always issue these commands several times during each session. (They won't work on an empty directory, however, so wait until you've completed your first script.)
+
+=== Provisioning script
+
+We can automate the process of creating the VM and the firewall rule.
+
+In the 01 directory create a script `provision.sh`:
+
+[source,bash]
+----
+#!/bin/bash
+# add two news VM
+gcloud compute instances create node-svc-01 \
+    --image-family ubuntu-minimal-2004-lts \
+    --image-project ubuntu-os-cloud \
+    --boot-disk-size 10GB \
+    --machine-type f1-micro
+    
+gcloud compute instances create node-svc-02 \
+    --image-family ubuntu-minimal-2004-lts \
+    --image-project ubuntu-os-cloud \
+    --boot-disk-size 10GB \
+    --machine-type f1-micro
+
+# add firewall rule
+gcloud compute firewall-rules create allow-node-svc-tcp-3000 \
+    --network default \
+    --action allow \
+    --direction ingress \
+    --rules tcp:3000 \
+    --source-ranges 0.0.0.0/0
+----
+
+Run it in the Google Cloud Shell:
+
+[source,bash]
+----
+$ chmod +x provision.sh  # changing permissions
+$ ./provision.sh # you have to include the './'
+----
+
+You should see results similar to:
+
+[source,bash]
+----
+WARNING: You have selected a disk size of under [200GB]. This may result in poor I/O performance. For more information, see: https://developers.google.com/compute/docs/disks#performance.
+Created [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/zones/us-central1-c/instances/node-svc].
+NAME      ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP    EXTERNAL_IP  STATUS
+node-svc  us-central1-c  n1-standard-1               10.128.15.202  34.69.206.6  RUNNING
+Creating firewall...⠹Created [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/global/firewalls/allow-node-svc-3000].
+Creating firewall...done.
+NAME                 NETWORK  DIRECTION  PRIORITY  ALLOW     DENY  DISABLED
+allow-node-svc-3000  default  INGRESS    1000      tcp:3000        False
+----
+
+=== Installation script
+
+Before we can run our application, we need to create a running environment for it by installing dependent packages and configuring the OS.
+Then we copy the application, initialize NPM and download express.js, and start the server.
+
+We are going to use the same commands we used before to do that, but this time, instead of running commands one by one, we'll create a `bash script` to save us some struggle.
+
+In the `01` directory create a bash script `config.sh` to install node, npm, express, and git. Create a script `install.sh` to download the app and initialize node.
+
+[source,bash]
+----
+#!/bin/bash
+set -e  # exit immediately if anything returns non-zero. See https://www.javatpoint.com/linux-set-command
+
+echo "  ----- install node, npm, git -----  "
+apt-get update  
+apt-get install -y nodejs npm git
+----
+
+[source,bash]
+----
+#!/bin/bash
+set -e  # exit immediately if anything returns non-zero. See https://www.javatpoint.com/linux-set-command
+
+echo "  ----- download, initialize, and run app -----  "
+git clone https://github.com/dm-academy/node-svc
+cd node-svc
+git checkout 02
+npm install
+npm install express
+----
+
+NOTE: Why two scripts? Discuss in class.
+
+=== Run the scripts
+
+The script doesn't do us any good in the Google Cloud Shell. You need it on the VMs. 
+
+Copy the script to the created VMs. The example below just is for one. What do you need to do to copy it to the other one?
+
+[source,bash]
+----
+$ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01)
+$ scp -r config.sh install.sh node-user@${NODE_IP_)1}:/home/node-user
+----
+
+What is scp? Look it up?
+
+If sucessful, you should see something like:
+
+[source,bash]
+----
+config.sh                                                              100%  214   279.9KB/s   00:00
+install.sh                                                              100%  214   279.9KB/s   00:00
+----
+
+NOTE: See the FAQ if you get `Offending ECDSA key` or `Permission denied (publickey).`
+
+Connect to the VM via SSH:
+
+[source,bash]
+----
+$ ssh node-user@${NODE_IP_01}
+----
+
+Have a look at what's in the directory (use `ls` and `cat`). Do you understand exactly how it got there? If you do not, ask.
+
+Run the script and launch the server:
+
+[source,bash]
+----
+$ chmod +x *.sh
+$ sudo ./config.sh && ./install.sh # running 2 commands on one line
+$ sudo nodejs node-svc/server.js &
+----
+
+The last output should be `Running on 3000`.
+You may need to hit Return or Enter to get a command prompt.
+
+To test that the server is running locally, type:
+
+[source,bash]
+----
+$ curl localhost:3000
+----
+
+You should receive this:
+
+[source,bash]
+----
+Successful request.
+----
+
+=== Access the Application
+
+Access the application in your browser by its public IP (don't forget to specify the port 3000).
+
+Open another terminal and run the following command to get a public IP of the VM:
+
+[source,bash]
+----
+$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc
+----
+=== Add another node
+Now, create and install the application on a new node. Call it node-svc-02. Follow all the above steps, substituting node-svc-01 for node-svc-02 as needed.
+
+Once you have added both nodes, you can see them interact by accessing either URL with an extension of "/2" or greater, e.g.: 
+
+[source,bash]
+----
+curl http://${NODE_IP_01}:3000/2
+----
+
+We will discuss the node-svc application further in class. 
+
+=== Destroy (de-provision) the resources by script
+
+In the 01_2-script directory create a script `deprovision.sh`.
+
+[source,bash]
+----
+#!/bin/bash
+gcloud compute instances delete -q node-svc-01
+gcloud compute instances delete -q node-svc-02
+gcloud compute firewall-rules delete -q allow-node-svc-tcp-3000
+----
+
+Set permissions correctly (see previous) and execute.
+You should get results like:
+
+`+bash Deleted [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/zones/us-central1-c/instances/node-svc].
+Deleted [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/global/firewalls/allow-node-svc-tcp-3000].+`
+
+=== Save and commit the work
+
+Using your git skills, save and commit the scripts created in this section into your repo.
+
+=== Conclusion
+
+Scripts helped us to save some time and effort of manually running every command one by one to configure the system and start the application.
+
+The process of system configuration becomes more or less standardized and less error-prone, as you put commands in the order they should be run and test it to ensure it works as expected.
+
+It's also a first step we've made in the direction of automating operations work.
+
+But scripts are not suitable for every operations task and have many downsides.
+We'll discuss more on that in the next sections.
+
 
 
 

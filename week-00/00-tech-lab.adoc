@@ -1,4 +1,4 @@
-= SEIS664 Lab 00
+= Lab 00: Setup
 
 NOTE: We are in a bootstrapping phase. We need to get you set up on Github and Google Cloud so that you can learn Linux. But that means you need to execute some Linux without knowing much about it. Do your best to follow the instructions. 
 
@@ -144,6 +144,8 @@ When you have finished configuring your Github access and tutorials:
 `cd repos`
 
 `git clone git@github.com:dm-academy/dp-course.git`
+
+IMPORTANT: Put all git repositories in your `repos` directory.
 
 Now, you should have all the lab files locally on your machine. You can open them in VSCode or other text editor. In this way you can change them and submit changes back to the central repo as pull requests. 
 

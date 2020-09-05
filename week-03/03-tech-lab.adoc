@@ -1,5 +1,5 @@
 :linkattrs:
 
-= Lab 03 Packer, Terraform, and Ansible
+= Lab 03 Docker, Kubernetes, and your first CD pipeline
 
 
