@@ -849,9 +849,9 @@ Access the application in your browser by its public IP (don't forget to specify
 
 === Add a node
 
-Now, using the knowledge you have, add a second server, node-svc-02, to the Terraform and Ansible files and re-apply them.
+Now, using the knowledge you have, add a second server, node-svc-02, to the Terraform and Ansible files and re-apply them. 
 
-Prove your work by issuing a URL of /2 or above to the microservice on either machine and posting the output to Teams.
+Prove your work by issuing a URL of /20 or above to the microservice on either machine and posting the output to Teams.
 
 === Further Learning Ansible
 

@@ -3,3 +3,853 @@
 = Lab 03 Docker, Kubernetes, and your first CD pipeline
 
 
+
+== Docker
+
+In this section, we will talk about managing containers for the first time in this tutorial.
+Particularly, we will talk about https://www.docker.com/what-docker[Docker] which is the most widely used platform for running containers.
+
+=== Intro
+
+Remember when we talked about packer, we mentioned a few words about *Immutable Infrastructure* model?
+The idea was to package all application dependencies and application itself inside a machine image, so that we don't have to configure the system after start.
+Containers implement the same model, but they do it in a more efficient way.
+
+Containers allow you to create self-contained isolated environments for running your applications.
+
+They have some significant advantages over VMs in terms of implementing Immutable Infrastructure model:
+
+* *Containers are much faster to start than VMs.* Container starts in seconds, while a VM takes minutes.
+It's important when you're doing an update/rollback or scaling your service.
+* *Containers enable better utilization of compute resources.* Very often computer resources of a VM running an application are underutilized.
+Launching multiple instances of the same application on one VM has a lot of difficulties: different application versions may need different versions of dependent libraries, init scripts require special configuration.
+With containers, running multiple instances of the same application on the same machine is easy and doesn't require any system configuration.
+* *Containers are more lightweight than VMs.* Container images are much smaller than machine images, because they don't need a full operating system in order to run.
+In fact, a container image can include just a single binary and take just a few MBs of your disk space.
+This means that we need less space for storing the images and the process of distributing images goes faster.
+
+Let's try to implement *Immutable Infrastructure* model with Docker containers, while paying special attention to the *Dockerfile* part as a way to practice *Infrastructure as Code* approach.
+
+=== (FOR PERSONAL LAPTOPS AND WORKSTATIONS ONLY) Install Docker Engine
+
+_Docker is already installed on Google Cloud Shell._
+
+The https://docs.docker.com/engine/docker-overview/#docker-engine[Docker Engine] is the daemon that gets installed on the system and allows you to manage containers with simple CLI.
+
+https://www.docker.com/community-edition[Install] free Community Edition of Docker Engine on your system.
+
+Verify that the version of Docker Engine is \=> 17.09.0:
+
+[source,bash]
+----
+$ docker -v
+----
+
+=== (FOR ALL) Create Dockerfile
+
+You describe a container image that you want to create in a special file called *Dockerfile*.
+
+Dockerfile contains *instructions* on how the image should be built.
+Here are some of the most common instructions that you can meet in a Dockerfile:
+
+* `FROM` is used to specify a *base image* for this build.
+It's similar to the builder configuration which we defined in a Packer template, but in this case instead of describing characteristics of a VM, we simply specify a name of a container image used for build.
+This should be the first instruction in the Dockerfile.
+* `ADD` and `COPY` are used to copy a file/directory to the container.
+See the https://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile[difference] between the two.
+* `RUN` is used to run a command inside the image.
+Mostly used for installing packages.
+* `ENV` sets an environment variable avaisectionle within the container.
+* `WORKDIR` changes the working directory of the container to a specified path.
+It basically works like a `cd` command on Linux.
+* `CMD` sets a default command, which will be executed when a container starts.
+This should be a command to start your application.
+
+Let's use these instructions to create a Docker container image for our node-svc application.
+
+Inside your directory, create a directory called `03`, and in it a text file called `Dockerfile` with the following content:
+
+----
+FROM node:11
+# Create app directory
+WORKDIR /app
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where avaisectionle (npm@5+)
+COPY package*.json ./
+RUN npm install
+RUN npm install express
+# If you are building your code for production
+# RUN npm ci --only=production
+# Bundle app source
+COPY . /app
+EXPOSE 3000
+CMD [ "node", "server.js" ]
+----
+
+This Dockerfile repeats the steps that we did multiple times by now to configure a running environment for our application and run it.
+
+We first choose an image that already contains Node of required version:
+
+----
+# Use base image with node installed
+FROM node:11
+----
+
+The base image is downloaded from Docker official registry (storage of images) called https://hub.docker.com/[Docker Hub].
+
+We then install required system packages and application dependencies:
+
+----
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where avaisectionle (npm@5+)COPY package*.json ./
+RUN npm install
+RUN npm install express
+----
+
+Then we copy the application itself.
+
+----
+# create application home directory and copy files
+COPY . /app
+----
+
+Then we specify a default command that should be run when a container from this image starts:
+
+----
+CMD [ "node", "server.js" ]
+----
+
+=== Build Container Image
+
+Once you defined how your image should be built, run the following command inside your `my-iac-tutorial` directory to create a container image for the node-svc application:
+
+[source,bash]
+----
+$ docker build -t <yourGoogleID>/node-svc-v1 .
+----
+
+The resulting image will be named `node-svc`.
+Find it in the list of your local images:
+
+[source,bash]
+----
+$ docker images | grep node-svc
+----
+
+At your option, you can save your build command in a script, such as `build.sh`.
+
+Now, run the container:
+
+[source,bash]
+----
+$ docker run -d -p 8081:3000 <yourGoogleID>/node-svc-v1
+----
+
+Notice the "8081:3000" syntax.
+This means that while the container is running on port 3000 internally, it is externally exposed via port 8081.
+
+Again, you may wish to save this in a script, such as `run.sh`.
+
+Now, test the container:
+
+[source,bash]
+----
+$ curl localhost:8081
+Successful request.
+----
+
+Again, you may wish to save this in a script, such as `test.sh`.
+
+=== Save and commit the work
+
+Save and commit the files created in this section.
+
+=== Conclusion
+
+In this section, you adopted containers for running your application.
+This is a different type of technology from what we used to deal with in the previous sections.
+Nevertheless, we use Infrastructure as Code approach here, too.
+
+We describe the configuration of our container image in a Dockerfile using Dockerfile's syntax.
+We then save that Dockefile in our application repository.
+This way we can build the application image consistently across any environments.
+
+Destroy the current playground before moving on to the next section, through `docker ps`, `docker kill`, `docker images`, and `docker rmi`.
+In the example below, the container is named "beautiful_pascal".
+Yours will be different.
+Follow the example, substituting yours.
+
+[source,bash]
+----
+$ docker ps
+CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS              PORTS                    NAMES
+64e60b7b0c81        charlestbetz/node-svc-v1   "docker-entrypoint.s…"   10 minutes ago      Up 10 minutes       0.0.0.0:8081->3000/tcp   beautiful_pascal
+$ docker kill beautiful_pascal
+$ docker images
+# returns list of your images
+$ docker rmi <one or more image names> -f
+----
+
+Next: xref:09-docker-compose.adoc[Docker Compose]
+== Docker Compose
+In the last section, we learned how to create Docker container images using Dockerfile and implementing Infrastructure as Code approach.
+
+This time we'll learn how to describe in code and manage our local container infrastructure with https://docs.docker.com/compose/overview/[Docker Compose].
+
+=== Intro
+
+Remember how in the previous section we had to use a lot of `docker` CLI commands in order to run our application locally?
+Specifically, we had to create a network for containers to communicate, a volume for container with MongoDB, launch MongoDB container, launch our application container.
+
+This is a lot of manual work and we only have 2 containers in our setup.
+Imagine how much work it would be to run a microservices application which includes a dozen of services.
+
+To make the management of our local container infrastructure easier and more reliable, we need a tool that would allow us to describe the desired state of a local environment and then it would create it from our description.
+
+*Docker Compose* is exactly the tool we need.
+Let's see how we can use it.
+
+=== (FOR PERSONAL LAPTOPS AND WORKSTATIONS ONLY) Install Docker Compose
+
+Follow the official documentation on https://docs.docker.com/compose/install/[how to install Docker Compose] on your system.
+
+Verify that installed version of Docker Compose is \=> 1.18.0:
+
+[source,bash]
+----
+$ docker-compose -v
+----
+
+=== Describe Local Container Infrastructure
+
+Docker Compose could be compared to Terraform, but it manages only Docker container infrastructure.
+It allows us to start containers, create networks and volumes, pass environment variables to containers, publish ports, etc.
+
+Let's use Docker Compose https://docs.docker.com/compose/compose-file/[declarative syntax] to describe what our local container infrastructure should look like.
+
+Create a file called `docker-compose.yml` inside your `iac-tutorial` repo with the following content:
+
+[source,yml]
+----
+version: '3.3'
+
+# define services (containers) that should be running
+services:
+  mongo-database:
+    image: mongo:3.2
+    # what volumes to attach to this container
+    volumes:
+      - mongo-data:/data/db
+    # what networks to attach this container
+    networks:
+     - raddit-network
+
+  raddit-app:
+    # path to Dockerfile to build an image and start a container
+    build: .
+    environment:
+      - DATABASE_HOST=mongo-database
+    ports:
+      - 9292:9292
+    networks:
+     - raddit-network
+    # start raddit-app only after mongod-database service was started
+    depends_on:
+      - mongo-database
+
+# define volumes to be created
+volumes:
+  mongo-data:
+# define networks to be created
+networks:
+  raddit-network:
+----
+
+In this compose file, we define 3 sections for configuring different components of our container  infrastructure.
+
+Under the *services* section we define what containers we want to run.
+We give each service a `name` and pass the options such as what `image` to use to launch container for this service, what `volumes` and `networks` should be attached to this container.
+
+If you look at `mongo-database` service definition, you should find it to be very similar to the docker command that we used to start MongoDB container in the previous section:
+
+[source,bash]
+----
+$ docker run --name mongo-database \
+    --volume mongo-data:/data/db \
+    --network raddit-network \
+    --detach mongo:3.2
+----
+
+So the syntax of Docker Compose can be easily understood by a person not even familiar with it https://docs.docker.com/compose/compose-file/#service-configuration-reference[the documentation].
+
+`raddit-app` services configuration is a bit different from MongoDB service in a way that we specify a `build` option instead of `image` to build the container image from a Dockerfile before starting a container:
+
+[source,yml]
+----
+raddit-app:
+  # path to Dockerfile to build an image and start a container
+  build: .
+  environment:
+    - DATABASE_HOST=mongo-database
+  ports:
+    - 9292:9292
+  networks:
+    - raddit-network
+  # start raddit-app only after mongod-database service was started
+  depends_on:
+    - mongo-database
+----
+
+Also, note the `depends_on` option which allows us to tell Docker Compose that this `raddit-app` service depends on `mongo-database` service and should be started after `mongo-database` container was launched.
+
+The other two top-level sections in this file are  *volumes* and *networks*.
+They are used to define volumes and networks that should be created:
+
+[source,yml]
+----
+# define volumes to be created
+volumes:
+  mongo-data:
+# define networks to be created
+networks:
+  raddit-network:
+----
+
+These basically correspond to the commands that we used in the previous section to create a named volume and a network:
+
+[source,bash]
+----
+$ docker volume create mongo-data
+$ docker network create raddit-network
+----
+
+=== Create Local Infrastructure
+
+Once you described the desired state of you infrastructure in `docker-compose.yml` file, tell Docker Compose to create it using the following command:
+
+[source,bash]
+----
+$ docker-compose up
+----
+
+or use this command to run containers in the background:
+
+[source,bash]
+----
+$ docker-compose up -d
+----
+
+=== Access Application
+
+The application should be accessible to your as before via the web preview icon in Google Cloud Shell.
+`curl localhost:9292` will at least dump out the HTML (not very pretty, but if you see HTML you know the service is working to some degree at least).
+
+=== Save and commit the work
+
+Save and commit the `docker-compose.yml` file created in this section into your `iac-tutorial` repo.
+
+=== Conclusion
+
+In this section, we learned how to use Docker Compose tool to implement Infrastructure as Code approach to managing a local container infrastructure.
+This helped us automate and document the process of creating all the necessary components for running our containerized application.
+
+If we keep created `docker-compose.yml` file inside the application repository, any of our colleagues can create the same container environment on any system with just one command.
+This makes Docker Compose a perfect tool for creating local dev environments and simple application deployments.
+
+To destroy the local playground, run the following command:
+
+[source,bash]
+----
+$ docker-compose down --volumes
+----
+
+Next: xref:10-kubernetes.adoc[Kubernetes]
+
+== Kubernetes
+
+In the previous sections, we learned how to run Docker containers locally.
+Running containers at scale is quite different and a special class of tools, known as *orchestrators*, are used for that task.
+
+In this section, we'll take a look at the most popular Open Source orchestration platform called https://kubernetes.io/[Kubernetes] and see how it implements Infrastructure as Code model.
+
+=== Intro
+
+We used Docker Compose to consistently create container infrastructure on one machine (our local machine).
+However, our production environment may include tens or hundreds of VMs to have enough capacity to provide service to a large number of users.
+What do you do in that case?
+
+Running Docker Compose on each VM from the cluster seems like a lot of work.
+Besides, if you want your containers running on different hosts to communicate with each other it requires creation of a special type of network called `overlay`, which you can't create using only Docker Compose.
+
+Moreover, questions arise as to:
+
+* how to load balance containerized applications?
+* how to perform container health checks and ensure the required number of containers is running?
+
+The world of containers is very different from the world of virtual machines and needs a special platform for management.
+
+Kubernetes is the most widely used orchestration platform for running and managing containers at scale.
+It solves the common problems (some of which we've mentioned above) related to running containers on multiple hosts.
+And we'll see in this section that it uses the Infrastructure as Code approach to managing container infrastructure.
+
+Let's try to run our `raddit` application on a Kubernetes cluster.
+
+=== (FOR PERSONAL LAPTOPS AND WORKSTATIONS ONLY) Install Kubectl
+
+Kubectl is installed on the Google Cloud Shell.
+
+https://kubernetes.io/docs/reference/kubectl/overview/[Kubectl] is command line tool that we will use to run commands against the Kubernetes cluster.
+
+You can install `kubectl` onto your system as part of Google Cloud SDK by running the following command:
+
+[source,bash]
+----
+$ gcloud components install kubectl
+----
+
+Check the version of kubectl to make sure it is installed:
+
+[source,bash]
+----
+$ kubectl version
+----
+
+=== Infrastructure as Code project
+
+Create a new directory called `kubernetes` inside your `iac-tutorial` repo, which we'll use to save the work done in this section.
+
+=== Describe Kubernetes cluster in Terraform
+
+We'll use https://cloud.google.com/kubernetes-engine/[Google Kubernetes Engine] (GKE) service to deploy a Kubernetes cluster of 3 nodes.
+
+We'll describe a Kubernetes cluster using Terraform so that we can manage it through code.
+
+Create a directory named `terraform` inside `kubernetes` directory.
+Create three files within it:
+
+[source,bash]
+----
+variables.tf
+terraform.tfvars
+main.tf
+----
+
+==== variables.tf
+
+[source,bash]
+----
+# Provider configuration variables
+variable "project_id" {
+  description = "Project ID in GCP"
+}
+
+variable "region" {
+  description = "Region in which to manage GCP resources"
+}
+
+# Cluster configuration variables
+variable "cluster_name" {
+  description = "The name of the cluster, unique within the project and zone"
+}
+
+variable "zone" {
+  description = "The zone in which nodes specified in initial_node_count should be created in"
+}
+----
+
+==== terraform.tfvars
+
+[source,bash]
+----
+// define provider configuration variables
+project_id = "some-project-ID"         # project in which to create a cluster
+region = "some-google-region"                       # region in which to create a cluster
+
+// define Kubernetes cluster variables
+cluster_name = "iac-tutorial-cluster"        # cluster name
+zone = "some-google-zone"                      # zone in which to create a cluster nodes
+----
+
+==== main.tf
+
+[source,bash]
+----
+resource "google_container_cluster" "primary" {
+  name               = "${var.cluster_name}"
+   location          = "${var.zone}"
+  initial_node_count = 3
+
+  master_auth {
+    username = ""
+    password = ""
+
+    client_certificate_config {
+      issue_client_certificate = false
+    }
+  }
+
+  # configure kubectl to talk to the cluster
+  provisioner "local-exec" {
+    command = "gcloud container clusters get-credentials ${var.cluster_name} --zone ${var.zone} --project ${var.project_id}"
+  }
+
+  node_config {
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/compute",
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring",
+    ]
+
+    metadata = {
+      disable-legacy-endpoints = "true"
+    }
+
+    tags = ["iac-kubernetes"]
+  }
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+}
+
+# create firewall rule to allow access to application
+resource "google_compute_firewall" "nodeports" {
+  name    = "node-port-range"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["30000-32767"]
+  }
+  source_ranges = ["0.0.0.0/0"]
+}
+----
+
+We'll use this Terraform code to create a Kubernetes cluster.
+
+=== Create Kubernetes Cluster
+
+`main.tf` holds all the information about the cluster that should be created.
+It's parameterized using Terraform https://www.terraform.io/intro/getting-started/variables.html[input variables] which allow you to easily change configuration parameters.
+
+Look into `terraform.tfvars` file which contains definitions of the input variables and change them if necessary.
+You'll most probably want to change `project_id` value.
+
+----
+// define provider configuration variables
+project_id = "infrastructure-as-code"         # project in which to create a cluster
+region = "europe-west1"                       # region in which to create a cluster
+
+// define Kubernetes cluster variables
+cluster_name = "iac-tutorial-cluster"        # cluster name
+zone = "europe-west1-b"                      # zone in which to create a cluster nodes
+----
+
+After you've defined the variables, run Terraform inside `kubernetes/terraform` to create a Kubernetes cluster consisting of 2 nodes (VMs for running our application containers).
+
+[source,bash]
+----
+$ gcloud services enable container.googleapis.com # enable Kubernetes Engine API
+$ terraform init
+$ terraform apply
+----
+
+Wait until Terraform finishes creation of the cluster.
+It can take about 3-5 minutes.
+
+Check that the cluster is running and `kubectl` is properly configured to communicate with it by fetching cluster information:
+
+[source,bash]
+----
+$ kubectl cluster-info
+
+Kubernetes master is running at https://35.200.56.100
+GLBCDefaultBackend is running at https://35.200.56.100/api/v1/namespaces/kube-system/services/default-http-backend/proxy
+...
+----
+
+=== Deployment manifest
+
+Kubernetes implements Infrastructure as Code approach to managing container infrastructure.
+It uses special entities called *objects* to represent the `desired state` of your cluster.
+With objects you can describe
+
+* What containerized applications are running (and on which nodes)
+* The compute resources avaisectionle to those applications
+* The policies around how those applications behave, such as restart policies, upgrades, and fault-tolerance
+
+By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like;
+this is your cluster's `desired state`.
+Kubernetes then makes sure that the cluster's actual state meets the desired state described in the object.
+
+Most of the times, you describe the object in a `.yaml` file called `manifest` and then give it to `kubectl` which in turn is responsible for relaying that information to Kubernetes via its API.
+
+*Deployment object* represents an application running on your cluster.
+We'll use it to run containers of our applications.
+
+Create a directory called `manifests` inside `kubernetes` directory.
+Create a `deployments.yaml` file inside it with the following content:
+
+[source,yaml]
+----
+apiVersion: apps/v1beta1 # implies the use of kubernetes 1.7
+                         # use apps/v1beta2 for kubernetes 1.8
+kind: Deployment
+metadata:
+  name: raddit-deployment
+spec:
+  replicas: 2
+  selector:
+    matchsectionels:
+      app: raddit
+  template:
+    metadata:
+      sectionels:
+        app: raddit
+    spec:
+      containers:
+      - name: raddit
+        image: dmacademy/raddit
+        env:
+        - name: DATABASE_HOST
+          value: mongo-service
+---
+apiVersion: apps/v1beta1 # implies the use of kubernetes 1.7
+                         # use apps/v1beta2 for kubernetes 1.8
+kind: Deployment
+metadata:
+  name: mongo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchsectionels:
+      app: mongo
+  template:
+    metadata:
+      sectionels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:3.2
+----
+
+In this file we describe two `Deployment objects` which define what application containers and in what quantity should be run.
+The Deployment objects have the same structure so I'll briefly go over only one of them.
+
+Each Kubernetes object has 4 required fields:
+
+* `apiVersion` - Which version of the Kubernetes API you're using to create this object.
+You'll need to change that if you're using Kubernetes API version different than 1.7 as in this example.
+* `kind` - What kind of object you want to create.
+In this case we create a Deployment object.
+* `metadata` - Data that helps uniquely identify the object.
+In this example, we give the deployment object a name according to the name of an application it's used to run.
+* `spec` - describes the `desired state` for the object.
+`Spec` configuration will differ from object to object, because different objects are used for different purposes.
+
+In the Deployment object's spec we specify, how many `replicas` (instances of the same application) we want to run and what those applications are (`selector`)
+
+[source,yml]
+----
+spec:
+  replicas: 2
+  selector:
+    matchsectionels:
+      app: raddit
+----
+
+In our case, we specify that we want to be running 2 instances of applications that have a sectionel `app=raddit`.
+*sectionels* are used to give identifying attributes to Kubernetes objects and can be then used by *sectionel selectors* for objects selection.
+
+We also specify a `Pod template` in the spec configuration.
+*Pods* are lower level objects than Deployments and are used to run only `a single instance of application`.
+In most cases, Pod is equal to a container, although you can run multiple containers in a single Pod.
+
+The `Pod template` which is a Pod object's definition nested inside the Deployment object.
+It has the required object fields such as `metadata` and `spec`, but it doesn't have `apiVersion` and `kind` fields as those would be redundant in this case.
+When we create a Deployment object, the Pod object(s) will be created as well.
+The number of Pods will be equal to the number of `replicas` specified.
+The Deployment object ensures that the right number of Pods (`replicas`) is always running.
+
+In the Pod object definition (`Pod template`) we specify container information such as a container image name, a container name, which is used by Kubernetes to run the application.
+We also add sectionels to identify what application this Pod object is used to run, this sectionel value is then used by the `selector` field in the Deployment object to select the right Pod object.
+
+[source,yaml]
+----
+  template:
+    metadata:
+      sectionels:
+        app: raddit
+    spec:
+      containers:
+      - name: raddit
+        image: dmacademy/raddit
+        env:
+        - name: DATABASE_HOST
+          value: mongo-service
+----
+
+Notice how we also pass an environment variable to the container.
+`DATABASE_HOST` variable tells our application how to contact the database.
+We define `mongo-service` as its value to specify the name of the Kubernetes service to contact (more about the Services will be in the next section).
+
+Container images will be downloaded from Docker Hub in this case: the generic mongo container and the raddit image uploaded to the dmacademy organization.
+
+_It would be nice if we could use the locally built raddit image.
+Extra credit for anyone who can figure out how to do that._
+
+=== Create Deployment Objects
+
+Run a kubectl command to create Deployment objects inside your Kubernetes cluster (make sure to provide the correct path to the manifest file):
+
+[source,bash]
+----
+$ kubectl apply -f manifests/deployments.yaml
+----
+
+Check the deployments and pods that have been created:
+
+[source,bash]
+----
+$ kubectl get deploy
+$ kubectl get pods
+----
+
+=== Service manifests
+
+Running applications at scale means running _multiple containers spread across multiple VMs_.
+
+This arises questions such as: How do we load balance between all of these application containers?
+How do we provide a single entry point for the application so that we could connect to it via that entry point instead of connecting to a particular container?
+
+These questions are addressed by the *Service* object in Kubernetes.
+A Service is an abstraction which you can use to logically group containers (Pods) running in you cluster, that all provide the same functionality.
+
+When a Service object is created, it is assigned a unique IP address called `clusterIP` (a single entry point for our application).
+Other Pods can then be configured to talk to the Service, and the Service will load balance the requests to containers (Pods) that are members of that Service.
+
+We'll create a Service for each of our applications, i.e.
+`raddit` and `MondoDB`.
+Create a file called `services.yaml` inside `kubernetes/manifests` directory with the following content:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: raddit-service
+spec:
+  type: NodePort
+  selector:
+    app: raddit
+  ports:
+  - protocol: TCP
+    port: 9292
+    targetPort: 9292
+    nodePort: 30100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  type: ClusterIP
+  selector:
+    app: mongo
+  ports:
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
+----
+
+In this manifest, we describe 2 Service objects of different types.
+You should be already familiar with the general object structure, so I'll just go over the `spec` field which defines the desired state of the object.
+
+The `raddit` Service has a NodePort type:
+
+[source,yaml]
+----
+spec:
+  type: NodePort
+----
+
+This type of Service makes the Service accessible on each Node's IP at a static port (NodePort).
+We use this type to be able to contact the `raddit` application later from outside the cluster.
+
+`selector` field is used to identify a set of Pods to which to route packets that the Service receives.
+In this case, Pods that have a sectionel `app=raddit` will become part of this Service.
+
+[source,yaml]
+----
+  selector:
+    app: raddit
+----
+
+The `ports` section specifies the port mapping between a Service and Pods that are part of this Service and also contains definition of a node port number (`nodePort`) which we will use to reach the Service from outside the cluster.
+
+[source,yaml]
+----
+  ports:
+  - protocol: TCP
+    port: 9292
+    targetPort: 9292
+    nodePort: 30100
+----
+
+The requests that come to any of your cluster nodes' public IP addresses on the specified `nodePort` will be routed to the `raddit` Service cluster-internal IP address.
+The Service, which is listening on port 9292 (`port`) and is accessible within the cluster on this port, will then route the packets to the `targetPort` on one of the Pods which is part of this Service.
+
+`mongo` Service is only different in its type.
+`ClusterIP` type of Service will make the Service accessible on the cluster-internal IP, so you won't be able to reach it from outside the cluster.
+
+=== Create Service Objects
+
+Run a kubectl command to create Service objects inside your Kubernetes cluster (make sure to provide the correct path to the manifest file):
+
+[source,bash]
+----
+$ kubectl apply -f manifests/services.yaml
+----
+
+Check that the services have been created:
+
+[source,bash]
+----
+$ kubectl get svc
+----
+
+=== Access Application
+
+Because we used `NodePort` type of service for the `raddit` service, our application should accessible to us on the IP address of any of our cluster nodes.
+
+Get a list of IP addresses of your cluster nodes:
+
+[source,bash]
+----
+$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances list --filter="tags.items=iac-kubernetes"
+----
+
+Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `raddit` application in your browser.
+
+=== Save and commit the work
+
+Save and commit the `kubernetes` folder created in this section into your `iac-tutorial` repo.
+
+=== Conclusion
+
+In this section, we learned about Kuberenetes - a popular orchestration platform which simplifies the process of running containers at scale.
+We saw how it implements the Infrastructure as Code approach in the form of `objects` and `manifests` which allow you to describe in code the desired state of your container infrastructure which spans a cluster of VMs.
+
+To destroy the Kubernetes cluster, run the following command inside `kubernetes/terraform` directory:
+
+[source,bash]
+----
+$ terraform destroy
+----
+
+Next: xref:50-what-is-iac.adoc[What is Infrastructure as Code]
