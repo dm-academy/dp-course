@@ -256,8 +256,7 @@ $ gcloud compute firewall-rules delete -q allow-node-svc-tcp-3000
 
 == Scripted install
 
-In the previous section, you deployed the https://github.com/dm-academy/node-svc[node-svc] application by connecting to a VM via SSH and running commands in the terminal one by one.
-In this lab, we'll try to automate this process a little by using `scripts`.
+In the previous section, you deployed the https://github.com/dm-academy/node-svc[node-svc] application by connecting to a VM via SSH and running commands in the terminal one by one. In this lab, we'll try to automate this process a little by using `scripts`.
 
 Also, because systems that only have one node are uncommon and not very interesting for us, you will build a simple two-node system. The node-svc application can interact with multiple versions of itself running on various nodes. 
 
@@ -309,11 +308,11 @@ $ git push origin master
 
 Always issue these commands several times during each session. (They won't work on an empty directory, however, so wait until you've completed your first script.)
 
+IMPORTANT: *The lab-example repo.* At https://github.com/dm-academy/lab-example you will find a complete set of correctly worked examples, including additional resources and solutions. I encourage you to treat this as a reference, when you are stuck. You of course can simply copy the files and run them, but you may not understand things as well. I recommend building the files as suggested in this tutorial. 
+
 === Provisioning script
 
-We can automate the process of creating the VM and the firewall rule.
-
-In the 01 directory create a script `provision.sh`:
+We can automate the process of creating the VM and the firewall rule. In the 01 directory create a script `provision.sh`:
 
 [source,bash]
 ----
@@ -364,8 +363,7 @@ allow-node-svc-3000  default  INGRESS    1000      tcp:3000        False
 
 === Installation script
 
-Before we can run our application, we need to create a running environment for it by installing dependent packages and configuring the OS.
-Then we copy the application, initialize NPM and download express.js, and start the server.
+Before we can run our application, we need to create a running environment for it by installing dependent packages and configuring the OS. Then we copy the application, initialize NPM and download express.js, and start the server.
 
 We are going to use the same commands we used before to do that, but this time, instead of running commands one by one, we'll create a `bash script` to save us some struggle.
 
@@ -405,10 +403,10 @@ Copy the script to the created VMs. The example below just is for one. What do y
 [source,bash]
 ----
 $ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01)
-$ scp -r config.sh install.sh node-user@${NODE_IP_)1}:/home/node-user
+$ scp -r config.sh install.sh node-user@${NODE_IP_01}:/home/node-user
 ----
 
-What is scp? Look it up?
+What is scp? Look it up.
 
 If sucessful, you should see something like:
 
@@ -438,7 +436,7 @@ $ sudo ./config.sh && ./install.sh # running 2 commands on one line
 $ sudo nodejs node-svc/server.js &
 ----
 
-The last output should be `Running on 3000`.
+The last output should start with `Running on 3000` followed by various startup messages.
 You may need to hit Return or Enter to get a command prompt.
 
 To test that the server is running locally, type:
@@ -452,12 +450,14 @@ You should receive this:
 
 [source,bash]
 ----
-Successful request.
+DateIPStamp reached with {"action":"GET"} 127.0.0.1
+Console: / Server returned success on get.
+{"action":"GET","arrTimeStamp":["127.0.0.1 Sat Sep 05 2020 19:05:39 GMT+0000 (Coordinated Universal Time)"]}
 ----
 
 === Access the Application
 
-Access the application in your browser by its public IP (don't forget to specify the port 3000).
+Now, let's access the application in your browser by its public IP (don't forget to specify the port 3000).
 
 Open another terminal and run the following command to get a public IP of the VM:
 
@@ -479,7 +479,7 @@ We will discuss the node-svc application further in class.
 
 === Destroy (de-provision) the resources by script
 
-In the 01_2-script directory create a script `deprovision.sh`.
+In the 01 directory create a script `deprovision.sh`.
 
 [source,bash]
 ----

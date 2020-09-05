@@ -35,7 +35,7 @@ $ packer -v
 
 === Infrastructure as Code project
 
-Create a new directory called `04-packer` inside your course repo, which we'll use to save the work done in this lab.
+Create a new directory called `02` inside your course repo, which we'll use to save the work done in this lab. (Don't create it inside last session's `01` directory!) Inside `02`, create a directory called `1-packer`.
 
 === Define image builder
 
@@ -104,7 +104,7 @@ Your template should look similar to this one:
   "provisioners": [
       {
           "type": "shell",
-          "script": "{{template_dir}}/../03-script/config.sh",
+          "script": "{{template_dir}}/../01/config.sh",
           "execute_command": "sudo {{.Path}}"
       }
   ]
@@ -125,6 +125,9 @@ Build the image for your application:
 [source,bash]
 ----
 $ packer build node-svc-base-image.json
+[...lots of output]
+==> Builds finished. The artifacts of successful builds are:
+--> googlecompute: A disk image was created: node-svc-base-2020-09-05-19-12-17
 ----
 
 If you go to the https://console.cloud.google.com/compute/images[Compute Engine Images] page you should see your new custom image.
@@ -135,7 +138,7 @@ Once the image is built, use it as a boot disk to start a VM:
 
 [source,bash]
 ----
-$ gcloud compute instances create node-svc \
+$ gcloud compute instances create node-svc-01 \
     --image-family node-svc-base \
     --boot-disk-size 10GB \
     --machine-type f1-micro
@@ -143,19 +146,22 @@ $ gcloud compute instances create node-svc \
 
 === Deploy Application
 
-Copy the installation script to the VM:
+NOTE: We will only deploy to one VM this time. 
 
-$ INSTANCE_IP=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc) $ scp -r ../03-script/install.sh node-user@$\{INSTANCE_IP}:/home/node-user
+From your current location, copy last session's installation script to the VM:
+
+$ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01) 
+$ scp -r ../../01/install.sh node-user@${NODE_IP_01}:/home/node-user
 
 Connect to the VM via SSH:
 
 [source,bash]
 ----
-$ ssh node-user@${INSTANCE_IP}
+$ ssh node-user@${NODE_IP_01}
 ----
 NOTE: See the FAQ if you get `Offending ECDSA key` or `Permission denied (publickey).`
 
-Verify git, nodejs, and npmare installed.
+Verify git, nodejs, and npm are installed.
 Do you understand how they got there?
 (Your results may be slightly different, but if you get errors, investigate or ask for help):
 
@@ -175,12 +181,14 @@ Run the installation script, and then the server:
 ----
 $ chmod +x *.sh
 $ sudo ./install.sh
-$ sudo nodejs node-svc/server.js &
+$ sudo nodejs node-svc/server.js 
 ----
+
+NOTE: This time we did not include the `&`. This means the console of the server will keep sending output to the command line. You can open more command windows to run additional commands. 
 
 === Access Application
 
-Manually re-create the firewall rule:
+Back in Google Cloud Console, manually re-create the firewall rule:
 
 [source,bash]
 ----
@@ -192,11 +200,11 @@ $ gcloud compute firewall-rules create allow-node-svc-tcp-3000 \
     --source-ranges 0.0.0.0/0
 ----
 
-Open another terminal and run the following command to get a public IP of the VM:
+Run the following command to get a public IP of the VM:
 
 [source,bash]
 ----
-$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc
+$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01
 ----
 
 Access the application in your browser by its public IP (don't forget to specify the port 3000).
@@ -205,8 +213,10 @@ Access the application in your browser by its public IP (don't forget to specify
 
 [source,bash]
 ----
-$ ../03-script/deprovision.sh  #notice path
+$ ../../01/deprovision.sh  #notice path
 ----
+
+The script throws an error. Why?
 
 === Save and commit the work
 
@@ -249,7 +259,7 @@ Think about your current operations...
 
 Do you see any problems you may have, or any ways for improvement?
 
-Remember, that each time we want to deploy an application, we have to `provision` compute resources first, that is to start a new VM.
+Remember, that each time we want to deploy an application, we have to `provision` compute resources first, that is to start a new VM. 
 
 We do it via a `gcloud` command like this:
 
@@ -262,6 +272,8 @@ $ gcloud compute instances create node-svc \
 ----
 
 At this stage, it doesn't seem like there are any problems with this. But, in fact, there are.
+
+Last week, you installed the node-svc app on two nodes, and probably noticed this was repetitive work. 
 
 Infrastructure for running your services and applications could be huge. You might have tens, hundreds or even thousands of virtual machines, hundreds of firewall rules, multiple VPC networks and load balancers. Additionally, the infrastructure could be split between multiple teams. Such infrastructure looks, and is, very complex and yet should be run and managed in a consistent and predictable way.
 
