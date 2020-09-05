@@ -305,7 +305,7 @@ $ terraform -v
 
 === Infrastructure as Code project
 
-Create a new directory called `05-terraform` inside your course repo, which we'll use to save the work done in this section.
+Create a new directory called `2-terraform` inside your `02` directory, which we'll use to save the work done in this section.
 
 === Describe VM instance
 
@@ -316,11 +316,11 @@ If you want to use Terraform to manage an infrastructure component, you should f
 
 Let's use Terraform syntax to describe a VM instance that we want to be running.
 
-Create a Terraform configuration file called `main.tf` inside the `05-terraform` directory with the following content:
+Create a Terraform configuration file called `main.tf` inside the `2-terraform` directory with the following content:
 
 ----
-resource "google_compute_instance" "node-svc" {
-  name         = "node-svc"
+resource "google_compute_instance" "node-svc-01" {
+  name         = "node-svc-01"
   machine_type = "f1-micro"
   zone         = "us-central1-c"
 
@@ -371,6 +371,9 @@ Now run the `init` command inside `terraform` directory to download the provider
 [source,bash]
 ----
 $ terraform init
+[...]
+Terraform has been successfully initialized!
+[...]
 ----
 
 === Bring Infrastructure to a Desired State
@@ -395,28 +398,29 @@ We did provisioning via Terraform, but we still need to install and start our ap
 
 [source,bash]
 ----
-$ INSTANCE_IP=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc) # get IP of VM
-$ scp -r ../03-script/install.sh node-user@${INSTANCE_IP}:/home/node-user # copy install script
-$ rsh ${INSTANCE_IP} -l node-user chmod +x /home/node-user/install.sh # set permissions
-$ rsh ${INSTANCE_IP} -l node-user /home/node-user/install.sh # install app
-$ rsh ${INSTANCE_IP} -l node-user sudo nodejs /home/node-user/node-svc/server.js & # run app
+$ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01) # get IP of VM
+$ scp -r ../../01/install.sh node-user@${NODE_IP_01}:/home/node-user # copy install script
+$ rsh ${NODE_IP_01} -l node-user chmod +x /home/node-user/install.sh # set permissions
+$ rsh ${NODE_IP_01} -l node-user /home/node-user/install.sh # install app
+$ rsh ${NODE_IP_01} -l node-user sudo nodejs /home/node-user/node-svc/server.js  # run app
 ----
 
 NOTE: See the FAQ if you get `Offending ECDSA key` or `Permission denied (publickey).`
 
-Connect to the VM via SSH:
+SWITCH TO A NEW TERMINAL TAB and connect to the VM via SSH:
 
 [source,bash]
 ----
-$ ssh node-user@${INSTANCE_IP}
+$ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01) # get IP of VM
+$ ssh node-user@${NODE_IP_01}
 ----
 
 Check that servce is running, and then exit:
 
 [source,bash]
 ----
-node-user@node-svc:~$ curl localhost:3000
-Successful request.
+node-user@node-svc:~$   
+[...] 
 node-user@node-svc:~$ exit
 ----
 
@@ -438,12 +442,12 @@ Open another terminal and run the following command to get a public IP of the VM
 
 [source,bash]
 ----
-$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc
+$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01
 ----
 
 Access the application in your browser by its public IP (don't forget to specify the port 3000).
 
-=== Add other GCP resources into Terraform
+=== Add more GCP resources into Terraform
 
 Let's add ssh keys and the firewall rule into our Terraform configuration so that we know for sure those resources are present.
 
@@ -457,12 +461,14 @@ $ gcloud compute firewall-rules delete allow-node-svc-tcp-3000
 
 Make sure that your application became inaccessible via port 3000 and SSH connection with a private key of `node-user` fails.
 
-Then add appropriate resources into `main.tf` file. Your final version of `main.tf` file should look similar to this (change the ssh key file path, if necessary):
+Then add appropriate resources into `main.tf` file.
+
+Your version of `main.tf` file should now look similar to this (change the ssh key file path, if necessary):
 
 [source,bash]
 ----
 resource "google_compute_instance" "node-svc" {
-  name         = "node-svc"
+  name         = "node-svc-01"
   machine_type = "f1-micro"
   zone         = "us-central1-c"
 
@@ -504,12 +510,13 @@ Tell Terraform to apply the changes to bring the actual infrastructure state to 
 $ terraform apply
 ----
 
-Using the same techniques as above, verify that the application became accessible again on port 3000 (locally and remotely) and SSH connection with a private key works.
+Now, using the same techniques as above, verify that the application became accessible again on port 3000 (locally and remotely) and SSH connection with a private key works.
+
 Here's a new way to check it from the Google Cloud Shell (you don't ssh into the VM):
 
 [source,bash]
 ----
-$ curl $INSTANCE_IP:3000
+$ curl ${NODE_IP_01}:3000
 ----
 
 === Create an output variable
@@ -549,6 +556,7 @@ node_svc_public_ip = 34.71.90.74
 
 Couple of things to notice here.
 First, we did not destroy anything, so terraform refreshes - it confirms that configurations are still as specified.
+
 During this Terraform run, no resources have been created or changed, which means that the actual state of our infrastructure already meets the requirements of a desired state.
 
 Secondly, under "Outputs:", you should see the public IP of the VM we created.
@@ -570,7 +578,7 @@ IMPORTANT: It is ESSENTIAL to create a .gitignore file properly configured for T
 
 ....
 
-Save and commit the `05-terraform` folder created in this lab into your course repo.
+Save and commit the `2-terraform` folder created in this lab into your course repo.
 
 == Conclusion
 
@@ -592,8 +600,7 @@ $ terraform destroy -auto-approve
 
 == Ansible
 
-In the previous section, you used Terraform to implement Infrastructure as Code approach to managing the cloud infrastructure resources.
-There is another major type of tooling we need to consider,   and that is *Configuration Management* (CM) tools.
+In the previous section, you used Terraform to implement Infrastructure as Code for managing the cloud infrastructure resources. There is another major type of tooling we need to consider: *Configuration Management* (CM) tools.
 
 When talking about CM tools, we can often meet the acronym `CAPS` which stands for Chef, Ansible, Puppet and Saltstack - the most known and commonly used CM tools. In this lab, we're going to look at Ansible and see how CM tools can help us improve our operations.
 
@@ -608,6 +615,7 @@ _Scripts are bad at long term management of system configuration, because they m
 When you write a script, you use a scripting language syntax (Bash, Python) to write commands which you think should change the system's configuration. And the problem is that there are too many ways people can write the code that is meant to do the same things, which is the reason why scripts are often difficult to read and understand. Besides, there are various choices as to what language to use for a script: should you write it in Ruby which your colleagues know very well or Bash which you know better?
 
 Common configuration management operations are well-known: copy a file to a remote machine, create a folder, start/stop/enable a process, install packages, etc. So _we need a tool that would implement these common operations in a well-known and tested way, providing us with a clean and understandable syntax for using them_.
+
 This way we wouldn't have to write complex scripts ourselves each time for the same tasks, possibly making mistakes along the way, but instead just tell the tool what should be done: what packages should be present, what processes should be started, etc.
 
 This is exactly what CM tools do.
@@ -638,7 +646,7 @@ $ ansible --version
 
 === Infrastructure as Code project
 
-Create a new directory called `06-ansible` inside your course repo, which we'll use to save the work done in this lab.
+Create a new directory called `3-ansible` inside your course repo, which we'll use to save the work done in this lab.
 
 === Provision compute resources
 
@@ -646,7 +654,7 @@ Start a VM and create other GCP resources for running your application applying 
 
 [source,bash]
 ----
-$ cd ./05-terraform  # adapt this command as necessary to get to the directory
+$ cd ../2-terraform  # adapt this command as necessary to get to the directory
 $ terraform apply -auto-approve
 ----
 
@@ -667,7 +675,7 @@ Let's look at our `install.sh` first to see what modules we might need to use:
 set -e  # exit immediately if anything returns non-zero. See https://www.javatpoint.com/linux-set-command
 
 
-echo "  ----- download, initialize, and run app -----  "
+echo "  ----- download and initialize app -----  "
 git clone https://github.com/dm-academy/node-svc
 cd node-svc
 git checkout 02
@@ -692,7 +700,7 @@ Let's create a file called `deploy.yml` ("deploy" including both installation an
 ----
 ---
 - name: Deploy node-svc App
-  hosts: node-svc
+  hosts: node-svc-01
   tasks:
     - name: Fetch the latest version of application code
     # see https://docs.ansible.com/ansible/latest/modules/git_module.html
@@ -710,7 +718,7 @@ Let's create a file called `deploy.yml` ("deploy" including both installation an
 
     - name: Install packages based on package.json.
       npm:
-        path: /home/node-user/node-svc-1
+        path: /home/node-user/node-svc
 
     - name: Start the nodejs server
     # see https://codelike.pro/deploy-nodejs-app-with-ansible-git-pm2/
@@ -785,14 +793,14 @@ Create a file called `hosts.yml` inside `ansible` directory with the following c
 
 [source,yaml]
 ----
-node-svc:
+node-svc-grp:
   hosts:
     node-svc-01:
       ansible_host: 35.35.35.35
       ansible_user: node-user
 ----
 
-Here we define a group of hosts (`node-svc`) under which we list the hosts that belong to this group. In this case, we list only one host under the hosts group and give it a name (`node-svc-01`) and information on how to connect to the host.
+Here we define a group of hosts (`node-svc-grp`) under which we list the hosts that belong to this group. For now, we list only one host under the hosts group and give it a name (`node-svc-01`) and information on how to connect to the host.
 
 Now note, that inside our `deploy.yml` playbook we specified `node-svc` host group in the `hosts` option before the tasks:
 
@@ -805,7 +813,7 @@ Now note, that inside our `deploy.yml` playbook we specified `node-svc` host gro
   ...
 ----
 
-This will tell Ansible to run the following tasks on the hosts defined in hosts group `raddit-app`.
+This will tell Ansible to run the following tasks on the hosts defined in hosts group `node-svc`.
 
 === Ansible configuration
 
@@ -831,7 +839,7 @@ Use the following commands to start a deployment:
 
 [source,bash]
 ----
-$ cd ./06-ansible
+$ cd 3-ansible
 $ ansible-playbook deploy.yml
 ----
 
@@ -839,7 +847,13 @@ $ ansible-playbook deploy.yml
 
 Access the application in your browser by its public IP (don't forget to specify the port 3000) and make sure application has been deployed and is functional.
 
-=== Futher Learning Ansible
+=== Add a node
+
+Now, using the knowledge you have, add a second server, node-svc-02, to the Terraform and Ansible files and re-apply them.
+
+Prove your work by issuing a URL of /2 or above to the microservice on either machine and posting the output to Teams.
+
+=== Further Learning Ansible
 
 There's a whole lot to learn about Ansible.
 Try playing around with it more and create a `playbook` which provides the same system configuration as your `configuration.sh` script.
@@ -870,10 +884,6 @@ It might not seem like a big improvement at this scale, because our deploy scrip
 
 Destroy the resources created by Terraform.
 
-[source,bash]
-----
-$ terraform destroy
-----
 
 
 
