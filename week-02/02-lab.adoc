@@ -618,7 +618,7 @@ This will tell Ansible to run the following tasks on the hosts defined in hosts 
 
 Before we can run a deployment, we need to make some configuration changes to how Ansible views and manages our `ansible` directory.
 
-Let's define custom Ansible configuration for our directory. Create a file called `ansible.cfg` inside the `ansible` directory with the following content:
+Let's review the custom Ansible configuration for our directory. See the file called `ansible.cfg` inside the `ansible` directory with the following content:
 
 [source,ini]
 ----
@@ -638,7 +638,6 @@ Use the following commands to start a deployment:
 
 [source,bash]
 ----
-$ cd 3-ansible
 $ ansible-playbook deploy.yml
 ----
 
@@ -651,16 +650,6 @@ Access the application in your browser by its public IP (don't forget to specify
 Now, using the knowledge you have, add a second server, node-svc-02, to the Terraform and Ansible files and re-apply them. 
 
 Prove your work by issuing a URL of /20 or above to the microservice on either machine and posting the output to Teams.
-
-=== Further Learning Ansible
-
-There's a whole lot to learn about Ansible.
-Try playing around with it more and create a `playbook` which provides the same system configuration as your `configuration.sh` script.
-Save it under the name `configuration.yml` inside the `ansible` folder, then use it inside https://www.packer.io/docs/provisioners/ansible.html[ansible provisioner] instead of shell in your Packer template.
-
-You can find an example of `configuration.yml` playbook https://github.com/Artemmkin/infrastructure-as-code-example/blob/master/ansible/configuration.yml[here].
-
-And https://github.com/Artemmkin/infrastructure-as-code-example/blob/master/packer/raddit-base-image-ansible.json[here] is an example of a Packer template which uses ansible provisioner.
 
 === Save and commit the work
 
