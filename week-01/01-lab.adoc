@@ -261,6 +261,7 @@ Starting from this section, we're going to use a git repo for saving all the wor
 
 * Log into your Github account, go to https://github.com/dm-academy/node-svc and, USING IT AS A TEMPLATE, create a repository called <my St Thomas ID>-SEIS664. For example, `maty0145-SEIS664`.
 * No README, license, or .gitignore.
+* BE SURE TO CHECK OUT ALL BRANCHES.
 * Copy the URL.
 
 NOTE: In these labs, anything in between <> means you have to think and substitute the appropriate value.
