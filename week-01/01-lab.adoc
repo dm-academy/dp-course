@@ -33,8 +33,7 @@ NOTE: We will talk more about infrastructure as code in Session 02. However, you
 
 === Google Cloud Platform
 
-In this tutorial, we use the https://cloud.google.com/[Google Cloud Platform] to provision the compute infrastructure.
-You have already signed up.
+In this tutorial, we use the https://cloud.google.com/[Google Cloud Platform] to provision the compute infrastructure. You have already signed up.
 
 Start in the Google Cloud Shell
 https://cloud.google.com/shell/docs/using-cloud-shell[(review)]
@@ -68,7 +67,7 @@ $ gcloud config list
 
 === Intro
 
-You have developed a new cool application called https://github.com/dm-academy/node-svc[node-svc].
+You have developed a new cool application called NodeService.
 
 You want to run your application on a dedicated server and make it available to the Internet users.
 
@@ -163,27 +162,14 @@ Check the installed version of Node:
 $ node -v
 ----
 
-Install `git`:
+Make an application directory and get the application files: 
 
 [source,bash]
 ----
-$ sudo apt -y install git
-----
-
-Clone the application repo into the home directory of `node-user` user (reminder, how do you clone to the right location?):
-
-[source,bash]
-----
-$ git clone https://github.com/dm-academy/node-svc
-----
-
-Navigate to the repo (`cd node-svc`) and check out the 02 branch (matching this lesson)
-
-[source,bash]
-----
-$ git checkout 02
-Branch 02 set up to track remote branch 02 from origin.
-Switched to a new branch '02'
+$ mkdir node-svc && cd node-svc
+$ wget hhttps://raw.githubusercontent.com/dm-academy/node-svc/01/server.js
+$ wget https://raw.githubusercontent.com/dm-academy/node-svc/01/package.json
+ 
 ----
 
 Initialize npm (Node Package Manager) and install express:
@@ -191,7 +177,6 @@ Initialize npm (Node Package Manager) and install express:
 [source,bash]
 ----
 $ npm install
-$ npm install express
 ----
 
 === Start the Application
@@ -268,14 +253,13 @@ In all of these cases we face the task of provisioning new virtual machines, ins
 
 Doing it manually is boring, error-prone and time-consuming.
 
-The most obvious way for improvement is using Bash scripts which allow us to run sets of commands put in a single file.
-So let's try this.
+The most obvious way for improvement is using Bash scripts which allow us to run sets of commands put in a single file.  So let's try this.
 
 === Infrastructure as Code project
 
 Starting from this section, we're going to use a git repo for saving all the work done in this tutorial.
 
-* Go to your Github acccount and create a repository called <my St Thomas ID>-SEIS664. For example, `maty0145-SEIS664`.
+* Log into your Github account, go to https://github.com/dm-academy/node-svc and, USING IT AS A TEMPLATE, create a repository called <my St Thomas ID>-SEIS664. For example, `maty0145-SEIS664`.
 * No README, license, or .gitignore.
 * Copy the URL.
 
@@ -288,62 +272,32 @@ Clone it locally:
 $ git clone <Github URL of your new repository>
 ----
 
-Create a directory for this section:
+Check out this section's branch:
 
 [source,bash]
 ----
 $ cd <your repo>
-$ mkdir 01
-$ cd 01
+$ git checkout 01
 ----
 
-To push your changes up to Github:
+If you make changes, you push your changes up to Github with these commands (but not right now):
 
 [source,bash]
 ----
 $ git add . -A
-$ git commit -m "first section 03 commit" # should be relevant to the changes you made
+$ git commit -m "first Lab 01 commit" # should be relevant to the changes you made
 $ git push origin master
 ----
 
 Always issue these commands several times during each session. (They won't work on an empty directory, however, so wait until you've completed your first script.)
 
-IMPORTANT: *The lab-example repo.* At https://github.com/dm-academy/lab-example you will find a complete set of correctly worked examples, including additional resources and solutions. I encourage you to treat this as a reference, when you are stuck. You of course can simply copy the files and run them, but you may not understand things as well. I recommend building the files as suggested in this tutorial. 
-
 === Provisioning script
 
-We can automate the process of creating the VM and the firewall rule. In the 01 directory create a script `provision.sh`:
+We can automate the process of creating the VM and the firewall rule. In the 01 branch review the script `provision.sh` and run it in the Google Cloud Shell:
 
 [source,bash]
 ----
-#!/bin/bash
-# add two news VM
-gcloud compute instances create node-svc-01 \
-    --image-family ubuntu-minimal-2004-lts \
-    --image-project ubuntu-os-cloud \
-    --boot-disk-size 10GB \
-    --machine-type f1-micro
-    
-gcloud compute instances create node-svc-02 \
-    --image-family ubuntu-minimal-2004-lts \
-    --image-project ubuntu-os-cloud \
-    --boot-disk-size 10GB \
-    --machine-type f1-micro
-
-# add firewall rule
-gcloud compute firewall-rules create allow-node-svc-tcp-3000 \
-    --network default \
-    --action allow \
-    --direction ingress \
-    --rules tcp:3000 \
-    --source-ranges 0.0.0.0/0
-----
-
-Run it in the Google Cloud Shell:
-
-[source,bash]
-----
-$ chmod +x provision.sh  # changing permissions
+$ chmod +x provision.sh  # changing permissions if you need to
 $ ./provision.sh # you have to include the './'
 ----
 
@@ -367,30 +321,7 @@ Before we can run our application, we need to create a running environment for i
 
 We are going to use the same commands we used before to do that, but this time, instead of running commands one by one, we'll create a `bash script` to save us some struggle.
 
-In the `01` directory create a bash script `config.sh` to install node, npm, express, and git. Create a script `install.sh` to download the app and initialize node.
-
-[source,bash]
-----
-#!/bin/bash
-set -e  # exit immediately if anything returns non-zero. See https://www.javatpoint.com/linux-set-command
-
-echo "  ----- install node, npm, git -----  "
-apt-get update  
-apt-get install -y nodejs npm git
-----
-
-[source,bash]
-----
-#!/bin/bash
-set -e  # exit immediately if anything returns non-zero. See https://www.javatpoint.com/linux-set-command
-
-echo "  ----- download, initialize, and run app -----  "
-git clone https://github.com/dm-academy/node-svc
-cd node-svc
-git checkout 02
-npm install
-npm install express
-----
+In the `01` directory review the bash script `config.sh` to install node, npm, express, and git, and the script `install.sh` to download the app and initialize node.
 
 NOTE: Why two scripts? Discuss in class.
 
@@ -479,25 +410,16 @@ We will discuss the node-svc application further in class.
 
 === Destroy (de-provision) the resources by script
 
-In the 01 directory create a script `deprovision.sh`.
+In the 01 directory review the script `deprovision.sh`.
 
-[source,bash]
-----
-#!/bin/bash
-gcloud compute instances delete -q node-svc-01
-gcloud compute instances delete -q node-svc-02
-gcloud compute firewall-rules delete -q allow-node-svc-tcp-3000
-----
-
-Set permissions correctly (see previous) and execute.
-You should get results like:
+Set permissions correctly if needed (see previous) and execute. You should get results like:
 
 `+bash Deleted [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/zones/us-central1-c/instances/node-svc].
 Deleted [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/global/firewalls/allow-node-svc-tcp-3000].+`
 
 === Save and commit the work
 
-Using your git skills, save and commit the scripts created in this section into your repo.
+If you made any changes, using your git skills, save and commit the scripts created in this section into your repo.
 
 === Conclusion
 
@@ -507,8 +429,7 @@ The process of system configuration becomes more or less standardized and less e
 
 It's also a first step we've made in the direction of automating operations work.
 
-But scripts are not suitable for every operations task and have many downsides.
-We'll discuss more on that in the next sections.
+But scripts are not suitable for every operations task and have many downsides. We'll discuss more on that in the next sections.
 
 
 
