@@ -449,6 +449,28 @@ Save and commit the `kubernetes` folder created in this section into your `iac-t
 In this section, we learned about Kuberenetes - a popular orchestration platform which simplifies the process of running containers at scale.
 We saw how it implements the Infrastructure as Code approach in the form of `objects` and `manifests` which allow you to describe in code the desired state of your container infrastructure which spans a cluster of VMs.
 
+
+== Updating the service: towards a true pipeline
+
+At this point /0  is working .... but /1, /3, /30 etc are not. We need to: 
+
+* update server.js
+* test it locally (either directly or as a container)
+* rebuild the container
+* push it to the Docker Hub
+* tell Kubernetes to re-apply the deployment. 
+
+You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery (to be continued...)
+
+Next up: 
+
+* Automated testing
+* Mutiple environments
+* Continuous delivery pipeline
+* Collaboration using Github
+
+=== Destroy the cluster
+
 To destroy the Kubernetes cluster, run the following command inside `kubernetes/terraform` directory:
 
 [source,bash]
