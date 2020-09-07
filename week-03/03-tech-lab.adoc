@@ -205,7 +205,7 @@ You need to ALWAYS call Terraform thus:
 
 [source,bash]
 ----
-$ ~/terraform apply
+$ ~/bin/terraform apply
 ----
 
 Terraform will CRASH HARD if you do not do this.
@@ -239,12 +239,11 @@ After you've corrected the variables, run Terraform to create a Kubernetes clust
 [source,bash]
 ----
 $ gcloud services enable container.googleapis.com # enable Kubernetes Engine API
-$ terraform init
-$ terraform apply
+$ ~/bin/terraform init
+$ ~/bin/terraform apply
 ----
 
-Wait until Terraform finishes creation of the cluster.
-It can take about 3-5 minutes.
+Wait until Terraform finishes creation of the cluster. It can take about 3-5 minutes.
 
 Check that the cluster is running and `kubectl` is properly configured to communicate with it by fetching cluster information:
 
@@ -283,14 +282,10 @@ The Deployment objects have the same structure so I'll briefly go over only one 
 
 Each Kubernetes object has 4 required fields:
 
-* `apiVersion` - Which version of the Kubernetes API you're using to create this object.
-You'll need to change that if you're using Kubernetes API version different than 1.7 as in this example.
-* `kind` - What kind of object you want to create.
-In this case we create a Deployment object.
-* `metadata` - Data that helps uniquely identify the object.
-In this example, we give the deployment object a name according to the name of an application it's used to run.
-* `spec` - describes the `desired state` for the object.
-`Spec` configuration will differ from object to object, because different objects are used for different purposes.
+* `apiVersion` - Which version of the Kubernetes API you're using to create this object. You'll need to change that if you're using Kubernetes API version different than 1.7 as in this example.
+* `kind` - What kind of object you want to create. In this case we create a Deployment object.
+* `metadata` - Data that helps uniquely identify the object. In this example, we give the deployment object a name according to the name of an application it's used to run.
+* `spec` - describes the `desired state` for the object. `Spec` configuration will differ from object to object, because different objects are used for different purposes.
 
 In the Deployment object's spec we specify, how many `replicas` (instances of the same application) we want to run and what those applications are (`selector`)
 
@@ -311,9 +306,7 @@ In most cases, Pod is equal to a container, although you can run multiple contai
 
 The `Pod template` which is a Pod object's definition nested inside the Deployment object.
 It has the required object fields such as `metadata` and `spec`, but it doesn't have `apiVersion` and `kind` fields as those would be redundant in this case.
-When we create a Deployment object, the Pod object(s) will be created as well.
-The number of Pods will be equal to the number of `replicas` specified.
-The Deployment object ensures that the right number of Pods (`replicas`) is always running.
+When we create a Deployment object, the Pod object(s) will be created as well. The number of Pods will be equal to the number of `replicas` specified. The Deployment object ensures that the right number of Pods (`replicas`) is always running.
 
 In the Pod object definition (`Pod template`) we specify container information such as a container image name, a container name, which is used by Kubernetes to run the application.
 We also add labels to identify what application this Pod object is used to run, this label value is then used by the `selector` field in the Deployment object to select the right Pod object.
@@ -330,9 +323,7 @@ We also add labels to identify what application this Pod object is used to run, 
         image: dmacademy/node-svc
 ----
 
-The container image will be downloaded from Docker Hub in this case: the node-svc image uploaded to the dmacademy organization.
-
-_It would be nice if we could use the locally built node-svc image. Extra credit for anyone who can figure out how to do that._
+The container image will be downloaded from https://hub.docker.com/[Docker Hub] in this case: the node-svc image uploaded to the dmacademy organization. We could also use the https://cloud.google.com/container-registry/[Google Container Registry] or https://github.com/features/packages[Github Packages].
 
 === Create Deployment Objects
 
@@ -353,18 +344,14 @@ $ kubectl get pods
 
 === Service manifests
 
-Running applications at scale means running _multiple containers spread across multiple VMs_.
-
-This arises questions such as: 
+Running applications at scale means running _multiple containers spread across multiple VMs_. This gives rise to questions such as: 
 
 * How do we load balance between all of these application containers?
 * How do we provide a single entry point for the application so that we could connect to it via that entry point instead of connecting to a particular container?
 
-These questions are addressed by the *Service* object in Kubernetes.
-A Service is an abstraction which you can use to logically group containers (Pods) running in you cluster, that all provide the same functionality.
+These questions are addressed by the *Service* object in Kubernetes. A Service is an abstraction which you can use to logically group containers (Pods) running in you cluster, that all provide the same functionality.
 
-When a Service object is created, it is assigned a unique IP address called `clusterIP` (a single entry point for our application).
-Other Pods can then be configured to talk to the Service, and the Service will load balance the requests to containers (Pods) that are members of that Service.
+When a Service object is created, it is assigned a unique IP address called `clusterIP` (a single entry point for our application). Other Pods can then be configured to talk to the Service, and the Service will load balance the requests to containers (Pods) that are members of that Service.
 
 So we create a Service for the node-svc applications.
 
@@ -448,7 +435,7 @@ Get a list of IP addresses of your cluster nodes:
 
 [source,bash]
 ----
-$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances list --filter="tags.items=iac-kubernetes"
+$ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances list --filter="tags.items=node-svc-k8s"
 ----
 
 Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `node-svc` application in your browser.
@@ -466,7 +453,7 @@ To destroy the Kubernetes cluster, run the following command inside `kubernetes/
 
 [source,bash]
 ----
-$ terraform destroy
+$ ~/bin/terraform destroy
 ----
 
-Next: xref:50-what-is-iac.adoc[What is Infrastructure as Code]
+
