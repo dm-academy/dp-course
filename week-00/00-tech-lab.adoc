@@ -41,7 +41,7 @@ As this is your first lab, please read these instructions carefully and follow a
 
 === Account Setup
 
-IMPORTANT: YOU MUST HAVE A PERSONAL GMAIL ACCOUNT. FURTHERMORE, YOU MUST USE CHROME. Sign into your GMail using Chrome only. IF YOU USE YOUR SCHOOL EMAIL, OR A DIFFERENT BROWSER, THIS WILL NOT ONLY NOT WORK, BUT YOU WILL NOT BE ABLE TO FINISH THE LAB. Go to https://mail.google.com if you don't have a personal GMail account yet. 
+IMPORTANT: YOU MUST HAVE A PERSONAL GMAIL ACCOUNT. FURTHERMORE, YOU MUST USE CHROME. Sign into your GMail and Google Cloud using Chrome only. IF YOU USE YOUR SCHOOL EMAIL, OR A DIFFERENT BROWSER, THIS WILL NOT ONLY NOT WORK, BUT YOU WILL NOT BE ABLE TO FINISH THE LAB. Go to https://mail.google.com if you don't have a personal GMail account yet. 
 
 In the Canvas announcements there is a copy of an email from Google. Click the "Student Coupon Retrieval Link" to redeem and then read the following very carefully.
 
