@@ -521,12 +521,42 @@ Now, get the log from the first pod:
 ----
 kubectl -n default logs node-svc-deployment-cf76549ff-9cdxr
 [various output]
+Running on 3000
+Console: request is testing a simple self-get
+Console: request is testing a simple self-post
+DateIPStamp reached with {"action":"GET"} 127.0.0.1
+Console: / Server returned success on get.
+{ action: 'GET',
+  arrTimeStamp:
+   [ '127.0.0.1 Tue Sep 08 2020 23:48:50 GMT+0000 (Coordinated Universal Time)' ] }
+Console: entered / post
+Console: / received {"firstName":"myFirstName","lastName":"myLastName"}
+DateIPStamp reached with {"firstName":"myFirstName","lastName":"myLastName","action":"POST"} 127.0.0.1
+Console: / returned {"firstName":"myFirstName","lastName":"myLastName","action":"POST","arrTimeStamp":["127.0.0.1 Tue Sep 08 2020 23:48:50 GMT+0000 (Coordinated Universal Time)"]}
+{ firstName: 'myFirstName',
+  lastName: 'myLastName',
+  action: 'POST',
+  arrTimeStamp:
+   [ '127.0.0.1 Tue Sep 08 2020 23:48:50 GMT+0000 (Coordinated Universal Time)' ] }
+/n GET, making GET subrequest
+returning URL http://node-svc-01:3000/2
+(node:1) UnhandledPromiseRejectionWarning: FetchError: request to http://node-svc-01:3000/2 failed, reason: getaddrinfo ENOTFOUND node-svc-01 node-svc-01:3000
+    at ClientRequest.<anonymous> (/app/node_modules/node-fetch/lib/index.js:1461:11)
+    at ClientRequest.emit (events.js:193:13)
+    at Socket.socketErrorListener (_http_client.js:397:9)
+    at Socket.emit (events.js:193:13)
+    at emitErrorNT (internal/streams/destroy.js:91:8)
+    at emitErrorAndCloseNT (internal/streams/destroy.js:59:3)
+    at processTicksAndRejections (internal/process/task_queues.js:81:17)
+(node:1) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
+(node:1) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
 ----
 
 You should see some routine-looking output, and some output that looks more like an error. Discuss with your teammates and/or in class. What do you think is causing the error? What are contributing factors?
 
-It's now time to start using Github. 
+It's now time to start using Github Actions so that we can easily move changes into the cluster, without having to execute a lot of commands. 
 
+This also sets us up for automated testing. As discussed in the DPBoK, we are continually evolving our systems, and as we make changes, we need the systems to keep their existing functionality.
 
 === Destroy the cluster
 

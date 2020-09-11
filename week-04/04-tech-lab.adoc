@@ -2,4 +2,7 @@
 
 ==  Overview
 
-    
+Ideas:
+
+Fix the bug
+Static file serving
