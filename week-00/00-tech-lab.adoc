@@ -77,7 +77,7 @@ image::images/billing-acct.png[]
 
 This is the Billing page. It tells you how much money you have in your account. All of your Projects will be linked to this billing account. This is how cloud computing works.
 
-NOTE: 
+NOTE: if you get the message "Error: You don't have permission to create a billing account for your organization," switch to a personal GMail account. (We see this when people try to use work GMail accounts.) 
 
 === Exploring the Google Cloud Shell
 
