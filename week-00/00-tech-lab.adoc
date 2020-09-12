@@ -95,7 +95,7 @@ Now that you have access to the Google Cloud shell, do this tutorial (skip Tutor
 
 http://www.ee.surrey.ac.uk/Teaching/Unix/index.html
 
-In Tutorial 2, upload the science.txt file to your Google Cloud Shell via the "upload file" command under the triple vertical dots on the right side of the shell menu bar. Use the file and directory commands you are learning in the tutorial to move it to a suitable location. 
+In Tutorial 2, upload the science.txt file to your Google Cloud Shell via the "upload file" command under the triple vertical dots on the right side of the shell menu bar. Note that the tutorial makes the file available as a download as part of section 2.1. Use the file and directory commands you are learning in the tutorial to move it to a suitable location. 
 
 image::images/upload.png[]
 
@@ -153,4 +153,4 @@ Now, you should have all the lab files locally on your machine. You can open the
 
 REQUIRED ASSIGNMENT: Try submitting a minor change as a "pull request" to THIS file (preferably something helpful, but you can propose any kind of change) via the techniques presented in the tutorial. Note that you will not be able to accept the change, as I am the maintainer of this file. I would have to approve. 
 
-IMPORTANT: From this point forward, you are STRONGLY ENCOURAGED to submit issues and enhancements to the course documentation. Extra credit points are readily available for contributing to the class in this manner. Don't allow yourself to "get stuck." Communicate with your classmates in Slack and if you are still stuck then raise a Github issue. If you are stuck, the problem is in the instructions, and we need to fix it. 
+IMPORTANT: From this point forward, you are STRONGLY ENCOURAGED to submit issues and enhancements to the course documentation. Extra credit points are readily available for contributing to the class in this manner. Don't allow yourself to "get stuck." Communicate with your classmates in MS Teams and if you are still stuck then raise a Github issue. If you are stuck, the problem is in the instructions, and we need to fix it. 
