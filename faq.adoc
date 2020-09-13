@@ -25,3 +25,15 @@ Error refreshing state: state snapshot was created by Terraform v0.12.8, which i
 execute 
 `rm -rf terraform.tfstate`
 `terraform init`
+
+== Nano garbled
+
+If text is overlapping in nano, hit ctrl-L to redraw. 
+
+I had partial success including 
+
+export TERM=screen
+
+in my .bashrc file, but that only seems to work if I only use page up/down. Scrolling with the arrow key is still a problem. 
+
+Issue: https://github.com/vercel/hyper/issues/3391
