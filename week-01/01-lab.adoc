@@ -167,7 +167,7 @@ Make an application directory and get the application files:
 [source,bash]
 ----
 $ mkdir node-svc && cd node-svc
-$ wget hhttps://raw.githubusercontent.com/dm-academy/node-svc/01/server.js
+$ wget https://raw.githubusercontent.com/dm-academy/node-svc/01/server.js
 $ wget https://raw.githubusercontent.com/dm-academy/node-svc/01/package.json
  
 ----
