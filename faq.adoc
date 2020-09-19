@@ -14,7 +14,8 @@ If you do not, re-issue the command `ssh-add ~/.ssh/node-user` and re-confirm wi
 
 Offending ECDSA key or Permission denied (publickey)
 
-== Terraform error refreshing state
+== Terraform error refreshing state  
+Thank you
 
 If you get 
 
