@@ -413,7 +413,7 @@ Once you have added both nodes, you can see them interact by accessing either UR
 curl http://${NODE_IP_01}:3000/2
 ----
 
-*REQUIRED: As evidence of lab completion, please post a screen shot of the node-svc output for the above to Teams.*
+*REQUIRED: As evidence of lab completion, please post a screen shot of the node-svc output for the above _as a direct message to me_ in Teams.*
 
 We will discuss the node-svc application further in class. 
 
