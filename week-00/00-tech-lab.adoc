@@ -123,7 +123,23 @@ https://help.github.com/en/articles/testing-your-ssh-connection
 
 This is where things get tricky. In the Google Cloud Shell, you use `ssh-keygen` to generate a public/private key pair. Using what you have learned by reading the instructions, the Linux tutorial, and any general instructions related to `ssh-keygen`, associate your Google Cloud Shell correctly with Github via public/private key authentication. 
 
-When you have done that , run this tutorial: 
+NOTE: If you are using the Github instructions, you do NOT need Git Bash. We are working in the Google Cloud Shell; Git Bash is for your local PC. You can experiment with it sometime if you like, but it's not required. 
+
+Here are some more detailed steps for those who are having issues: 
+
+* Go to your Google Cloud Shell
+* Execute the command `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"` and accept all defaults (just hit Enter for any question, except if you are replacing a key, then hit `y`.)
+** BE SURE TO CHANGE "your_email@example.com" to YOUR ACTUAL EMAIL
+* Execute the command `cat ~/.ssh/id_rsa.pub` - this is your public key
+* Copy the resulting string (it starts with `ssh` and ends with your email, be sure to get exactly that and nothing extra) to your clipboard
+* Go to Github
+* Go to your account settings
+* Go to the section marked "SSH and GPG Keys"
+* Create a new SSH key, naming it preferably with the date and pasting your clipboard into the large text box.
+
+*Do NOT continue until you have ssh working.*
+
+When you have ssh working, run this tutorial: 
 
 https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners
 
@@ -139,18 +155,31 @@ When you have finished configuring your Github access and tutorials:
 - Fork this repository to your own. 
 - Clone the forked version down to your Google Cloud Shell. Open that shell and type: 
 
-`cd`
+[source,bash]
+----
+cd
+mkdir repos
+cd repos
+git clone https://github.com/your-github-username/dp-course
+----
 
-`mkdir repos`
+In the above command, BE SURE TO CHANGE "your-github-username" to YOUR ACTUAL GITHUB USERNAME
 
-`cd repos`
+NOTE: I recommend keeping all git repositories in your `repos` directory.
 
-`git clone https://github.com/your-github-username/dp-course`
+Now, you should have all the lab files locally on your Google Cloud Shell. You can open them in nano or vi or other text editor. In this way you can change them and submit changes back to the central repo as pull requests. 
 
-IMPORTANT: Put all git repositories in your `repos` directory.
+REQUIRED ASSIGNMENT: Try submitting a minor change as a "pull request" to the README, or any other file if you like (preferably something helpful, but you can propose any kind of change) via the techniques presented in the tutorial. Note that you will not be able to accept the change, as I am the maintainer of this file. I would have to approve. 
 
-Now, you should have all the lab files locally on your machine. You can open them in VSCode or other text editor. In this way you can change them and submit changes back to the central repo as pull requests. 
+Here are some more details: 
 
-REQUIRED ASSIGNMENT: Try submitting a minor change as a "pull request" to THIS file (preferably something helpful, but you can propose any kind of change) via the techniques presented in the tutorial. Note that you will not be able to accept the change, as I am the maintainer of this file. I would have to approve. 
+Once you have cloned down and made a small change, execute the following commands: 
+
+[source,bash]
+----
+git add . -A
+git commit -m "some message"   # obviously you change this as appropriate for the change
+git push origin master
+----
 
 IMPORTANT: From this point forward, you are STRONGLY ENCOURAGED to submit issues and enhancements to the course documentation. Extra credit points are readily available for contributing to the class in this manner. Don't allow yourself to "get stuck." Communicate with your classmates in MS Teams and if you are still stuck then raise a Github issue. If you are stuck, the problem is in the instructions, and we need to fix it. 
