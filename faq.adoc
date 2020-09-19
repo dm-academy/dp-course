@@ -37,3 +37,12 @@ export TERM=screen
 in my .bashrc file, but that only seems to work if I only use page up/down. Scrolling with the arrow key is still a problem. 
 
 Issue: https://github.com/vercel/hyper/issues/3391
+
+== Insufficient Permission in Google Cloud Shell
+
+If you receive an `Insufficient Permission` error in the Google Cloud Shell, you may need to reauthenticate.
+Type `gcloud auth login` and follow the resulting steps.
+
+== Address already in use
+
+When starting up the nodejs server with `nodejs server.js &` you may encounter a `address already in use` error. Read carefully, as this output may be further down in the error output. This indicates that there is already a node server running. If you would like to start over, run `ps -ef` to list processes and then kill the correct process by id: `kill {process id}`
