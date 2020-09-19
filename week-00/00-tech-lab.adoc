@@ -111,6 +111,8 @@ It's fine if you work on the tutorial during the week, but *you need to have it 
 
 Go to http://github.com and set up a user account (one per individual, even if you are in teams). You do NOT want to use your school email account name for this, as your Github account may be an asset throughout your career. *Choose a suitably professional user name that you can use for the rest of your professional career.* 
 
+IMPORTANT:  Please update your public profile in Github to include your name (you change it under Settings). I may have no idea otherwise who you are and can't assign credit.
+
 Set up a private/public key pair for your Github credentials in the Google Cloud Shell. 
 
 Review these instructions but do NOT attempt them: 
