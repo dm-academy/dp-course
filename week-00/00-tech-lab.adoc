@@ -173,6 +173,18 @@ Now, you should have all the lab files locally on your Google Cloud Shell. You c
 
 REQUIRED ASSIGNMENT: Try submitting a minor change as a "pull request" to the README, or any other file if you like (preferably something helpful, but you can propose any kind of change) via the techniques presented in the tutorial. Note that you will not be able to accept the change, as I am the maintainer of this file. I would have to approve. 
 
+Here is a graphical depiction:
+
+image::images/github-arch.png[]
+
+The basic sequence is 
+
+. Fork
+. Clone
+. Change and commit
+. Push
+. Pull request
+
 Here are some more details: 
 
 *Once you have cloned down and made a small change,* execute the following commands: 
