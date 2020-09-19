@@ -398,7 +398,13 @@ Open another terminal and run the following command to get a public IP of the VM
 $ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01
 ----
 === Add another node
-Now, create and install the application on a new node. Call it node-svc-02. Follow all the above steps, substituting node-svc-01 for node-svc-02 as needed.
+Now, create and install the application on a new node. Call it node-svc-02. 
+First exit out of node-svc-01 by typing:
+exit
+
+Go to section:
+===Run the scripts
+Follow all the above steps, substituting node-svc-01 for node-svc-02 and NODE_IP_01 to NODE_IP_02 as needed.
 
 Once you have added both nodes, you can see them interact by accessing either URL with an extension of "/2" or greater, e.g.: 
 
