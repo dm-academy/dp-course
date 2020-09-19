@@ -175,7 +175,7 @@ REQUIRED ASSIGNMENT: Try submitting a minor change as a "pull request" to the RE
 
 Here are some more details: 
 
-Once you have cloned down and made a small change, execute the following commands: 
+*Once you have cloned down and made a small change,* execute the following commands: 
 
 [source,bash]
 ----
@@ -183,5 +183,7 @@ git add . -A
 git commit -m "some message"   # obviously you change this as appropriate for the change
 git push origin master
 ----
+
+Go up to Github and check that you can view the change in YOUR version of the dp-course repo. Then, issue a pull request back to me, by going to Pull Requests and clicking the New Pull Request button. 
 
 IMPORTANT: From this point forward, you are STRONGLY ENCOURAGED to submit issues and enhancements to the course documentation. Extra credit points are readily available for contributing to the class in this manner. Don't allow yourself to "get stuck." Communicate with your classmates in MS Teams and if you are still stuck then raise a Github issue. If you are stuck, the problem is in the instructions, and we need to fix it. 
