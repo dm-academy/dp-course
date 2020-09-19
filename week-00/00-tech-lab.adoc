@@ -147,6 +147,8 @@ When you have finished configuring your Github access and tutorials:
 
 `git clone https://github.com/your-github-username/dp-course`
 
+
+
 IMPORTANT: Put all git repositories in your `repos` directory.
 
 Now, you should have all the lab files locally on your machine. You can open them in VSCode or other text editor. In this way you can change them and submit changes back to the central repo as pull requests. 
