@@ -1,4 +1,6 @@
 = Lab 00: Setup
+NOTE: PUSH test
+
 
 NOTE: We are in a bootstrapping phase. We need to get you set up on Github and Google Cloud so that you can learn Linux. But that means you need to execute some Linux without knowing much about it. Do your best to follow the instructions. 
 
