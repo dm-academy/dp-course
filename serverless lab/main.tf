@@ -14,7 +14,7 @@ resource "google_storage_bucket" "code_bucket" {
   name = "code-bucket-${random_id.bucket_name_part.hex}"
 }
 
-/* resource "google_storage_bucket_object" "code" {
+resource "google_storage_bucket_object" "code" {
   name   = "index.zip"
   bucket = google_storage_bucket.code_bucket.name
   source = "./path/to/zip/file/which/contains/code" # TODO: SET THIS
@@ -31,7 +31,7 @@ resource "google_cloudfunctions_function" "math_function" {
   trigger_http          = true
   entry_point           = "helloGET"
   timeout               = 30
-} */
+}
 
 # IAM entry for all users to invoke the function
 resource "google_cloudfunctions_function_iam_member" "invoker" {
