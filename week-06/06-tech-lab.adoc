@@ -1,3 +1,9 @@
 = Lab 06 Prometheus and incident management
 
 ==  Overview
+
+
+https://console.cloud.google.com/logs/
+https://console.cloud.google.com/monitoring/services
+
+image::images/GKEWarning.png[]
