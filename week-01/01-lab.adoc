@@ -287,8 +287,9 @@ If you make changes, you push your changes up to Github with these commands (but
 ----
 $ git add . -A
 $ git commit -m "first Lab 01 commit" # should be relevant to the changes you made
-$ git push origin master
+$ git push origin 01
 ----
+NOTE: `01` in this case refers to the branch we are currently working on. In future cases, this statement might look like `git push origin 02` or `git push origin master`.
 
 Always issue these commands several times during each session. (They won't work on an empty directory, however, so wait until you've completed your first script.)
 
