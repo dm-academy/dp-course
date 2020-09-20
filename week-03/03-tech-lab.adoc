@@ -552,11 +552,43 @@ returning URL http://node-svc-01:3000/2
 (node:1) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
 ----
 
-You should see some routine-looking output, and some output that looks more like an error. Discuss with your teammates and/or in class. What do you think is causing the error? What are contributing factors?
+You should see some routine-looking output, and some output that looks more like an error. Discuss with your teammates and/or in class. What do you think is causing the error? What are contributing factors? (To be discussed and worked on in class.)
 
-It's now time to start using Github Actions so that we can easily move changes into the cluster, without having to execute a lot of commands. 
 
-This also sets us up for automated testing. As discussed in the DPBoK, we are continually evolving our systems, and as we make changes, we need the systems to keep their existing functionality.
+== Automating the delivery pipeline
+
+Now that we have a working application that can be deployed to Kubernetes, we can automate the delivery pipeline. It's now time to start using Github Actions so that we can easily move changes into the cluster, without having to execute a lot of commands. 
+
+We'll start with automated testing. As discussed in the DPBoK, we are continually evolving our systems, and as we make changes, we need the systems to keep their existing functionality.
+
+
+=== Automated testing
+
+In the node-svc directory there is a `test` directory, with a file in it called `test.js`. Have a look at it. It is a very basic automated test that checks that `server.js` operates and successfully responds to a simple GET. 
+
+You can run the test by simply typing 
+`npm test`. Try it. 
+
+=== Continuous delivery 
+
+In your directory, you will also find a directory called `.github,` with a subdirectory `workflows` and a file `GKE.yml`. The file is a Github Actions script. Have a look at it. It's a basic pipeline, including: 
+
+* testing the application
+* building the Docker image
+* pushing the Docker image to the Google Container Registry (GCR). 
+* deploying from the GCR to Kubernetes
+
+Your final task for this lab is to configure your Github repository to run the pipeline. See https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.]
+
+As the page indicates, you need to enable the appropriate APIs, create a service account, download the JSON service account key and configure the appropriate secrets in the repository Settings:
+
+* GKE_PROJECT
+* GKE_SA_KEY
+
+NOTE: Keep the service account key in a secure location, such as a password manager. It is equivalent to an ssh private key. Once you put it into Github, you cannot retrieve it. 
+
+Once you have this configured, the pipeline should run whenever you make a change to server.js. Try changing the output of `app.get('/0?'..` as suggested in the code comments.
+
 
 === Destroy the cluster
 

@@ -167,7 +167,7 @@ Make an application directory and get the application files:
 [source,bash]
 ----
 $ mkdir node-svc && cd node-svc
-$ wget hhttps://raw.githubusercontent.com/dm-academy/node-svc/01/server.js
+$ wget https://raw.githubusercontent.com/dm-academy/node-svc/01/server.js
 $ wget https://raw.githubusercontent.com/dm-academy/node-svc/01/package.json
  
 ----
@@ -398,7 +398,13 @@ Open another terminal and run the following command to get a public IP of the VM
 $ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01
 ----
 === Add another node
-Now, create and install the application on a new node. Call it node-svc-02. Follow all the above steps, substituting node-svc-01 for node-svc-02 as needed.
+Now, create and install the application on a new node. Call it node-svc-02. 
+First exit out of node-svc-01 by typing:
+exit
+
+Go to section:
+===Run the scripts
+Follow all the above steps, substituting node-svc-01 for node-svc-02 and NODE_IP_01 to NODE_IP_02 as needed.
 
 Once you have added both nodes, you can see them interact by accessing either URL with an extension of "/2" or greater, e.g.: 
 
@@ -406,6 +412,8 @@ Once you have added both nodes, you can see them interact by accessing either UR
 ----
 curl http://${NODE_IP_01}:3000/2
 ----
+
+*REQUIRED: As evidence of lab completion, please post a screen shot of the node-svc output for the above _as a direct message to me_ in Teams.*
 
 We will discuss the node-svc application further in class. 
 

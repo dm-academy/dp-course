@@ -25,3 +25,59 @@ Error refreshing state: state snapshot was created by Terraform v0.12.8, which i
 execute 
 `rm -rf terraform.tfstate`
 `terraform init`
+
+== Nano garbled
+
+If text is overlapping in nano, hit ctrl-L to redraw. 
+
+I had partial success including 
+
+export TERM=screen
+
+in my .bashrc file, but that only seems to work if I only use page up/down. Scrolling with the arrow key is still a problem. 
+
+Issue: https://github.com/vercel/hyper/issues/3391
+
+== Insufficient Permission in Google Cloud Shell
+
+If you receive an `Insufficient Permission` error in the Google Cloud Shell, you may need to reauthenticate.
+Type `gcloud auth login` and follow the resulting steps.
+
+== Project property set to the empty string
+
+If you get:
+[source,bash]
+----
+ The project property is set to the empty string, which is invalid. To set your project, run: $ gcloud config set project PROJECT_ID or to unset it, run: $ gcloud config unset 
+
+----
+
+Follow the suggested command. Your project name is visible in the Google Cloud Shell, top right usually under "My First Project." When you find it, issue the command
+
+[source,bash]
+----
+gcloud config set project MY PROJECT NAME
+Updated property [core/project].prkjnghn@cloudshell:~ 
+----
+
+Obviously, you change MY PROJECT NAME to your actual project.
+
+== API not enabled
+
+If you receive
+
+[source,bash]
+----
+API [compute.googleapis.com] not enabled on project [389601984173].Would you like to enable and retry (this will take a few minutes)?(y/N)?  
+----
+
+Hit `y`, you should get:
+
+`Enabling service [compute.googleapis.com] on project [389601984173]...`
+
+== Address already in use
+
+When starting up the nodejs server with `nodejs server.js &` you may encounter a `address already in use` error. Read carefully, as this output may be further down in the error output. This indicates that there is already a node server running. If you would like to start over, run `ps -ef` to list processes and then kill the correct process by id: `kill {process id}`
+
+== Switching Github remote from http (cleartext password) to ssh
+See https://docs.github.com/en/github/using-git/changing-a-remotes-url[this link.]
