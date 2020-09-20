@@ -11,7 +11,7 @@ resource "random_id" "bucket_name_part" {
 }
 
 resource "google_storage_bucket" "code_bucket" {
-  name = "code-bucket-${random_id}"
+  name = "code-bucket-${random_id.bucket_name_part.hex}"
 }
 
 resource "google_storage_bucket_object" "code" {
@@ -21,7 +21,7 @@ resource "google_storage_bucket_object" "code" {
 }
 
 resource "google_cloudfunctions_function" "math_function" {
-  name        = "math-function-${random_id}"
+  name        = "math-function-${random_id.bucket_name_part.hex}"
   description = "Adds some numbers"
   runtime     = "python37"
 
