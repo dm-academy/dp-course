@@ -17,9 +17,9 @@ resource "google_storage_bucket" "code_bucket" {
 
 # We push our zipped code file into our bucket
 resource "google_storage_bucket_object" "code" {
-  name   = "multiply.zip"
+  name   = "sleep.zip"
   bucket = google_storage_bucket.code_bucket.name
-  source = "./multiply.zip"
+  source = "./sleep.zip"
 }
 
 # Here is our function definition.
