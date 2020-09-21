@@ -10,5 +10,5 @@ def calc(request):
         num1 = request.args.get('num1')
         num2 = request.args.get('num2')
     if num1 and num2:
-        return f"{num1} * {num2} = {num1&=*num2}"
+        return f"{num1} * {num2} = {num1*num2}"
     return "Error. At least one number did not resolve."
