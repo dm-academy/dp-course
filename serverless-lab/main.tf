@@ -32,7 +32,7 @@ resource "google_cloudfunctions_function" "math_function" {
   source_archive_bucket = google_storage_bucket.code_bucket.name
   source_archive_object = google_storage_bucket_object.code.name
   trigger_http          = true
-  entry_point           = "calc"
+  entry_point           = "entry"
   timeout               = 30
 }
 

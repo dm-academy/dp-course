@@ -1,4 +1,4 @@
-def calc(request):
+def entry(request):
     request_json = request.get_json()
     request_args = request.args
     num1 = None
