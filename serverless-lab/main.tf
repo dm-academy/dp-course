@@ -11,7 +11,7 @@ resource "random_id" "bucket_name_part" {
 }
 
 resource "google_storage_bucket" "code_bucket" {
-  name = "code-bucket-${random_id.bucket_name_part.hex}"
+  name = "seis664-code-bucket-${random_id.bucket_name_part.hex}"
 }
 
 resource "google_storage_bucket_object" "code" {
