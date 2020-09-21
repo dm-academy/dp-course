@@ -10,16 +10,19 @@ resource "random_id" "bucket_name_part" {
   byte_length = 8
 }
 
+# We create a bucket (or storage area) to store our function's code
 resource "google_storage_bucket" "code_bucket" {
   name = "seis664-code-bucket-${random_id.bucket_name_part.hex}"
 }
 
+# We push our zipped code file into our bucket
 resource "google_storage_bucket_object" "code" {
-  name   = "index.zip"
+  name   = "multiply.zip"
   bucket = google_storage_bucket.code_bucket.name
   source = "./multiply.zip"
 }
 
+# Here is our function definition.
 resource "google_cloudfunctions_function" "math_function" {
   name        = "math-function-${random_id.bucket_name_part.hex}"
   description = "Adds some numbers"

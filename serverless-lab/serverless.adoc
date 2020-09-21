@@ -18,3 +18,27 @@ There is almost no wait for an updated infrastructure definition to match the ne
 
 Let's deploy our first function as a service.
 
+
+
+Before we can start, we need to enable a few new google apis to ensure no interruptions during our terraform create. Run the following command:
+
+[source,bash]
+----
+$ gcloud services enable\
+    cloudbuild.googleapis.com \
+    cloudfunctions.googleapis.com \
+    logging.googleapis.com \
+    pubsub.googleapis.com \
+    storage-api.googleapis.com \
+    storage-component.googleapis.com
+----
+
+If you discover you're still missting a permission during the terraform deploy, you'll receive an error notice with a link to enable the missing API. Simple enable and then run your deploy agian. There may also be a delay between when you activage and API and when Google begins allowing its use. This is usually only a minute or two at most.
+
+
+Once terraform indicates your function is deployed, set your function's name as an environment variable with this command:
+
+[source,bash]
+----
+$ export FUNCTION=$(gcloud functions list --format="value(httpsTrigger.url)")
+----
