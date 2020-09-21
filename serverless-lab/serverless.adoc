@@ -14,7 +14,7 @@ FaaS abstracts away nearly the entire compute layer and hands it off to someone 
 
 You then deploy this definition and the cloud provider takes care of the rest.
 
-There is almost no wait for an updated infrastructure definition to match the new code it's running - new calls to the function use your new definition almost immediately. The declarative code describing your function is also drastically simpler than the definition of a server and container array. Finally, there is the potential for a massive cost savings since most cloud providers only charge you when your function is invoked (run). This is unlike cloud servers which, while they add and subtract instances to match demand, are always running and thus costing money.
+There is almost no wait for an updated infrastructure definition to match the new code it's running - new calls to the function use your new definition almost immediately. The declarative code describing your function is also drastically simpler than the definition of a server and container array. Finally, there is the potential for a massive cost savings since most cloud providers only charge you when your function is invoked (run). This is unlike cloud servers which, even though they add and subtract instances to match demand, always have some capacity running and costing money.
 
 Let's deploy our first function as a service.
 
@@ -33,7 +33,7 @@ $ gcloud services enable\
     storage-component.googleapis.com
 ----
 
-If you discover you're still missting a permission during the terraform deploy, you'll receive an error notice with a link to enable the missing API. Simple enable and then run your deploy agian. There may also be a delay between when you activage and API and when Google begins allowing its use. This is usually only a minute or two at most.
+If you discover you're still missting a permission during the terraform deploy, you'll receive an error notice with a link to enable the missing API. Simply enable and then run your deploy agian. There may also be a delay between when you activate an API and when Google begins allowing its use. This is usually only a minute or two at most.
 
 
 Once terraform indicates your function is deployed, set your function's name as an environment variable with this command:
@@ -42,3 +42,15 @@ Once terraform indicates your function is deployed, set your function's name as 
 ----
 $ export FUNCTION=$(gcloud functions list --format="value(httpsTrigger.url)")
 ----
+
+Invoke function
+
+[source,bash]
+----
+$ curl -X POST "${FUNCTION}" -H "Content-Type:application/json" --data '{"num1": 5, "num2": 7}'
+----
+
+Things to note:
+- no ssh key - permissions set in code by IAM
+- no mgmt of scaling other than to set limits
+- Run sleep function multiple times and then view metrics to see the function scale up
