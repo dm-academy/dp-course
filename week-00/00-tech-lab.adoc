@@ -1,11 +1,8 @@
 = Lab 00: Setup
 
 NOTE: We are in a bootstrapping phase. We need to get you set up on Github and Google Cloud so that you can learn Linux. But that means you need to execute some Linux without knowing much about it. Do your best to follow the instructions. NOTE: These instructions are always a work in progress. 
-
-
 Objectives of this lab: 
 
-- Set up MS Teams
 - Set up Google Compute Engine
 - Explore the Google Cloud Shell
 - Run the Linux tutorial 
