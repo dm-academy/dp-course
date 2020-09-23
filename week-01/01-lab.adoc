@@ -1,6 +1,6 @@
 = Lab 01: Installing a simple system: from manual to scripts
 
-== Prerequisites
+== Prerequisites. == Testing testing ed moore
 
 Completion of Linux tutorial, and/or abilities to: 
 
