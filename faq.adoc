@@ -1,5 +1,39 @@
 = Frequently asked questions
 
+== Nothing works like I expect (have you lost track of where you are?). 
+
+One big cause of frustration is losing track of where you are. Stop for a minute: are you in the Google Cloud Shell? Or an actual virtual machine you have created? The Google Cloud Shell has, for example, git installed. A lightweight VM probably will not. 
+
+== I pasted in a command and it doesn't work
+
+Often, this is the result of not correctly substituting a value. 
+
+A tutorial may have a step like: 
+
+_Enter the following command_
+
+`$ mkdir <my email>`
+
+If you paste that in literally, you will get something like this: 
+
+`-bash: syntax error near unexpected token `newline'`
+
+This is because 
+
+. You pasted in the `$`, which is there to just show you that you are operating at a command line
+. You pasted in, literally, `<my account>`, rather than replacing the `<my account>` with YOUR ACTUAL EMAIL ACCOUNT. In this case, you would NOT include the @stthomas.edu; however, this may vary. 
+
+This applies in many cases, such as 
+
+[source,bash]
+----
+$ git clone <my repo path>
+$ curl <Kubernetes node IP>
+----
+and so forth. 
+
+Some tutorials may not use <>; there is no standard. 
+
 == Offending ECDSA key
 If you get an `offending ECDSA key` error, use the suggested removal command.
 
@@ -18,9 +52,10 @@ Offending ECDSA key or Permission denied (publickey)
 
 If you get 
 
-....
+[source,bash]
+----
 Error refreshing state: state snapshot was created by Terraform v0.12.8, which is newer than current v0.12.2; upgrade to Terraform v0.12.8 or greater to work with this state
-....
+----
 
 execute 
 `rm -rf terraform.tfstate`
@@ -40,8 +75,7 @@ Issue: https://github.com/vercel/hyper/issues/3391
 
 == Insufficient Permission in Google Cloud Shell
 
-If you receive an `Insufficient Permission` error in the Google Cloud Shell, you may need to reauthenticate.
-Type `gcloud auth login` and follow the resulting steps.
+If you receive an `Insufficient Permission` error in the Google Cloud Shell, you may need to reauthenticate. Type `gcloud auth login` and follow the resulting steps.
 
 == Project property set to the empty string
 
@@ -56,11 +90,11 @@ Follow the suggested command. Your project name is visible in the Google Cloud S
 
 [source,bash]
 ----
-gcloud config set project MY PROJECT NAME
+gcloud config set project <MY PROJECT NAME>
 Updated property [core/project].prkjnghn@cloudshell:~ 
 ----
 
-Obviously, you change MY PROJECT NAME to your actual project.
+Obviously, you change <MY PROJECT NAME> to your actual project (and leave out the <>).
 
 == API not enabled
 

@@ -1,8 +1,11 @@
-= Lab 04 (Technical) Ansible and Docker
+= Lab 04 Product management
 
 ==  Overview
 
-Ideas:
-
-Fix the bug
-Static file serving
+- Taking a break from the technicalities
+-- (You can catch up now)
+- Take stock of the product and its needs
+- Documenting a vision
+- Develop a backlog
+- Hypothesis testing
+- Feature flags?
