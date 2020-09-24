@@ -103,7 +103,9 @@ So far we've invoked our function to do some simple math. But what happens if ou
 
 * Redeploy your terraform template with these changes.
 
-* Next, navigate to the Google Cloud functions console and find your function. Examine the metrics, but then find active instances metric. You'll likely see that our max number of instances at any given time is one.
+* Next, navigate to the Google Cloud functions console and find your function. You can find the cloud functions console by opening the "hamburger" menu at the top left of your screen and scrolling down to the `compute` seciton. Examine the metrics for your function, but then find active instances metric. You'll likely see that our max number of instances at any given time is one.
+
+image::metrics.png[]
 
 * Now invoke your function again (you may omit the `--data` portion of the call along with the dictionary of numbers, but it won't hurt anything if you leave these in.) Of key importance with this invocation is to set the call as a background job in linux. Do you remember how to do this?
 
