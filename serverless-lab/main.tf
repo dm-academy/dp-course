@@ -25,7 +25,7 @@ resource "google_storage_bucket_object" "code" {
 # Here is our function definition.
 resource "google_cloudfunctions_function" "math_function" {
   name        = "math-function-${random_id.bucket_name_part.hex}"
-  description = "Adds some numbers"
+  description = "Does math and other things"
   runtime     = "python37"
 
   available_memory_mb   = 128
