@@ -90,11 +90,10 @@ Take a screenshot of your function invocation and the resulting output.
 
 * Redeploy your terraform template with these changes
 
-* Now call your function again. The syntax for passing in the two numbers you wish to divide is the same as before.
+* Now call your function again. The syntax for passing in the two numbers you wish to divide is the same as before. Note that it may take just a moment for the new code to run - even though you don't need to manage the swap out of backend infrastructure, Google does.
 
-* Take a screenshot of your function invocaiton and the resulting output.
+* Take a screenshot of your function invocation and the resulting output.
 
-Notice how our new code was available immediately on our next invocation of the function.
 
 === Scale
 
