@@ -1,5 +1,5 @@
 provider "google" {
-  project = "carscraper-219420"
+  project = "{YOUR_PROJECT_ID}"
   region  = "us-central1"
   zone    = "us-central1-c"
 }
@@ -17,9 +17,9 @@ resource "google_storage_bucket" "code_bucket" {
 
 # We push our zipped code file into our bucket
 resource "google_storage_bucket_object" "code" {
-  name   = "sleep.zip"
+  name   = "multiply.zip"
   bucket = google_storage_bucket.code_bucket.name
-  source = "./sleep.zip"
+  source = "./multiply.zip"
 }
 
 # Here is our function definition.
