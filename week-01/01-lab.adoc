@@ -322,7 +322,7 @@ Before we can run our application, we need to create a running environment for i
 
 We are going to use the same commands we used before to do that, but this time, instead of running commands one by one, we'll create a `bash script` to save us some struggle.
 
-In the `01` directory review the bash script `config.sh` to install node, npm, express, and git, and the script `install.sh` to download the app and initialize node.
+In the node-svc directory confirm that the bash script `config.sh` will install node, npm, express, and git, and the script `install.sh` to download the app and initialize node. You may need to modify the script(s).
 
 NOTE: Why two scripts? Discuss in class.
 
@@ -423,7 +423,8 @@ In the 01 directory review the script `deprovision.sh`.
 
 Set permissions correctly if needed (see previous) and execute. You should get results like:
 
-`+bash Deleted [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/zones/us-central1-c/instances/node-svc].
+`+bash Deleted [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/zones/us-central1-c/instances/node-svc-01].
+ Deleted [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/zones/us-central1-c/instances/node-svc-02]
 Deleted [https://www.googleapis.com/compute/v1/projects/proven-sum-252123/global/firewalls/allow-node-svc-tcp-3000].+`
 
 === Save and commit the work
