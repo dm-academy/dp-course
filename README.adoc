@@ -3,5 +3,7 @@ This repository contains labs supporting the Digital Practitioner Body of Knowle
 
 It contains an assortment of text files and some binaries (small images).
 
+
+Hello again, this is a test.  this is a test... Ed Moore
 Hello, this is a test.  This is a test.  Ed Moore
     
