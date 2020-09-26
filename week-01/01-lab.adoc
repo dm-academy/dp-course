@@ -2,6 +2,8 @@
 
 == Prerequisites. == Testing testing ed moore
 
+This is a test.....
+
 Completion of Linux tutorial, and/or abilities to: 
 
 * Navigate the Linux file system (cd, pwd, mkdir, ., .., ~, etc)
