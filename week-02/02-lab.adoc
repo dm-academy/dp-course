@@ -118,7 +118,7 @@ Make sure the template is valid:
 
 [source,bash]
 ----
-$ packer validate ./packer/node-base-image.json
+$ ~/bin/packer validate node-svc-base-image.json
 ----
 
 Did you change the Github project?
