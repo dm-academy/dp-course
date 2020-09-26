@@ -49,7 +49,7 @@ The part of packer responsible for starting a VM and creating an image from it i
 
 So before using packer to create images, we need to define a builder configuration in a JSON file (which is called *template* in Packer terminology).
 
-Review the `node-svc-base-image.json` file inside the `packer` directory with the following content (make sure to change the project ID, and also the zone in case it's different):
+Review the `node-svc-base-image.json` file inside the repo with the following content (make sure to change the project ID, and also the zone in case it's different):
 
 [source,json]
 ----
@@ -70,13 +70,14 @@ Review the `node-svc-base-image.json` file inside the `packer` directory with th
 }
 ----
 
+
 This template describes where and what type of a VM to launch for image creation (`type`, `project_id`, `zone`, `machine_type`, `source_image_family`). It also defines image saving configuration such as under which name (`image_name`) and image family (`image_family`) the resulting image should be saved and what description to give it (`image_description`). SSH user configuration is used by provisioners which will talk about later.
 
 Validate the template:
 
 [source,bash]
 ----
-$ packer validate node-svc-base-image.json
+$ ~/bin/packer validate node-svc-base-image.json
 ----
 
 === Define image provisioner
