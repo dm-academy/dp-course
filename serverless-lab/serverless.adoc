@@ -80,7 +80,7 @@ Note the following:
 * We didn't need an SSH key. Though we made this function public for ease of access we could have limited its permissions solely with code, assigning invoke permissions to certain sets of users in our Google cloud account.
 * There is no configuration around scaling. Google simply handles this for us (more on this in a bit).
 * There is no server image we needed to generate with a tool like packer.
-* We cannot "shell" into the server and examine anything - Google has abstracted it away. Good logging is very important for serverless functions.
+* We cannot "shell" into the server and examine anything - Google has abstracted it away. Good logging is very important for serverless functions since it is the major way to see what is going on with your code - there's no way to sneak a peak at the surrounding system to get clues.
 
 Take a screenshot of your function invocation and the resulting output.
 
@@ -90,7 +90,7 @@ Take a screenshot of your function invocation and the resulting output.
 
 * Redeploy your terraform template with these changes
 
-* Now call your function again. The syntax for passing in the two numbers you wish to divide is the same as before. Note that it may take just a moment for the new code to run - even though you don't need to manage the swap out of backend infrastructure, Google does.
+* Now call your function again. The syntax for passing in the two numbers you wish to divide is the same as before. Note that it may take just a moment for the new code to run - even though you don't need to manage the swap out of backend infrastructure, Google does. Do note, however, that you are not managing this infrastructure swap. Remember that the definition of this function and its code are immutable. So Google is not updating functions while they run - it is letting them expire and using the new function definition on new executions.
 
 * Take a screenshot of your function invocation and the resulting output.
 
