@@ -298,9 +298,6 @@ Make sure Terraform version is  \=> 0.11.0:
 $ terraform -v
 ----
 
-=== Infrastructure as Code project
-
-Create a new directory called `2-terraform` inside your `02` directory, which we'll use to save the work done in this section.
 
 === Describe VM instance
 
@@ -311,7 +308,7 @@ If you want to use Terraform to manage an infrastructure component, you should f
 
 Let's use Terraform syntax to describe a VM instance that we want to be running.
 
-Review the Terraform configuration file called `main.tf` inside the `2-terraform` directory: it includes the following content:
+Review the Terraform configuration file called `main.tf`: it includes the following content:
 
 ----
 resource "google_compute_instance" "node-svc-01" {
@@ -417,7 +414,7 @@ $ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natI
 $ ssh node-user@${NODE_IP_01}
 ----
 
-Check that servce is running, and then exit:
+Check that service is running, and then exit:
 
 [source,bash]
 ----
@@ -643,7 +640,7 @@ Access the application in your browser by its public IP (don't forget to specify
 
 Now, using the knowledge you have, add a second server, node-svc-02, to the Terraform and Ansible files and re-apply them. 
 
-Prove your work by issuing a URL of /20 or above to the microservice on either machine and posting the output to Teams.
+Prove your work by issuing a URL of /20 or above to the microservice on either machine and sending me a screen shot of the output in Teams.
 
 === Save and commit the work
 
