@@ -36,7 +36,7 @@ Check the version to verify that it was installed:
 
 [source,bash]
 ----
-$ packer -v
+$ ~/bin/packer -v
 ----
 
 NOTE: If your Google Cloud Shell goes to sleep before you complete this lab you will need to re-install Packer. We won't be using it much after this lab, so this is not an issue. Try to complete the Packer section in one sitting. 
@@ -129,7 +129,7 @@ Build the image for your application:
 
 [source,bash]
 ----
-$ packer build node-svc-base-image.json
+$ ~/bin/packer build node-svc-base-image.json
 [...lots of output]
 ==> Builds finished. The artifacts of successful builds are:
 --> googlecompute: A disk image was created: node-svc-base-2020-09-05-19-12-17
