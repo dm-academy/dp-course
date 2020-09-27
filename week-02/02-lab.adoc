@@ -142,6 +142,7 @@ If you go to the https://console.cloud.google.com/compute/images[Compute Engine 
 Once the image is built, use it as a boot disk to start a VM:
 
 [source,bash]
+According to the zone that you are using, the boot-disk-size is different. If you use zone as us-central1-c, you change boot-disk-size to 20GB. However, if you use zone as us-central1-a, you do not need to change boot-disk-size. The following instruction command works in us-central1-a.
 ----
 $ gcloud compute instances create node-svc-01 \
     --image-family node-svc-base \
