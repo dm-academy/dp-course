@@ -2,11 +2,11 @@
 
 = Lab 03 Docker, Kubernetes, and your first CD pipeline
 
-Check out branch 03: 
+Check out branch master: 
 
 [source,bash]
 ----
-$ git checkout 03
+$ git checkout master
 ----
 
 Notice how some files disappear. That's right, we won't be using Ansible or Packer any more.
