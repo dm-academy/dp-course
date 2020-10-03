@@ -97,12 +97,12 @@ Once you defined how your image should be built, run the following command insid
 $ docker build -t <yourGoogleID>/node-svc-v1 .
 ----
 
-The resulting image will be named `node-svc`.
+The resulting image will be named `node-svc-v1`.
 Find it in the list of your local images:
 
 [source,bash]
 ----
-$ docker images | grep node-svc
+$ docker images | grep node-svc-v1
 ----
 
 At your option, you can save your build command in a script, such as `build.sh`.
@@ -111,7 +111,7 @@ Now, run the container:
 
 [source,bash]
 ----
-$ docker run -d -p 8081:3000 <yourGoogleID>/node-svc
+$ docker run -d -p 8081:3000 <yourGoogleID>/node-svc-v1
 ----
 
 Notice the "8081:3000" syntax.
