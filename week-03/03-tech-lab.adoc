@@ -180,7 +180,7 @@ As of fall 2020, the Google Cloud Shell versions of Terraform and the Google Clo
 
 [source,bash]
 ----
-$ upgrade-terraform.sh
+$ update-terraform.sh
 ----
 
 This installs Terraform 13 in your local ~/bin directory. 
