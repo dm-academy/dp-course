@@ -41,12 +41,11 @@ If you get an `offending ECDSA key` error, use the suggested removal command.
 
 If you get the error `Permission denied (publickey).`, this probably means that your ssh-agent no longer has the node-user private key added. This easily happens if the Google Cloud Shell goes to sleep and wipes out your session. Check via issuing `ssh-add -l`.
 
-If you get a message to the effect that your agent is not running, type `eval `ssh-agent`` and then `ssh-add -l`.
+If you get a message to the effect that your agent is not running, type `eval `ssh-agent`` and then `ssh-add ~/.ssh/node-user`.
 
-You should see something like `2048 SHA256:bII5VsQY3fCWXEai0lUeChEYPaagMXun3nB9U2eoUEM /home/betz4871/.ssh/node-user (RSA)`.
-If you do not, re-issue the command `ssh-add ~/.ssh/node-user` and re-confirm with `ssh-add -l`.
+You should see something like `Identity added: /home/user/.ssh/node-user (node-user)`.
 
-Offending ECDSA key or Permission denied (publickey)
+You should now be able to ssh, scp, or rsh. 
 
 == Terraform error refreshing state
 
