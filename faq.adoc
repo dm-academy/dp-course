@@ -118,15 +118,19 @@ See https://docs.github.com/en/github/using-git/changing-a-remotes-url[this link
 
 == npm ERR! 
 if when trying to execute `docker build ` you get 
-````
+
+[source,bash]
+----
 npm ERR! cb() never called!npm ERR! This is an error with npm itself. 
 Please report this error at:npm ERR! <https://npm.community>npm ERR!
 A complete log of this run can be found in:npm ERR! /root/.npm/_logs/2020-10-03T00_39_43_328Z-debug.log
-````
+----
 
 follow these instructions: 
 
-````
+[source,bash]
+----
 sudo npm cache clean --force
 rm package-lock.json
 rm -rf node_modules
+----
