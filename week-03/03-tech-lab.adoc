@@ -111,7 +111,7 @@ Now, run the container:
 
 [source,bash]
 ----
-$ docker run -d -p 8081:3000 <yourGoogleID>/node-svc-v1
+docker run -d -p 8081:30100 level-research-289323/node-svc-v1
 ----
 
 Notice the "8081:3000" syntax.
