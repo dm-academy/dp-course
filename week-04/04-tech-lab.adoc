@@ -4,6 +4,8 @@
 
 - Upping our Git collaboration
 
+Important: To continue with Git, you MUST have ssh configured. If you are still typing in a username and password, you must go back to lab 00 and complete the ssh section. 
+
 Up until now, we have been somewhat haphazard and basic with our usage of git and Github, just as a startup with a couple of individuals might be -- primarily using it as a repository/archive, but not very effectively as a collaboration tool. 
 
 In particular we have been using this basic approach: 
