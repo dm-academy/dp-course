@@ -22,7 +22,15 @@ There are two ways we can solve this.
 
 We will go with option #2. 
 
-In order to proceed with #2, we need to better understand the concept of a git "remote." Git is a powerful tool for distributed collaboration on complex software projects, and therefore itself is complex. A "remote" 
+In order to proceed with #2, we need to better understand the concept of a git "remote." Git is a powerful tool for distributed collaboration on complex software projects, and therefore itself is complex. 
+
+According to https://www.git-tower.com/, "A remote in Git is a common repository that all team members use to exchange their changes. In most cases, such a remote repository is stored on a code hosting service like GitHub or on an internal server."
+
+What this does not mention is that a git repository can have _multiple_ remotes. Your local clone on the Google Cloud Shell has, as a remote, the fork you created in Github. This is its origin.  Now, you are going to set as your _upstream_ remote the original source repository you cloned from as a template. 
+
+(This lab is based on these instructions: https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork.)
+
+
 
 One of the major focuses of this lab will be to 
 
