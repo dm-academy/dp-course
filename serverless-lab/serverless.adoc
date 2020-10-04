@@ -123,7 +123,9 @@ You should still tear down your resources.
 
 == Discuss
 
-Are there situations where serverless is not appropriate? As one hint, keep in mind that most FaaS providers limit the maximum time a function invocation can run. Google, for instance, caps this at nine minutes. Amazon Web Services will stop your function at 15 minutes.
+* Are there situations where serverless is not appropriate? As one hint, keep in mind that most FaaS providers limit the maximum time a function invocation can run. Google, for instance, caps this at nine minutes. Amazon Web Services will stop your function at 15 minutes.
+
+* There's really no such thing as "serverless" - it's just a fancy term for handing off more of your infrastructure management to someone else. At the bottom, there's always a server. If you had to take a guess, what general infrastructure pattern that we've learned about backs a function as a service.
 
 == Submit
 
