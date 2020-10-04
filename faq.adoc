@@ -132,4 +132,8 @@ follow these instructions:
 sudo npm cache clean --force
 rm package-lock.json
 rm -rf node_modules
-----
+---
+
+In the zone, boot-disk-size is different from each other. If you use zone as us-central1-c, you change boot-disk-size to 20GB. However, if you use zone as us-central1-a, you do not need to change boot-disk-size. The following instruction command works in us-central1-a.
+
+-
