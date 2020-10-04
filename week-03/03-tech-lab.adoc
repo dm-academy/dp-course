@@ -2,11 +2,11 @@
 
 = Lab 03 Docker, Kubernetes, and your first CD pipeline
 
-Check out branch 03: 
+Check out branch master: 
 
 [source,bash]
 ----
-$ git checkout 03
+$ git checkout master
 ----
 
 Notice how some files disappear. That's right, we won't be using Ansible or Packer any more.
@@ -34,6 +34,7 @@ They have some significant advantages over VMs in terms of implementing Immutabl
 Let's try to implement *Immutable Infrastructure* model with Docker containers, while paying special attention to the *Dockerfile* part as a way to practice *Infrastructure as Code* approach.
 
 === The Dockerfile
+Open and review the file called Dockerfile in the node-svc master branch. 
 
 You describe a container image that you want to create in a special file called *Dockerfile*.
 
@@ -97,12 +98,12 @@ Once you defined how your image should be built, run the following command insid
 $ docker build -t <yourGoogleID>/node-svc-v1 .
 ----
 
-The resulting image will be named `node-svc`.
+The resulting image will be named `node-svc-v1`.
 Find it in the list of your local images:
 
 [source,bash]
 ----
-$ docker images | grep node-svc
+$ docker images | grep node-svc-v1
 ----
 
 At your option, you can save your build command in a script, such as `build.sh`.
@@ -111,7 +112,7 @@ Now, run the container:
 
 [source,bash]
 ----
-$ docker run -d -p 8081:3000 <yourGoogleID>/node-svc
+docker run -d -p 8081:30100 level-research-289323/node-svc-v1
 ----
 
 Notice the "8081:3000" syntax.
@@ -180,7 +181,7 @@ As of fall 2020, the Google Cloud Shell versions of Terraform and the Google Clo
 
 [source,bash]
 ----
-$ upgrade-terraform.sh
+$ update-terraform.sh
 ----
 
 This installs Terraform 13 in your local ~/bin directory. 

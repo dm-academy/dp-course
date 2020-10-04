@@ -41,12 +41,11 @@ If you get an `offending ECDSA key` error, use the suggested removal command.
 
 If you get the error `Permission denied (publickey).`, this probably means that your ssh-agent no longer has the node-user private key added. This easily happens if the Google Cloud Shell goes to sleep and wipes out your session. Check via issuing `ssh-add -l`.
 
-If you get a message to the effect that your agent is not running, type `eval `ssh-agent`` and then `ssh-add -l`.
+If you get a message to the effect that your agent is not running, type `eval `ssh-agent`` and then `ssh-add ~/.ssh/node-user`.
 
-You should see something like `2048 SHA256:bII5VsQY3fCWXEai0lUeChEYPaagMXun3nB9U2eoUEM /home/betz4871/.ssh/node-user (RSA)`.
-If you do not, re-issue the command `ssh-add ~/.ssh/node-user` and re-confirm with `ssh-add -l`.
+You should see something like `Identity added: /home/user/.ssh/node-user (node-user)`.
 
-Offending ECDSA key or Permission denied (publickey)
+You should now be able to ssh, scp, or rsh. 
 
 == Terraform error refreshing state
 
@@ -115,3 +114,22 @@ When starting up the nodejs server with `nodejs server.js &` you may encounter a
 
 == Switching Github remote from http (cleartext password) to ssh
 See https://docs.github.com/en/github/using-git/changing-a-remotes-url[this link.]
+
+== npm ERR! 
+if when trying to execute `docker build ` you get 
+
+[source,bash]
+----
+npm ERR! cb() never called!npm ERR! This is an error with npm itself. 
+Please report this error at:npm ERR! <https://npm.community>npm ERR!
+A complete log of this run can be found in:npm ERR! /root/.npm/_logs/2020-10-03T00_39_43_328Z-debug.log
+----
+
+follow these instructions: 
+
+[source,bash]
+----
+sudo npm cache clean --force
+rm package-lock.json
+rm -rf node_modules
+----
