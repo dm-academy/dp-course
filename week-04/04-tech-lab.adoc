@@ -2,6 +2,30 @@
 
 ==  Overview
 
+- Upping our Git collaboration
+
+Up until now, we have been somewhat haphazard and basic with our usage of git and Github, just as a startup with a couple of individuals might be -- primarily using it as a repository/archive, but not very effectively as a collaboration tool. 
+
+In particular we have been using this basic approach: 
+
+(graphic)
+
+There are two problems with this approach: 
+
+1. We have to go to the Github GUI to issue a pull request, which breaks flow from our command line work. 
+2. There is no convenient way to pull updates from upstream into our local repo. 
+
+There are two ways we can solve this. 
+
+1. I could make you all members of my Github project. This is too much administration for me every semester. 
+2. We can continue to have you fork and then clone (as you would if you were participating in an open source project for which you were not yet a committer) but set things up so that you can do it all from the command line. 
+
+We will go with option #2. 
+
+In order to proceed with #2, we need to better understand the concept of a git "remote." Git is a powerful tool for distributed collaboration on complex software projects, and therefore itself is complex. A "remote" 
+
+One of the major focuses of this lab will be to 
+
 - Taking a break from the technicalities
 -- (You can catch up now)
 - Take stock of the product and its needs
