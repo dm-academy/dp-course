@@ -153,10 +153,14 @@ $ gcloud compute instances create node-svc-01 \
 
 NOTE: We will only deploy to one VM this time. 
 
-From your current location, copy last session's installation script to the VM:
+Inspect the file `install-node-svc.sh` (that is, `cat install-node-svc.sh`). What does it do? 
 
-$ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances describe node-svc-01) 
-$ scp -r ../../01/install.sh node-user@${NODE_IP_01}:/home/node-user
+Run it. You should see that it: 
+
+* Made a directory on your VM
+* Copied the application files
+* installed the app
+* ran it. 
 
 Connect to the VM via SSH:
 
@@ -177,17 +181,6 @@ node-user@node-svc:~$ npm -v
 node-user@node-svc:~$ node -v
 v10.19.0
 ----
-
-Run the installation script, and then the server:
-
-[source,bash]
-----
-$ chmod +x *.sh
-$ sudo ./install.sh
-$ sudo nodejs node-svc/server.js 
-----
-
-NOTE: This time we did not include the `&`. This means the console of the server will keep sending output to the command line. You can open more command windows to run additional commands. 
 
 === Access Application
 
@@ -305,9 +298,6 @@ Make sure Terraform version is  \=> 0.11.0:
 $ terraform -v
 ----
 
-=== Infrastructure as Code project
-
-Create a new directory called `2-terraform` inside your `02` directory, which we'll use to save the work done in this section.
 
 === Describe VM instance
 
@@ -318,7 +308,7 @@ If you want to use Terraform to manage an infrastructure component, you should f
 
 Let's use Terraform syntax to describe a VM instance that we want to be running.
 
-Review the Terraform configuration file called `main.tf` inside the `2-terraform` directory: it includes the following content:
+Review the Terraform configuration file called `main.tf`: it includes the following content:
 
 ----
 resource "google_compute_instance" "node-svc-01" {
@@ -424,7 +414,7 @@ $ NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[0].natI
 $ ssh node-user@${NODE_IP_01}
 ----
 
-Check that servce is running, and then exit:
+Check that service is running, and then exit:
 
 [source,bash]
 ----
@@ -650,7 +640,7 @@ Access the application in your browser by its public IP (don't forget to specify
 
 Now, using the knowledge you have, add a second server, node-svc-02, to the Terraform and Ansible files and re-apply them. 
 
-Prove your work by issuing a URL of /20 or above to the microservice on either machine and posting the output to Teams.
+Prove your work by issuing a URL of /20 or above to the microservice on either machine and sending me a screen shot of the output in Teams.
 
 === Save and commit the work
 

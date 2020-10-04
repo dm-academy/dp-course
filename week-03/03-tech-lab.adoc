@@ -2,11 +2,11 @@
 
 = Lab 03 Docker, Kubernetes, and your first CD pipeline
 
-Check out branch 03: 
+Check out branch master: 
 
 [source,bash]
 ----
-$ git checkout 03
+$ git checkout master
 ----
 
 Notice how some files disappear. That's right, we won't be using Ansible or Packer any more.
@@ -34,6 +34,7 @@ They have some significant advantages over VMs in terms of implementing Immutabl
 Let's try to implement *Immutable Infrastructure* model with Docker containers, while paying special attention to the *Dockerfile* part as a way to practice *Infrastructure as Code* approach.
 
 === The Dockerfile
+Open and review the file called Dockerfile in the node-svc master branch. 
 
 You describe a container image that you want to create in a special file called *Dockerfile*.
 
