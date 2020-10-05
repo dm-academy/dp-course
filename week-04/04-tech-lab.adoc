@@ -32,6 +32,27 @@ What this does not mention is that a git repository can have _multiple_ remotes.
 
 (This lab is based on these instructions: https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork.)
 
+So, let's configure remotes for both dp-course and node-svc. 
+
+Go to your `repos` directory (or wherever you have put the repos). Enter (`cd`) into the dp-course repo, which you should have cloned down in Lab 00. 
+
+At the command prompt, enter: 
+
+`git remote add upstream https://github.com/dm-academy/dp-course`
+
+This adds the original repo as the upstream remote. You still have the master remote, under _your_ GitHub account. 
+
+Let's synch things up: 
+
+`git fetch upstream`
+
+
+
+
+
+
+
+== more
 
 
 One of the major focuses of this lab will be to 
