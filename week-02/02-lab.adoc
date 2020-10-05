@@ -148,6 +148,15 @@ $ gcloud compute instances create node-svc-01 \
     --boot-disk-size 10GB \
     --machine-type f1-micro
 ----
+In the zone, boot-disk-size is different from each other. If you use zone as us-central1-c, you change boot-disk-size to 20GB. However, if you use zone as us-central1-a, you do not need to change boot-disk-size. The above instruction command works in us-central1-a. If you use us-central1-c zone, you need to change the following:
+[source,bash]
+----
+gcloud compute instances create node-svc-01 \
+    --image-family node-svc-base \
+    --boot-disk-size 20GB \
+    --machine-type f1-micro
+----
+
 
 === Deploy Application
 
