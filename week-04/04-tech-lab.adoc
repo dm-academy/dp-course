@@ -8,7 +8,17 @@ Important: To continue with Git, you MUST have ssh configured. If you are still 
 
 NOTE: I thought the Github template functionality would be more efficient, as it does not include history. But this causes more issues than it solves. So, for Fall 2020 *only*, we need to archive our working repositories and re-clone, NOT as templates.
 
+To fix this: 
 
+You should have two repositories at this point, a copy of dp-course (the course repo, what you are reading right now) and a copy of node-svc that you forked from a template and renamed using your St. Thomas ID. 
+
+The copy of node-svc is the problem. It doesn't share a history with node-svc which means it's hard to sync them up. 
+
+You may have some useful work in your existing repository, so we want to save it locally but delete it on Github. So, 
+
+* Leave it in your local `repos` directory on the Google Cloud Shell as named
+* But on Github, go to your account and go into the repository <my St Thomas ID>-SEIS664 (or whatever you called it), go into its Settings, scroll all the way down, and *delete* it. You will have to re-type the repository name and re-enter your password. 
+* Then, 
 
 === Setting upstream remote
 
@@ -69,17 +79,24 @@ The overall architecture now looks like this (notice 6 and 7):
 
 image:images/Github-v2.png[]
 
-https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork
-https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/syncing-a-fork
+=== Further reading
 
-https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork
+* https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork
 
-https://www.freecodecamp.org/news/how-to-delete-a-git-branch-both-locally-and-remotely/
+* https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/syncing-a-fork
 
-https://www.freecodecamp.org/news/git-pull-force-how-to-overwrite-local-changes-with-git/ 
+* https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork
+
+* https://www.freecodecamp.org/news/how-to-delete-a-git-branch-both-locally-and-remotely/
+
+* https://www.freecodecamp.org/news/git-pull-force-how-to-overwrite-local-changes-with-git/ 
+
+== Github issues, branches, and pull requests
 
 
-== more
+
+
+== Taking stock
 
 
 One of the major focuses of this lab will be to 

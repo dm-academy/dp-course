@@ -381,7 +381,7 @@ After Terraform ran successfully, use a gcloud command to verify that the machin
 
 [source,bash]
 ----
-$ gcloud compute instances describe node-svc
+$ gcloud compute instances describe node-svc-01
 ----
 
 === Deploy Application
