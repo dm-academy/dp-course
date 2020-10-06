@@ -30,3 +30,5 @@ override.tf.json
 
 *.DS_Store
 ~*
+
+/.vscode
