@@ -445,9 +445,11 @@ Use any of your nodes public IP addresses and the node port `30100` which we spe
 
 Or, if you like, just issue the appropriate curl command. 
 
+Take a screenshot of the results and submit to the lab assignment. 
+
 === Save and commit the work
 
-Save and commit the `kubernetes` folder created in this section into your `iac-tutorial` repo.
+Save and commit the `kubernetes` folder created in this section into your `iac-tutorial` repo. If you are going to take a break, you probably should destroy your Kubernetes cluster. 
 
 === Conclusion
 
@@ -590,6 +592,9 @@ NOTE: Keep the service account key in a secure location, such as a password mana
 
 Once you have this configured, the pipeline should run whenever you make a change to server.js. Try changing the output of `app.get('/0?'..` as suggested in the code comments.
 
+=== Submitting evidence
+
+Take a screenshot of the pipeline page showing that it has successfully run all steps, and a screen shot showing a /20 or greater call to the microservices running on the Kubernetes cluster. 
 
 === Destroy the cluster
 
