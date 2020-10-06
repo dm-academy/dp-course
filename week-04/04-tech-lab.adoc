@@ -1,21 +1,24 @@
 = Lab 04 Product management
 
-==  Overview
-
-- Upping our Git collaboration
+==  Upping our Git collaboration
 
 Important: To continue with Git, you MUST have ssh configured. If you are still typing in a username and password, you must go back to lab 00 and complete the ssh section. 
+
+=== Re-cloning, NOT as a template
+
+NOTE: I thought the Github template functionality would be more efficient, as it does not include history. But this causes more issues than it solves. So, for Fall 2020 *only*, we need to archive our working repositories and re-clone, NOT as templates.
+
+
+
+=== Setting upstream remote
 
 Up until now, we have been somewhat haphazard and basic with our usage of git and Github, just as a startup with a couple of individuals might be -- primarily using it as a repository/archive, but not very effectively as a collaboration tool. 
 
 In particular we have been using this basic approach: 
 
-(graphic)
+image:../week-00/images/github-arch.png[]
 
-There are two problems with this approach: 
-
-1. We have to go to the Github GUI to issue a pull request, which breaks flow from our command line work. 
-2. There is no convenient way to pull updates from upstream into our local repo. 
+The problem with this approach is that there is no convenient way to pull updates from upstream into our local repo. 
 
 There are two ways we can solve this. 
 
@@ -40,16 +43,39 @@ At the command prompt, enter:
 
 `git remote add upstream https://github.com/dm-academy/dp-course`
 
-This adds the original repo as the upstream remote. You still have the master remote, under _your_ GitHub account. 
+This adds the original repo as the `upstream` remote. You still have the `origin remote`, under _your_ GitHub account. 
+
+I have done so using a test Github account called CharlesTBetz-test. I can see the result thus: 
+
+[source,bash]
+----
+betz4871:node-svc$ git remote -v
+origin  git@github.com:CharlesTBetz-test/node-svc.git (fetch)
+origin  git@github.com:CharlesTBetz-test/node-svc.git (push)
+upstream        https://github.com/dm-academy/dp-course (fetch)
+upstream        https://github.com/dm-academy/dp-course (push)
+betz4871:node-svc$
+----
+
+Notice there is both an `origin` and `upstream` remote. Examine the URLs for each. One points to the dm-academy master repo, the other points to its forked replica on my test account. 
 
 Let's synch things up: 
 
-`git fetch upstream`
+`git pull upstream master`
 
+Unless you have changed your local copy, or upstream has changed since you forked and cloned, this should indicate that everything is up to date. 
 
+The overall architecture now looks like this (notice 6 and 7):
+
+image:images/Github-v2.png[]
 
 https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork
 https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/syncing-a-fork
+
+https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork
+
+https://www.freecodecamp.org/news/how-to-delete-a-git-branch-both-locally-and-remotely/
+
 https://www.freecodecamp.org/news/git-pull-force-how-to-overwrite-local-changes-with-git/ 
 
 
