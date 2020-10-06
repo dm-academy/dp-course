@@ -131,13 +131,7 @@ IMPORTANT: It is convenient to sync your online git repo with upstream by just p
 
 * https://www.freecodecamp.org/news/git-pull-force-how-to-overwrite-local-changes-with-git/ 
 
-== Github issues, branches, and pull requests
-
-
-
-
 == Taking stock
-
 
 One of the major focuses of this lab will be to 
 
@@ -148,3 +142,7 @@ One of the major focuses of this lab will be to
 - Develop a backlog
 - Hypothesis testing
 - Feature flags?
+
+== Github issues, branches, and pull requests
+
+Now that we have discussed the overall vision for the course repositories, we are going to start using Github issues to communicate more, instead of relying on Teams for everything. If you think you have discovered a problem in a lab, you should file a Github issue. To finish this lab, follow this example, or preferably come up with your own improvement to the course materials.  
