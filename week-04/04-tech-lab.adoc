@@ -133,16 +133,40 @@ IMPORTANT: It is convenient to sync your online git repo with upstream by just p
 
 == Taking stock
 
-One of the major focuses of this lab will be to 
-
-- Taking a break from the technicalities
--- (You can catch up now)
-- Take stock of the product and its needs
-- Documenting a vision
-- Develop a backlog
-- Hypothesis testing
-- Feature flags?
+In the remainder of this lab, we will take a bit of a break from the technicalities and spend some time reviewing the overall vision for the course as a product, and expanding out Github skills. 
 
 == Github issues, branches, and pull requests
 
-Now that we have discussed the overall vision for the course repositories, we are going to start using Github issues to communicate more, instead of relying on Teams for everything. If you think you have discovered a problem in a lab, you should file a Github issue. To finish this lab, follow this example, or preferably come up with your own improvement to the course materials.  
+Now that we have discussed the overall vision for the course repositories, we are going to start using Github issues to communicate more, instead of relying on Teams for everything. If you think you have discovered a problem in a lab, you should file a Github issue. To finish this lab, follow this example, or preferably come up with your own improvement to the course materials. 
+
+Here are the steps for filing a Github issue, and fixing it via a branch and pull request. 
+
+Let's say I'm looking at a local clone of 
+
+https://github.com/CharlesTBetz-test/node-svc
+
+which is a fork of 
+
+https://github.com/dm-academy/node-svc. 
+
+At this writing, I see: 
+
+[source, bash]
+----
+provider "google" {
+  version = "~> 3.37.0"
+  project = "proven-sum-252123"
+  region  = "us-central1-c"
+}
+----
+
+I do not like this, my Google project ID should not appear here. But for the purposes of this exercise, I am not just going to fix it directly. I am going to raise an issue, assign it to myself, fix it, and submit a pull request to ... me!
+
+In other words, I am operating first as "CharlesTBetz-test" which is a Github account I creaated that has no more rights than any of you. Acting as such, I have forked the master dm-academy/node-svc repo and cloned it down to my Google Cloud Shell. 
+
+So, how do I let the open source project know it should not be using my personal project ID? Rather than making a technical change, I am first going to communicate that we have a problem. 
+
+This is an important step now that we are operating as a team. What I think is a problem, might not be. Someone else might already be working on it. So it is very important to communicate before starting technical work. 
+
+
+
