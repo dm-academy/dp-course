@@ -162,11 +162,62 @@ provider "google" {
 
 I do not like this, my Google project ID should not appear here. But for the purposes of this exercise, I am not just going to fix it directly. I am going to raise an issue, assign it to myself, fix it, and submit a pull request to ... me!
 
-In other words, I am operating first as "CharlesTBetz-test" which is a Github account I creaated that has no more rights than any of you. Acting as such, I have forked the master dm-academy/node-svc repo and cloned it down to my Google Cloud Shell. 
+In other words, I am operating first as "CharlesTBetz-test" which is a Github account I created that has no more rights than any of you. Acting as such, I have forked the master dm-academy/node-svc repo and cloned it down to my Google Cloud Shell. 
 
 So, how do I let the open source project know it should not be using my personal project ID? Rather than making a technical change, I am first going to communicate that we have a problem. 
 
 This is an important step now that we are operating as a team. What I think is a problem, might not be. Someone else might already be working on it. So it is very important to communicate before starting technical work. 
+
+=== Create an issue 
+I can't create an issue on a forked repo; I can only create an issue on the original. So I go to 
+
+https://github.com/dm-academy/node-svc,
+
+click on "Issues"  
+
+image:images/issues.png[]
+
+and then the "New Issue" button that appears on the right. 
+
+image:images/issueBtn.png[]
+
+I document my issue:
+
+image:images/providersIssue.png[]
+
+(Note that the issue appears as a word bubble coming from my icon as CharlesTBetz-test.)
+
+I took a screen shot and pasted it in. It appears as the ![image]... line. Nice feature. 
+
+I click "Submit new issue." 
+
+=== Assign it
+
+As a non-member of the node-svc project  (CharlesTBetz-test) I cannot assign the issue to myself. So I switch to my "real" account, CharlesTBetz, and open the issue: 
+
+image:images/issueViewedByMaintainer.png[]
+
+Notice top right the small picture of my face - this lets me know I am accessing as CharlesTBetz, not CharlesTBetz-test. 
+
+I click on Assignees and see that I can assign either of my personas. I choose CharlesTBetz-test. 
+
+image:images/assign.png[]
+
+(I will have to do this for each of you, until I assign some additional committers or maintainers)
+
+=== Create a branch
+
+NOTE: We've been using Gitlab for the Open Group which allows the immediate creation of a branch on creation of an issue. Github doesn't do this, which I see as a disadvantage. 
+
+Now that I've been assigned the issue, I am going to create a local branch.
+
+=== Create a pull request
+
+=== Merge it (as committer) and clean up
+
+Assignment: Using what you have learned above, find some small thing to fix in either dp-course or node-svc. It can be as simple as fixing a mis-spelling or grammar, or adding some clarifying language. If you truly cannot find anything to improve, just subsitute a synonym for some work in dp-course. 
+
+Optionally, you may also raise an issue, branch, and pull request on the https://gitlab.com/theopengroup/dpbok-community-edition[community edition of the DPBoK]. I will grant extra credit for this. 
 
 
 
