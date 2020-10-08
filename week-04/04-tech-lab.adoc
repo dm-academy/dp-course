@@ -1,8 +1,10 @@
 = Lab 04 Product management
 
+This is an unusual lab, as it includes a transition in our way of working with Github that will become the basis of the course going forward (next year, the class will start with the updated approach.) But operational changes are routine in IT organizations and so this is consistent with the course's overall educational objectives. 
+
 ==  Upping our Git collaboration
 
-Important: To continue with Git, you MUST have ssh configured. If you are still typing in a username and password, you must go back to lab 00 and complete the ssh section. Note that this section was enhanced since week 00. Do NOT do anything else until you have successfully set up ssh. 
+To continue with Git, you MUST have ssh configured. If you are still typing in a username and password, you must go back to lab 00 and complete the ssh section. Note that this section was enhanced since week 00. Do NOT do anything else until you have successfully set up ssh. 
 
 IMPORTANT: Because (fall 2020) many of you did not complete configuring ssh for github, I am requiring that you upload the output of this command: 
 
@@ -49,23 +51,27 @@ NOTE: I thought the Github template functionality would be more efficient, as it
 
 To fix this: 
 
-You should have two repositories at this point, a copy of dp-course (the course repo, what you are reading right now) and a copy of node-svc that you forked from a template and renamed using your St. Thomas ID. 
+You should have two repositories at this point, a forked copy of dp-course (the course repo, what you are reading right now) and a copy of node-svc that you forked from a template and renamed using your St. Thomas ID. 
 
-The copy of node-svc is the problem. It doesn't share a history with node-svc which means it's hard to sync them up. 
+The forking is the problem. It adds overhead to synching up the repos and in particular node-svc used the template functionality which further complicates things. 
 
-You may have some useful work in your existing repository, so we want to save it locally but delete it on Github. So, 
+You may have some useful work in your existing repositories, so we want to save them locally but delete it on Github. So, 
 
-* Leave it in your local `repos` directory on the Google Cloud Shell as named
+* Leave them in your local `repos` directory on the Google Cloud Shell as named
 * But on Github, go to your account and go into the repository <my St Thomas ID>-SEIS664 (or whatever you called it), go into its Settings, scroll all the way down, and *delete* it. You will have to re-type the repository name and re-enter your password. 
 * Do the same for your fork of dp-course. 
-* Then, go to https://github.com/dm-academy/node-svc and copy the clone address and git clone to your local `repos` directory on Google Cloud Shell. 
+* Then, go to https://github.com/dm-academy/node-svc and copy the clone address and git clone DIRECTLY to your local `repos` directory on Google Cloud Shell. 
 * Do this also for https://github.com/dm-academy/dp-course. 
 
-You now have two repos that you can directly create issues, branches, and pull requests for. However, you *cannot* directly push to master; I (or another administrator) have to review and approve the pull request. This is the most common way of managing collaboration with git and derivative platforms; forking is not as commonly used, especially in organizational contexts (it's mostly an open source thing).  
+You now have two repos that you can directly create issues, branches, and pull requests for. This is the most common way of managing collaboration with git and derivative platforms; forking is not as commonly used, especially in organizational contexts (it's mostly an open source thing).  
+
+IMPORTANT: You *cannot* directly push to master; I (or another administrator) have to review and approve the pull request. 
 
 == Taking stock
 
 In the remainder of this lab, we will take a bit of a break from the technicalities and spend some time reviewing the overall vision for the course as a product, and expanding out Github skills. 
+
+Then we will spend the rest of the lab honing our Git skills. 
 
 == Github issues, branches, and pull requests
 
@@ -75,11 +81,7 @@ Here are the steps for filing a Github issue, and fixing it via a branch and pul
 
 Let's say I'm looking at a local clone of 
 
-https://github.com/CharlesTBetz-test/node-svc
-
-which is a fork of 
-
-https://github.com/dm-academy/node-svc. 
+https://github.com/dm-academy/node-svc
 
 At this writing, I see: 
 
@@ -94,14 +96,14 @@ provider "google" {
 
 I do not like this, my Google project ID should not appear here. But for the purposes of this exercise, I am not just going to fix it directly. I am going to raise an issue, assign it to myself, fix it, and submit a pull request to ... me!
 
-In other words, I am operating first as "CharlesTBetz-test" which is a Github account I created that has no more rights than any of you. Acting as such, I have forked the master dm-academy/node-svc repo and cloned it down to my Google Cloud Shell. 
+In other words, I am operating first as "CharlesTBetz-test" which is a Github account I created that has no more rights than any of you. Acting as such, I have cloned dm-academy/node-svc repo down to my Google Cloud Shell, and I am only logged into my ssh agent with the private key associated with CharlesTBetz-test. 
 
-So, how do I let the open source project know it should not be using my personal project ID? Rather than making a technical change, I am first going to communicate that we have a problem. 
+So, how do I let the project know it should not be using my personal project ID? Rather than making a technical change, I am first going to communicate that we have a problem. 
 
 This is an important step now that we are operating as a team. What I think is a problem, might not be. Someone else might already be working on it. So it is very important to communicate before starting technical work. 
 
 === Create an issue 
-I can't create an issue on a forked repo; I can only create an issue on the original. So I go to 
+First, I go to 
 
 https://github.com/dm-academy/node-svc,
 
@@ -121,21 +123,29 @@ image:images/providersIssue.png[]
 
 I took a screen shot and pasted it in. It appears as the ![image]... line. Nice feature. 
 
+I see on the right I can assign an owner ("Assignees"):
+
+image:images/assignees.png[]
+
+
+
 I click "Submit new issue." 
 
 === Assign it
 
-As a non-member of the node-svc project  (CharlesTBetz-test) I cannot assign the issue to myself. So I switch to my "real" account, CharlesTBetz, and open the issue: 
+Since I (as CharlesTBetz-test) belong to the dm-academy/node-svc repo with sufficient privileges, I can assign the issue to myself. 
 
 image:images/issueViewedByMaintainer.png[]
 
 Notice top right the small picture of my face - this lets me know I am accessing as CharlesTBetz, not CharlesTBetz-test. 
 
-I click on Assignees and see that I can assign either of my personas. I choose CharlesTBetz-test. 
+I click on Assign Myself, and I am assigned. 
 
-image:images/assign.png[]
+image:images/assign.png[] 
 
-(I will have to do this for each of you, until I assign some additional committers or maintainers)
+image:images/assigned.png[]
+
+
 
 === Create a branch
 
