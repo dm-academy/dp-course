@@ -135,29 +135,104 @@ I click "Submit new issue."
 
 Since I (as CharlesTBetz-test) belong to the dm-academy/node-svc repo with sufficient privileges, I can assign the issue to myself. 
 
-image:images/issueViewedByMaintainer.png[]
-
-Notice top right the small picture of my face - this lets me know I am accessing as CharlesTBetz, not CharlesTBetz-test. 
+image:images/providersIssue.png[]
 
 I click on Assign Myself, and I am assigned. 
 
-image:images/assign.png[] 
+image:images/assignees.png[]
 
-image:images/assigned.png[]
+I click on Submit New Issue: 
 
+image:images/submit.png[]
 
+and the issue is created. 
+
+It is also possible to create an issue directly out of Teams, using "chatops" techniques. We will cover this subsequently. 
 
 === Create a branch
 
 NOTE: We've been using Gitlab for the Open Group which allows the immediate creation of a branch on creation of an issue. Github doesn't do this, which I see as a disadvantage. 
 
-Now that I've been assigned the issue, I am going to create a local branch.
+Now that I've been assigned the issue, I am going to create a local branch. I could do this on the website as well. 
 
-=== Create a pull request
+I leave the Github UI and go to my Google Cloud Shell, where in the repos/node-svc direcgory I type: 
 
-=== Merge it (as committer) and clean up
+[source, bash]
+----
+`$ git checkout -b provider-fix`
+Switched to a new branch 'provider-fix'
+----
 
-Assignment: Using what you have learned above, find some small thing to fix in either dp-course or node-svc. It can be as simple as fixing a mis-spelling or grammar, or adding some clarifying language. If you truly cannot find anything to improve, just subsitute a synonym for some work in dp-course. 
+I could also have created the branch first via `git branch` and then checked it out. The -b flag lets me do both. 
+
+Now, I can fix the issue. 
+
+$ nano providers.tf
+
+image:images/providerFix.png[]
+
+(This fix will cause other issues.)
+
+=== Commit, push, and create a pull request
+
+Now, it's time to commit, push, and create a pull request: 
+
+[source, bash]
+----
+$ git add . -A
+$ git commit -m "fixes issue #16"
+[provider-fix 8d1ed0a] fixes issue #16
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+$ git push origin master
+Everything up-to-date
+----
+Oops, that was a mistake. We need to git push origin <branch name.
+
+[source,bash]
+----
+$ git push origin provider-fix
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 367 bytes | 367.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote:
+remote: Create a pull request for 'provider-fix' on GitHub by visiting:
+remote:      https://github.com/dm-academy/node-svc/pull/new/provider-fix
+remote:
+To github.com:dm-academy/node-svc.git
+ * [new branch]      provider-fix -> provider-fix
+----
+
+Now, if I go to github and look at the providers.sh file:
+
+image:images/oldProviders.png[]
+
+it's not fixed. 
+
+BUT ... look at the branches. Aha, I was still on master: 
+
+image:images/branches.png[]
+
+Switch to "provider-fix" and it's fixed: 
+
+image:images/fixed.png[]
+
+But how do I get it into master? I need to issue a *pull request* to me as the maintainer. Fortunately, if I look above at my console output when I did the git push -- very nice, Github has given us a very cool link to go and create a pull request (). I paste it into my browser: 
+
+https://github.com/dm-academy/node-svc/pull/new/provider-fix
+
+and fill it out thus, requesting a review on the right (from me as maintainer): 
+
+image:images/pr.png[]
+
+I switch to my maintainer account and approve and merge it. The issue can also be now closed. 
+
+=== Assignment
+
+Assignment: Using what you have learned above, find some small BUT REAL thing to fix in either dp-course or node-svc. It can be as simple as fixing a mis-spelling or grammar, or adding some clarifying language. If you truly cannot find anything to improve, just subsitute a synonym for some work in dp-course. 
 
 Optionally, you may also raise an issue, branch, and pull request on the https://gitlab.com/theopengroup/dpbok-community-edition[community edition of the DPBoK]. I will grant extra credit for this. 
 
