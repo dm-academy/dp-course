@@ -9,9 +9,9 @@ In particular we have been using this basic approach:
 
 image:../week-00/images/github-arch.png[]
 
-The problem with this approach is that there is no convenient way to pull updates from upstream into our local repo. 
+The problem with this approach is that there is no convenienjoe.fitzpatrick@transposit.comt way to pull updates from upstream into our local repo. 
 
-There are two ways we can solve this. 
+There are two ways we can solve this. joe.fitzpatrick@transposit.com
 
 1. I could make you all members of my Github project. This is too much administration for me every semester. 
 2. We can continue to have you fork and then clone (as you would if you were participating in an open source project for which you were not yet a committer) but set things up so that you can do it all from the command line. 
