@@ -1,4 +1,4 @@
-= Lab 04 Product management
+= Lab 04 Product management and Github
 
 This is an unusual lab, as it includes a transition in our way of working with Github that will become the basis of the course going forward (next year, the class will start with the updated approach.) But operational changes are routine in IT organizations and so this is consistent with the course's overall educational objectives. 
 
@@ -69,11 +69,15 @@ IMPORTANT: You *cannot* directly push to master; I (or another administrator) ha
 
 == Taking stock
 
-In the remainder of this lab, we will take a bit of a break from the technicalities and spend some time reviewing the overall vision for the course as a product, and expanding out Github skills. 
+In the middle section of this lab, we will take a bit of a break from the technicalities and spend some time reviewing the overall vision for the course as a product, and expanding out Github skills. (Instructor lecture and discussion.)
 
 Then we will spend the rest of the lab honing our Git skills. 
 
 == Github issues, branches, and pull requests
+
+Here is an overview of the following sections: 
+
+image:images/overview.png[]
 
 Now that we have discussed the overall vision for the course repositories, we are going to start using Github issues to communicate more, instead of relying on Teams for everything. If you think you have discovered a problem in a lab, you should file a Github issue. To finish this lab, follow this example, or preferably come up with your own improvement to the course materials. 
 
@@ -126,8 +130,6 @@ I took a screen shot and pasted it in. It appears as the ![image]... line. Nice 
 I see on the right I can assign an owner ("Assignees"):
 
 image:images/assignees.png[]
-
-
 
 I click "Submit new issue." 
 
