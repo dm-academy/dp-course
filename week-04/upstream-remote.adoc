@@ -1,7 +1,7 @@
 = Setting an upstream remote
-(Not using this anymore but useful instructions, so keeping for now.)
 
-=== Setting upstream remote
+
+=== Setting upstream remote for node-svc
 
 Up until now, we have been somewhat haphazard and basic with our usage of git and Github, just as a startup with a couple of individuals might be -- primarily using it as a repository/archive, but not very effectively as a collaboration tool. 
 
