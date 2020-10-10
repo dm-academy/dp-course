@@ -1,5 +1,5 @@
 = Frequently asked questions
-Thank you
+
 == Nothing works like I expect (have you lost track of where you are?). 
 
 One big cause of frustration is losing track of where you are. Stop for a minute: are you in the Google Cloud Shell? Or an actual virtual machine you have created? The Google Cloud Shell has, for example, git installed. A lightweight VM probably will not. 
