@@ -255,13 +255,12 @@ Doing it manually is boring, error-prone and time-consuming.
 
 The most obvious way for improvement is using Bash scripts which allow us to run sets of commands put in a single file.  So let's try this.
 
-=== Infrastructure as Code project
+=== Cloning from Github
 
 Starting from this section, we're going to use a git repo for saving all the work done in this tutorial.
 
-* Log into your Github account, go to https://github.com/dm-academy/node-svc and, USING IT AS A TEMPLATE, create a repository called <my St Thomas ID>-SEIS664. For example, `maty0145-SEIS664`.
+* Log into your Github account, go to https://github.com/dm-academy/node-svc and, by forking it, create a repository called <my St Thomas ID>-SEIS664. For example, `maty0145-SEIS664`.
 * No README, license, or .gitignore.
-* BE SURE TO CHECK OUT ALL BRANCHES.
 * Copy the URL.
 
 NOTE: In these labs, anything in between <> means you have to think and substitute the appropriate value.

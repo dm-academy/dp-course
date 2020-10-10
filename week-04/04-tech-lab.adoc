@@ -18,7 +18,6 @@ The authenticity of host 'github.com (IP ADDRESS)' can't be established.
 RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
 Are you sure you want to continue connecting (yes/no)?
 ----
-
 or like this:
 
 [source,bash]
@@ -33,55 +32,61 @@ Verify that the fingerprint in the message you see matches one of the messages i
 [source,bash]
 ----
 Hi username! You've successfully authenticated, but GitHub does not provide shell access.
-
 ----
 
 Verify that the resulting message contains your username. If you receive a "permission denied" message, see https://github.com/dm-academy/dp-course/blob/master/faq.adoc[the FAQ] or https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/error-permission-denied-publickey[this Github advice].
 
 Again, take a screenshot and add to the Lab 04 assignment submission. 
 
-=== SEIS664-20YY-MM team
-You all are now members, or will be members of a Github team named SEIS664-20YY-MM where YY is the year and MM is the month the class started (either 02 for spring or 09 for fall.)
-
-NOTE: (Fall 2020 only, delete after) Because of this, we will no longer be forking and then cloning. You are members of the organization directly. 
-
-=== Re-cloning, NOT as a fork
-
-NOTE: I thought the Github template functionality would be more efficient, as it does not include history. But this causes more issues than it solves. So, for Fall 2020 *only*, we need to archive our working repositories and re-clone, neither as templates nor forks.
-
-To fix this: 
-
-You should have two repositories at this point, a forked copy of dp-course (the course repo, what you are reading right now) and a copy of node-svc that you forked from a template and renamed using your St. Thomas ID. 
-
-The forking is the problem. It adds overhead to synching up the repos and in particular node-svc used the template functionality which further complicates things. 
-
-You may have some useful work in your existing repositories, so we want to save them locally but delete it on Github. So, 
-
-* Leave them in your local `repos` directory on the Google Cloud Shell as named
-* But on Github, go to your account and go into the repository <my St Thomas ID>-SEIS664 (or whatever you called it), go into its Settings, scroll all the way down, and *delete* it. You will have to re-type the repository name and re-enter your password. 
-* Do the same for your fork of dp-course. 
-* Then, go to https://github.com/dm-academy/node-svc and copy the clone address and git clone DIRECTLY to your local `repos` directory on Google Cloud Shell. 
-* Do this also for https://github.com/dm-academy/dp-course. 
-
-You now have two repos that you can directly create issues, branches, and pull requests for. This is the most common way of managing collaboration with git and derivative platforms; forking is not as commonly used, especially in organizational contexts (it's mostly an open source thing).  
-
-IMPORTANT: You *cannot* directly push to master; I (or another administrator) have to review and approve the pull request. 
 
 == Taking stock
 
 In the middle section of this lab, we will take a bit of a break from the technicalities and spend some time reviewing the overall vision for the course as a product, and expanding out Github skills. (Instructor lecture and discussion.)
 
-Then we will spend the rest of the lab honing our Git skills. 
+Then we will spend the rest of the lab honing our git and Github skills.
+
+
+== Direct cloning and collaboration
+We are going to change our approach for collaborating on dpcourse. Since it does not run github actions, there is no need to maintain a fork. 
+
+=== SEIS664-20YY-MM team
+You all are now members, or will be members of a Github team named SEIS664-20YY-MM where YY is the year and MM is the month the class started (either 02 for spring or 09 for fall.)
+
+You have privileges to create issues, forks, and pull requests on both dp-course and node-svc. 
+
+
+=== Re-cloning, NOT as a fork
+
+On Github, go to your account and go into the forked dp-course repository go into its Settings, scroll all the way down, and *delete* it. You will have to re-type the repository name and re-enter your password. 
+* Then, go to https://github.com/dm-academy/dp-course and find the SSH clone address under the "Code" button, like so:
+
+image:images/cloneAddress.png[]
+
+git clone DIRECTLY to your local `repos` directory on Google Cloud Shell by issuing the following command:
+----
+$ git clone git@github.com:dm-academy/dp-course.git
+----
+NOTE: We are using the SSH address from the above screenshot for this command. If you clone the URL "https://github.com/dm-academy/dp-course", your push and fetch URLs will default to the "https" address. This means you will not be using SSH when making changes to this branch.
+
+Be sure you are inside the parent directory where you want the dp-course local copy to go. For instance, if you are cloning all of your work into a `/repos` directory, ensure you are there before running the clone command. The dp-course repo will then show up like this: `~/repos/dp-course`.
+
+NOTE: If you already had a dp-course directory in ~/repos, you need to delete it with `sudo rm -rf dp-course`
+
+You now have a repo that you can directly create issues, branches, and pull requests for. This is the most common way of managing collaboration with git and derivative platforms; forking is not as commonly used, especially in organizational contexts (it's mostly an open source thing).  
+
+IMPORTANT: You *cannot* directly push to master; I (or another administrator) have to review and approve the pull request. 
 
 == Github issues, branches, and pull requests
 
-Here is an overview of the following sections: 
+Here is an overview of the following sections: The following image is for dp-course. 
 
 image:images/overview.png[]
 
 Now that we have discussed the overall vision for the course repositories, we are going to start using Github issues to communicate more, instead of relying on Teams for everything. If you think you have discovered a problem in a lab, you should file a Github issue. To finish this lab, follow this example, or preferably come up with your own improvement to the course materials. 
 
 Here are the steps for filing a Github issue, and fixing it via a branch and pull request. 
+
+NOTE: The example here is for node-svc, but these are the steps you would follow for dp-course fixes. 
 
 Let's say I'm looking at a local clone of 
 
@@ -232,6 +237,75 @@ image:images/pr.png[]
 
 I switch to my maintainer account and approve and merge it. The issue can also be now closed. 
 
+
+== Setting upstream remote for node-svc
+
+Up until now, we have been somewhat haphazard and basic with our usage of git and Github, just as a startup with a couple of individuals might be -- primarily using it as a repository/archive, but not very effectively as a collaboration tool. 
+
+In particular we have been using this basic approach: 
+
+image:../week-00/images/github-arch.png[]
+
+The problem with this approach is that there is no convenient way to pull updates from upstream into our local repo. 
+
+There are two ways we can solve this. 
+
+1. I could make you all members of my Github project and you could clone it directly. However, then you cannot run Github Actions yourself.
+2. We can continue to have you fork and then clone (as you would if you were participating in an open source project for which you were not yet a committer) but set things up so that you can do it all from the command line. 
+
+We will go with option #2. 
+
+In order to proceed with #2, we need to better understand the concept of a git "remote." Git is a powerful tool for distributed collaboration on complex software projects, and therefore itself is complex. 
+
+According to https://www.git-tower.com/, "A remote in Git is a common repository that all team members use to exchange their changes. In most cases, such a remote repository is stored on a code hosting service like GitHub or on an internal server."
+
+What this does not mention is that a git repository can have _multiple_ remotes. Your local clone on the Google Cloud Shell has, as a remote, the fork you created in Github. This is its origin.  Now, you are going to set as your _upstream_ remote the original source repository you cloned from as a template. 
+
+(This lab is based on these instructions: https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork)
+
+So, let's configure a remotes for node-svc. 
+
+Go to your `repos` directory (or wherever you have put the repos). Enter (`cd`) into the node-svc repo, if you aren't there already from the last step. 
+
+At the command prompt, enter: 
+
+`git remote add upstream https://github.com/dm-academy/node-svc`
+
+This adds the original repo as the `upstream` remote. You still have the `origin remote`, under _your_ GitHub account. 
+
+I have done so using a test Github account called CharlesTBetz-test. I can see the result thus: 
+
+[source,bash]
+----
+betz4871:node-svc$ git remote -v
+origin  git@github.com:CharlesTBetz-test/node-svc.git (fetch)
+origin  git@github.com:CharlesTBetz-test/node-svc.git (push)
+upstream        https://github.com/dm-academy/node-svc (fetch)
+upstream        https://github.com/dm-academy/node-svc (push)
+betz4871:node-svc$
+----
+
+Notice there is both an `origin` and `upstream` remote. Examine the URLs for each. One points to the dm-academy master repo, the other points to its forked replica on my test account. 
+
+Let's synch things up: 
+
+`git pull upstream master`
+
+Unless you have changed your local copy, or upstream has changed since you forked and cloned, this should indicate that everything is up to date. 
+
+The overall architecture now looks like this (notice 6 and 7):
+
+image:images/Github-v2.png[]
+
+From now on, before pushing any changes and especially before issuing a pull request, be sure to synch your local copy with upstream. 
+
+IMPORTANT: It is convenient to sync your online git repo with upstream by just pushing the changes from your local repo (7 + 4). You also can compare across upstream and your fork and merge changes directly on Github (8 + 5). 
+
+Here is the final configuration you should have: 
+
+image:images/finalRepo.png[]
+
+
 === Assignment
 
 Assignment: Using what you have learned above, find some small BUT REAL thing to fix in either dp-course or node-svc. It can be as simple as fixing a mis-spelling or grammar, or adding some clarifying language. If you truly cannot find anything to improve, just subsitute a synonym for some work in dp-course. 
@@ -239,4 +313,14 @@ Assignment: Using what you have learned above, find some small BUT REAL thing to
 Optionally, you may also raise an issue, branch, and pull request on the https://gitlab.com/theopengroup/dpbok-community-edition[community edition of the DPBoK]. I will grant extra credit for this. 
 
 
+=== Further reading
 
+* https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork
+
+* https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/syncing-a-fork
+
+* https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork
+
+* https://www.freecodecamp.org/news/how-to-delete-a-git-branch-both-locally-and-remotely/
+
+* https://www.freecodecamp.org/news/git-pull-force-how-to-overwrite-local-changes-with-git/
