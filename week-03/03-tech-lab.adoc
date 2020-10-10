@@ -387,8 +387,6 @@ spec:
   type: NodePort
 ----
 
-This type of Service makes the Service accessible on each Node's IP at a static port (NodePort). We use this type to be able to contact the `node-svc` application later from outside the cluster.
-
 `selector` field is used to identify a set of Pods to which to route packets that the Service receives.
 In this case, Pods that have a label `app=node-svc` will become part of this Service.
 
@@ -404,13 +402,13 @@ The `ports` section specifies the port mapping between a Service and Pods that a
 ----
   ports:
   - protocol: TCP
-    port: 9292
-    targetPort: 9292
+    port: 3000
+    targetPort: 3000
     nodePort: 30100
 ----
 
 The requests that come to any of your cluster nodes' public IP addresses on the specified `nodePort` will be routed to the `node-svc` Service cluster-internal IP address.
-The Service, which is listening on port 9292 (`port`) and is accessible within the cluster on this port, will then route the packets to the `targetPort` on one of the Pods which is part of this Service.
+The Service, which is listening on port 3000 (`port`) and is accessible within the cluster on this port, will then route the packets to the `targetPort` on one of the Pods which is part of this Service.
 
 === Create Service Objects
 
