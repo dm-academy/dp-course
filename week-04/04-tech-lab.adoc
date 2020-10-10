@@ -78,7 +78,7 @@ IMPORTANT: You *cannot* directly push to master; I (or another administrator) ha
 
 == Github issues, branches, and pull requests
 
-Here is an overview of the following sections: 
+Here is an overview of the following sections: The following image is for dp-course. 
 
 image:images/overview.png[]
 
