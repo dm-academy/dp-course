@@ -60,6 +60,8 @@ You have privileges to create issues, forks, and pull requests on both dp-course
 On Github, go to your account and go into the forked dp-course repository go into its Settings, scroll all the way down, and *delete* it. You will have to re-type the repository name and re-enter your password. 
 * Then, go to https://github.com/dm-academy/dp-course and copy the clone address and git clone DIRECTLY to your local `repos` directory on Google Cloud Shell. Be sure you are inside the parent directory where you want the dp-course local copy to go. For instance, if you are cloning all of your work into a `/repos` directory, ensure you are there before running the clone command. The dp-course repo will then show up like this: `~/repos/dp-course`.
 
+NOTE: If you already had a dp-course directory in ~/repos, you need to delete it with `sudo rm -rf dp-course`
+
 You now have a repo that you can directly create issues, branches, and pull requests for. This is the most common way of managing collaboration with git and derivative platforms; forking is not as commonly used, especially in organizational contexts (it's mostly an open source thing).  
 
 IMPORTANT: You *cannot* directly push to master; I (or another administrator) have to review and approve the pull request. 
