@@ -86,35 +86,20 @@ Now that we have discussed the overall vision for the course repositories, we ar
 
 Here are the steps for filing a Github issue, and fixing it via a branch and pull request. 
 
-NOTE: The example here is for node-svc, but these are the steps you would follow for dp-course fixes. 
+Something that I thought of last night (2020-10-09) was that we never really talk about nano. I want to put a link into the lab 00 instructions so people can at least access basic how-tos. 
 
-Let's say I'm looking at a local clone of 
+For the purposes of this exercise, I am not just going to fix it directly. I am going to raise an issue, assign it to myself, fix it, and submit a pull request to ... me!
 
-https://github.com/dm-academy/node-svc
+In other words, I am operating first as "CharlesTBetz-test" which is a Github account I created that has no more rights than any of you. Acting as such, I have cloned dm-academy/dp-course down to my Google Cloud Shell, and I am only logged into my ssh agent with the private key associated with CharlesTBetz-test. 
 
-At this writing, I see: 
-
-[source, bash]
-----
-provider "google" {
-  version = "~> 3.37.0"
-  project = "proven-sum-252123"
-  region  = "us-central1-c"
-}
-----
-
-I do not like this, my Google project ID should not appear here. But for the purposes of this exercise, I am not just going to fix it directly. I am going to raise an issue, assign it to myself, fix it, and submit a pull request to ... me!
-
-In other words, I am operating first as "CharlesTBetz-test" which is a Github account I created that has no more rights than any of you. Acting as such, I have cloned dm-academy/node-svc repo down to my Google Cloud Shell, and I am only logged into my ssh agent with the private key associated with CharlesTBetz-test. 
-
-So, how do I let the project know it should not be using my personal project ID? Rather than making a technical change, I am first going to communicate that we have a problem. 
+So, how do I let the project know I think we should provide a pointer to nano instructions? Rather than making a technical change, I am first going to communicate that we have a problem. 
 
 This is an important step now that we are operating as a team. What I think is a problem, might not be. Someone else might already be working on it. So it is very important to communicate before starting technical work. 
 
 === Create an issue 
 First, I go to 
 
-https://github.com/dm-academy/node-svc,
+https://github.com/dm-academy/dp-course,
 
 click on "Issues"  
 
@@ -126,15 +111,13 @@ image:images/issueBtn.png[]
 
 I document my issue:
 
-image:images/providersIssue.png[]
+image:images/nanoIssue.png[]
 
 (Note that the issue appears as a word bubble coming from my icon as CharlesTBetz-test.)
 
-I took a screen shot and pasted it in. It appears as the ![image]... line. Nice feature. 
-
 I see on the right I can assign an owner ("Assignees"):
 
-image:images/assignees.png[]
+image:images/assignees.png[]. 
 
 I click "Submit new issue." 
 
@@ -152,7 +135,7 @@ I click on Submit New Issue:
 
 image:images/submit.png[]
 
-and the issue is created. 
+and the issue is created. It was given #44, this will be useful below.
 
 It is also possible to create an issue directly out of Teams, using "chatops" techniques. We will cover this subsequently. 
 
@@ -162,23 +145,21 @@ NOTE: We've been using Gitlab for the Open Group which allows the immediate crea
 
 Now that I've been assigned the issue, I am going to create a local branch. I could do this on the website as well. 
 
-I leave the Github UI and go to my Google Cloud Shell, where in the repos/node-svc direcgory I type: 
+I leave the Github UI and go to my Google Cloud Shell, where in the repos/dp-course direcgory I type: 
 
 [source, bash]
 ----
-`$ git checkout -b provider-fix`
-Switched to a new branch 'provider-fix'
+`$ git checkout -b nano-fix`
+Switched to a new branch 'nano-fix'
 ----
 
-I could also have created the branch first via `git branch` and then checked it out. The -b flag lets me do both. 
+I could also have created the branch first via `git branch` and then checked it out. The -b flag lets me do both. I also could have created the branch in the Github GUI. 
 
 Now, I can fix the issue. 
 
-$ nano providers.tf
+`$ nano week-00/00-tech-lab.adoc`
 
-image:images/providerFix.png[]
-
-(This fix will cause other issues.)
+image:images/nanoFix.png[]
 
 === Commit, push, and create a pull request
 
@@ -187,7 +168,7 @@ Now, it's time to commit, push, and create a pull request:
 [source, bash]
 ----
 $ git add . -A
-$ git commit -m "fixes issue #16"
+$ git commit -m "fixes nano issue #44"
 [provider-fix 8d1ed0a] fixes issue #16
  1 file changed, 1 insertion(+), 1 deletion(-)
 $ git push origin master
