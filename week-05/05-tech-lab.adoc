@@ -49,7 +49,7 @@ Also, features cannot cross Scrum iteration boundaries. They must be started and
 
 Developing your own format for the project plan (a spreadsheet is fine), answer the following questions: 
 
-* How many sprints are required if the priority order must be strictly maintained, even if it means serious downtime for the team? 
+* How many sprints are required if the priority order must be strictly maintained, even if it means serious downtime for the team? (what if you have 30 days of work but the next priority is 15 days?) How many "wasted" days is this?
 
 * How many sprints are required if we relax the requirement to do things in priority order, so that we are more fully utilized and get done sooner? (This means you might move some work around so everything fits better.)
 
