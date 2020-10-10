@@ -169,34 +169,35 @@ Now, it's time to commit, push, and create a pull request:
 ----
 $ git add . -A
 $ git commit -m "fixes nano issue #44"
-[provider-fix 8d1ed0a] fixes issue #16
+[provider-fix 8d1ed0a] fixes issue #44
  1 file changed, 1 insertion(+), 1 deletion(-)
 $ git push origin master
 Everything up-to-date
 ----
-Oops, that was a mistake. We need to git push origin <branch name.
+Oops, that was a mistake. We need to git push origin <branch name>.
 
 [source,bash]
 ----
-$ git push origin provider-fix
-Enumerating objects: 5, done.
-Counting objects: 100% (5/5), done.
+2019-MBA:dp-course char$ git push origin nano-fix
+Enumerating objects: 16, done.
+Counting objects: 100% (16/16), done.
 Delta compression using up to 4 threads
-Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 367 bytes | 367.00 KiB/s, done.
-Total 3 (delta 1), reused 0 (delta 0)
-remote: Resolving deltas: 100% (1/1), completed with 1 local object.
-remote:
-remote: Create a pull request for 'provider-fix' on GitHub by visiting:
-remote:      https://github.com/dm-academy/node-svc/pull/new/provider-fix
-remote:
-To github.com:dm-academy/node-svc.git
- * [new branch]      provider-fix -> provider-fix
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (10/10), 655.71 KiB | 15.61 MiB/s, done.
+Total 10 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+remote: 
+remote: Create a pull request for 'nano-fix' on GitHub by visiting:
+remote:      https://github.com/dm-academy/dp-course/pull/new/nano-fix
+remote: 
+To github.com:dm-academy/dp-course.git
+ * [new branch]      nano-fix -> nano-fix
+2019-MBA:dp-course char$ 
 ----
 
-Now, if I go to github and look at the providers.sh file:
+Now, if I go to github and look at the 00-lab file:
 
-image:images/oldProviders.png[]
+image:images/oldLab.png[]
 
 it's not fixed. 
 
@@ -204,20 +205,19 @@ BUT ... look at the branches. Aha, I was still on master:
 
 image:images/branches.png[]
 
-Switch to "provider-fix" and it's fixed: 
+Switch to "nano-fix" and the new material is there: 
 
 image:images/fixed.png[]
 
 But how do I get it into master? I need to issue a *pull request* to me as the maintainer. Fortunately, if I look above at my console output when I did the git push -- very nice, Github has given us a very cool link to go and create a pull request (). I paste it into my browser: 
 
-https://github.com/dm-academy/node-svc/pull/new/provider-fix
+https://github.com/dm-academy/dp-course/pull/new/nano-fix
 
 and fill it out thus, requesting a review on the right (from me as maintainer): 
 
 image:images/pr.png[]
 
 I switch to my maintainer account and approve and merge it. The issue can also be now closed. 
-
 
 == Setting upstream remote for node-svc
 

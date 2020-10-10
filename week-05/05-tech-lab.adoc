@@ -1,3 +1,67 @@
 = Lab 05 Work management with Teams and Github
 
 ==  Overview
+
+This will be another relatively light lab, as we continue to get caught up on the technical labs from Context 1. 
+
+Let's look at how to manage the flow of work in Github. 
+
+For this exercise, we will split into teams 
+
+=== Github as Kanban
+
+Github can turn the issue - pull request flow into a basic Kanban board. See: 
+
+https://github.com/dm-academy/dp-course/projects/1
+
+https://github.com/dm-academy/node-svc/projects/1
+
+ASSIGNMENT: Submit an issue for a simple fix or enhancement to either dp-course or node-svc. Assign it to a teammate, work with them to make the changes, and submit for approval. Take screenshots of the card as it moves through the Kanban board and submit to Canvas.
+
+=== Basic Cost of Delay
+
+As a team, review the DPBoK 6.2.2.2, and also:  
+
+https://github.com/FocusedObjective/FocusedObjective.Resources/blob/master/Canvas%20and%20Forms/Better%20Backlog%20Prioritization.pdf
+
+Open the Cost of Delay Prioritization Calculator and save locally (one per team):
+
+https://uofstthomasmn-my.sharepoint.com/:x:/r/personal/betz4871_stthomas_edu/Documents/SEIS664/class-materials/05/Cost%20of%20Delay%20Prioritization%20Calculator.xlsx?d=w24220de457d44776ba2fbd314b2852d7&csf=1&web=1&e=clVO0A
+
+As a team, develop a product roadmap based on Cost of Delay. Here are the assumptions: 
+
+* You have an 5-person team, and at 80% time you have 20 person-days per week. You operate in 2-week sprints (40 days). Assume the team is paid, in total, $10,000/week.
+* Over the next 2 months, you would like to develop 20 new features. 
+** 20% of the new features will take 2 person days
+** 20% will take 5 person days
+** 20% will take 10 person days
+** 20% will take 20 person days
+** 20% will take 35 person days
+
+** 25% are worth $10/day
+** 25% are worth $50/day
+** 25% are worth $200/day
+** 25% are worth $1000/day
+
+(Duration and priority are randomly associated - use whatever mix you like, but do mix them up - for example, your $1000/day value features should be a mix of the various durations, chosen from 2, 5, 10, 20, 35.)
+
+Also, features cannot cross Scrum iteration boundaries. They must be started and finished within the sprint. 
+
+Developing your own format for the project plan (a spreadsheet is fine), answer the following questions: 
+
+* How many sprints are required if the priority order must be strictly maintained, even if it means serious downtime for the team? 
+
+* How many sprints are required if we relax the requirement to do things in priority order, so that we are more fully utilized and get done sooner? (This means you might move some work around so everything fits better.)
+
+* What are the economic consequences of optimizing for getting done sooner (and so paying the team less), if that means we move less valuable work forward? Do we really save money by deferring more valuable work? Or is there a short term gain, long term cost?
+
+Your spreadsheet should show the necessary calculations. You may write them up in Word or Powerpoint. 
+
+Since you all will make different assumptions, there is no right or wrong answer. Be prepared to present and discuss your findings in class. 
+
+
+
+
+
+
+
