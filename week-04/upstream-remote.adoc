@@ -1,5 +1,5 @@
 = Setting an upstream remote
-(Not using this anymore but useful instructions, so keeping for now.)
+
 
 === Setting upstream remote
 
@@ -9,11 +9,11 @@ In particular we have been using this basic approach:
 
 image:../week-00/images/github-arch.png[]
 
-The problem with this approach is that there is no convenient way to pull updates from upstream into our local repo. 
+The problem with this approach is that it is not particularly convenient to pull updates from upstream into our local repo. 
 
 There are two ways we can solve this. 
 
-1. I could make you all members of my Github project. This is too much administration for me every semester. 
+1. You can pull changes in by running compares on Github and then pulling the changes down. This is cumbersome. 
 2. We can continue to have you fork and then clone (as you would if you were participating in an open source project for which you were not yet a committer) but set things up so that you can do it all from the command line. 
 
 We will go with option #2. 
