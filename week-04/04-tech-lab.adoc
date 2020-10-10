@@ -78,7 +78,7 @@ IMPORTANT: You *cannot* directly push to master; I (or another administrator) ha
 
 == Github issues, branches, and pull requests
 
-Here is an overview of the following sections: 
+Here is an overview of the following sections: The following image is for dp-course. 
 
 image:images/overview.png[]
 
@@ -267,7 +267,7 @@ According to https://www.git-tower.com/, "A remote in Git is a common repository
 
 What this does not mention is that a git repository can have _multiple_ remotes. Your local clone on the Google Cloud Shell has, as a remote, the fork you created in Github. This is its origin.  Now, you are going to set as your _upstream_ remote the original source repository you cloned from as a template. 
 
-(This lab is based on these instructions: https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork.)
+(This lab is based on these instructions: https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork)
 
 So, let's configure a remotes for node-svc. 
 
