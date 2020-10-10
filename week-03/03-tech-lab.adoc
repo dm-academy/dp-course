@@ -387,7 +387,9 @@ spec:
   type: NodePort
 ----
 
-`selector` field is used to identify a set of Pods to which to route packets that the Service receives.
+-This type of Service makes the Service accessible on each Node's IP at a static port (NodePort). We use this type to be able to contact the `node-svc` application later from outside the cluster.
+
+-`selector` field is used to identify a set of Pods to which to route packets that the Service receives.
 In this case, Pods that have a label `app=node-svc` will become part of this Service.
 
 [source,yaml]
