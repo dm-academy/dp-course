@@ -3,9 +3,9 @@
 
 === Setting upstream remote for node-svc
 
-Up until now, we have been somewhat haphazard and basic with our usage of git and Github, just as a startup with a couple of individuals might be -- primarily using it as a repository/archive, but not very effectively as a collaboration tool. 
+Up until now, we have been somewhat haphazard and basic with our usage of git and Github, just as a startup with a couple of individuals might be -- primarily using it as a repository/archive, but not very effective as a collaboration tool. 
 
-In particular we have been using this basic approach: 
+In particular, we have been using this basic approach: 
 
 image:../week-00/images/github-arch.png[]
 
@@ -14,7 +14,7 @@ The problem with this approach is that there is no convenienjoe.fitzpatrick@tran
 There are two ways we can solve this. joe.fitzpatrick@transposit.com
 
 1. I could make you all members of my Github project. This is too much administration for me every semester. 
-2. We can continue to have you fork and then clone (as you would if you were participating in an open source project for which you were not yet a committer) but set things up so that you can do it all from the command line. 
+2. We can continue to have you fork and then clone (as you would if you were participating in an open- source project for which you were not yet a committer) but set things up so that you can do it all from the command line. 
 
 We will go with option #2. 
 
