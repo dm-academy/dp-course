@@ -58,7 +58,17 @@ You have privileges to create issues, forks, and pull requests on both dp-course
 === Re-cloning, NOT as a fork
 
 On Github, go to your account and go into the forked dp-course repository go into its Settings, scroll all the way down, and *delete* it. You will have to re-type the repository name and re-enter your password. 
-* Then, go to https://github.com/dm-academy/dp-course and copy the clone address and git clone DIRECTLY to your local `repos` directory on Google Cloud Shell. Be sure you are inside the parent directory where you want the dp-course local copy to go. For instance, if you are cloning all of your work into a `/repos` directory, ensure you are there before running the clone command. The dp-course repo will then show up like this: `~/repos/dp-course`.
+* Then, go to https://github.com/dm-academy/dp-course and find the SSH clone address under the "Code" button, like so:
+
+image:images/cloneAddress.png[]
+
+git clone DIRECTLY to your local `repos` directory on Google Cloud Shell by issuing the following command:
+----
+$ git clone git@github.com:dm-academy/dp-course.git
+----
+NOTE: We are using the SSH address from the above screenshot for this command. If you clone the URL "https://github.com/dm-academy/dp-course", your push and fetch URLs will default to the "https" address. This means you will not be using SSH when making changes to this branch.
+
+Be sure you are inside the parent directory where you want the dp-course local copy to go. For instance, if you are cloning all of your work into a `/repos` directory, ensure you are there before running the clone command. The dp-course repo will then show up like this: `~/repos/dp-course`.
 
 NOTE: If you already had a dp-course directory in ~/repos, you need to delete it with `sudo rm -rf dp-course`
 
