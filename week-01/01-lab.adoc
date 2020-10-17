@@ -169,7 +169,14 @@ Make an application directory and get the application files:
 $ mkdir node-svc && cd node-svc
 $ wget https://raw.githubusercontent.com/dm-academy/node-svc/01/server.js
 $ wget https://raw.githubusercontent.com/dm-academy/node-svc/01/package.json
- 
+
+----
+
+If wget command is not available, then use the following command to install wget:
+
+[source,bash]
+----
+$ sudo apt install wget
 ----
 
 Initialize npm (Node Package Manager) and install express:
