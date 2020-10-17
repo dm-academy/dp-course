@@ -219,6 +219,10 @@ image:images/pr.png[]
 
 I switch to my maintainer account and approve and merge it. The issue can also be now closed. 
 
+NOTE: What happens if, while your pull request is waiting to be merged, a different pull request that modifies some of the same lines of code is merged? You'll get a merge conflict. A merge conflict is when git can't reconcile the differences between what you're asking to merge and what someone else recently changed in the same file. You'll get a screen in github that looks like this:
+image:images/merge_conflict.jpg[]
+In this case, you'll need to decide which changes should remain in the branch you're merging to.
+
 == Setting upstream remote for node-svc
 
 Up until now, we have been somewhat haphazard and basic with our usage of git and Github, just as a startup with a couple of individuals might be -- primarily using it as a repository/archive, but not very effectively as a collaboration tool. 
