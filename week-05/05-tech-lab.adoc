@@ -18,6 +18,8 @@ https://github.com/dm-academy/node-svc/projects/1
 
 ASSIGNMENT: For your team, one of you create a test repository and give push (commit) permissions to your other teammates. Take turns submitting issues, assigning them to eadch other, and approving and commiting changes. Set up the project kanban (using the Projects tab at the top). Take screenshots of the card as it moves through the Kanban board and submit to Canvas.
 
+Experiment with different access levels (write vs maintain). See your repository settings to invite & set permissions. 
+
 === Basic Cost of Delay
 
 As a team, review the DPBoK 6.2.2.2, and also:  
