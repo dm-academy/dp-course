@@ -297,6 +297,7 @@ Assignment: Using what you have learned above, find some small BUT REAL thing to
 
 Optionally, you may also raise an issue, branch, and pull request on the https://gitlab.com/theopengroup/dpbok-community-edition[community edition of the DPBoK]. I will grant extra credit for this. 
 
+In the assignment submission on Canvas, paste the link to the pull request (PR) for the change you made. 
 
 === Further reading
 
