@@ -91,12 +91,14 @@ CMD [ "node", "server.js" ]
 
 === Build Container Image
 
-Once you defined how your image should be built, run the following command inside your `my-iac-tutorial` directory to create a container image for the node-svc application:
+Once you have reviewed how your image will be built, run the following command inside your `my-iac-tutorial` directory to create a container image for the node-svc application:
 
 [source,bash]
 ----
 $ docker build -t <yourGoogleID>/node-svc .
 ----
+
+NOTE: A VERY common error with the `docker build` command is omitting the final period, which indicates the current directory. (You can specify other paths as well.)
 
 The resulting image will be named `node-svc`.
 Find it in the list of your local images:
@@ -112,7 +114,7 @@ Now, run the container:
 
 [source,bash]
 ----
-docker run -d -p 8081:30100 level-research-289323/node-svc
+docker run -d -p 8081:30100 <yourGoogleID>/node-svc
 ----
 
 Notice the "8081:3000" syntax.
@@ -130,9 +132,7 @@ $ curl localhost:8081
 
 Again, you may wish to save this in a script, such as `test.sh`.
 
-=== Save and commit the work
-
-Save and commit the files created in this section.
+Take a screen shot of your docker run and curl commands with output. Paste into a new Word document for final submission. 
 
 === Conclusion
 
@@ -142,15 +142,33 @@ We describe the configuration of our container image in a Dockerfile using Docke
 
 Destroy the current playground before moving on to the next section, through `docker ps`, `docker kill`, `docker images`, and `docker rmi`. In the example below, the container is named "beautiful_pascal". Yours will be different. Follow the example, substituting yours.
 
+Take a screen shot of your cleanup. Paste into the Word document for final submission. 
+
+
 [source,bash]
 ----
 $ docker ps
 CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS              PORTS                    NAMES
-64e60b7b0c81        charlestbetz/node-svc-v1   "docker-entrypoint.s…"   10 minutes ago      Up 10 minutes       0.0.0.0:8081->3000/tcp   beautiful_pascal
+64e60b7b0c81        <your google id>/node-svc   "docker-entrypoint.s…"   10 minutes ago      Up 10 minutes       0.0.0.0:8081->3000/tcp   beautiful_pascal
 $ docker kill beautiful_pascal
-$ docker images
-# returns list of your images
-$ docker rmi <one or more image names> -f
+beautiful_pascal
+$ docker images       # returns list of your images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+<your goodl ID>/node-svc   latest              1faeead4d120        15 seconds ago      1.18GB
+node                11                  5b97b72da029        15 months ago       904MB
+$ docker rmi <your google ID>/node-svc -f
+<your google ID>:node-svc$ docker rmi <your google ID>/node-svc:latest
+Untagged: <your google ID>/node-svc:latest
+Deleted: sha256:1faeead4d120bc99b2affe9881a9d12729b51e144df7480bfd1ace28cee55991
+....
+<your google ID>:node-svc$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+node                11                  5b97b72da029        15 months ago       904MB
+<your google ID>:node-svc$ docker rmi node:11
+Untagged: node:11
+Untagged: node@sha256:67ca28addce8ae818b144114a9376a6603aba09069b7313618d37b38584abba1
+Deleted: sha256:5b97b72da029a1d482315e3fbefef743b6bdcfb3bebbadab562111d42ba7457c
+
 ----
 
 == Kubernetes
@@ -177,7 +195,30 @@ It solves the common problems (some of which we've mentioned above) related to r
 Let's try to run our `node-svc` application on a Kubernetes cluster.
 
 === TEMPORARY
-As of fall 2020, the Google Cloud Shell versions of Terraform and the Google Cloud Provisioner are out of date. You need to install a local version of Terraform and always call it explicitly. Inspect and run: 
+As of early fall 2020, the Google Cloud Shell versions of Terraform and the Google Cloud Provisioner are out of date. You may need to install a local version of Terraform and always call it explicitly. 
+
+First, run:
+
+[source,bash]
+----
+$ terraform -v # Google's version
+
+----
+
+If you get something like: 
+
+[source,bash]
+----
+Terraform v0.12.24
++ provider.google v2.5.1
+Your version of Terraform is out of date! The latest version
+is 0.13.4. You can update by downloading from https://www.terraform.io/downloads.html
+betz4871:node-svc$ ~/bin/terraform -v
+---- 
+
+then you need to upgrade. (If you get a current version, then go to the next section, otherwise continue here.)
+
+Inspect and run: 
 
 [source,bash]
 ----
@@ -190,15 +231,9 @@ See the difference:
 
 [source,bash]
 ----
-$ terraform -v # Google's version
-Terraform v0.12.24
-+ provider.google v2.5.1
-Your version of Terraform is out of date! The latest version
-is 0.13.2. You can update by downloading from https://www.terraform.io/downloads.html
-betz4871:node-svc$ ~/bin/terraform -v
 
 $ ~/terraform -v # your version
-  Terraform v0.13.2
+  Terraform v0.13.4
 + provider registry.terraform.io/hashicorp/google v3.37.0
 ----
 
@@ -221,7 +256,7 @@ Review these three files, which have changed since Lab 02:
 
 [source,bash]
 ----
-variables.tf
+providers.tf
 terraform.tfvars
 main.tf
 ----
@@ -233,7 +268,7 @@ We'll use this Terraform code to create a Kubernetes cluster.
 `main.tf` holds all the information about the cluster that should be created.
 It's parameterized using Terraform https://www.terraform.io/intro/getting-started/variables.html[input variables] which allow you to easily change configuration parameters.
 
-Look into `terraform.tfvars` file which contains definitions of the input variables and change them if necessary. You must change the `project_id` value.
+Look into `terraform.tfvars` and `providers.tf` files which contain definitions of the input variables and change them if necessary. You must change the Google project id in two places. 
 
 After you've corrected the variables, run Terraform to create a Kubernetes cluster consisting of 3 nodes (VMs for running our application containers). (You should know the command by now.)
 
@@ -259,9 +294,7 @@ GLBCDefaultBackend is running at https://104.197.22.1/api/v1/namespaces/kube-sys
 
 === Deployment manifest
 
-Kubernetes implements Infrastructure as Code approach to managing container infrastructure.
-It uses special entities called *objects* to represent the `desired state` of your cluster.
-With objects you can describe
+Kubernetes implements Infrastructure as Code approach to managing container infrastructure. It uses special entities called *objects* to represent the `desired state` of your cluster. With objects you can describe
 
 * What containerized applications are running (and on which nodes)
 * The compute resources available to those applications
@@ -340,8 +373,18 @@ Check the deployments and pods that have been created:
 [source,bash]
 ----
 $ kubectl get deploy
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+node-svc-deployment   0/5     5            0           51s
 $ kubectl get pods
+NAME                                   READY   STATUS              RESTARTS   AGE
+node-svc-deployment-547f9d4c7f-45zqv   0/1     ContainerCreating   0          59s
+node-svc-deployment-547f9d4c7f-58brr   0/1     ContainerCreating   0          59s
+node-svc-deployment-547f9d4c7f-b5kjz   0/1     ContainerCreating   0          59s
+node-svc-deployment-547f9d4c7f-l9m7m   0/1     ContainerCreating   0          59s
+node-svc-deployment-547f9d4c7f-mrg6m   0/1     ContainerCreating   0          59s
 ----
+
+It can take 5 minutes or more for 
 
 === Service manifests
 
