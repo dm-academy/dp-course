@@ -384,7 +384,7 @@ node-svc-deployment-547f9d4c7f-l9m7m   0/1     ContainerCreating   0          59
 node-svc-deployment-547f9d4c7f-mrg6m   0/1     ContainerCreating   0          59s
 ----
 
-It can take 5 minutes or more for 
+It can take 5 minutes or more for the pods to be fully activated.  
 
 === Service manifests
 
@@ -413,8 +413,8 @@ spec:
     app: node-svc
   ports:
   - protocol: TCP
-    port: 3000
-    targetPort: 3000
+    port: 30100
+    targetPort: 301 00
     nodePort: 30100
 ----
 
@@ -447,13 +447,15 @@ The `ports` section specifies the port mapping between a Service and Pods that a
 ----
   ports:
   - protocol: TCP
-    port: 9292
-    targetPort: 9292
+    port: 30100
+    targetPort: 30100
     nodePort: 30100
 ----
 
 The requests that come to any of your cluster nodes' public IP addresses on the specified `nodePort` will be routed to the `node-svc` Service cluster-internal IP address.
-The Service, which is listening on port 9292 (`port`) and is accessible within the cluster on this port, will then route the packets to the `targetPort` on one of the Pods which is part of this Service.
+The Service, which is listening on port 30100 (`port`) and is accessible within the cluster on this port, will then route the packets to the `targetPort` on one of the Pods which is part of this Service.
+
+For simplcity, we have used the same port for all three, but they may all differ.
 
 === Create Service Objects
 
@@ -496,7 +498,7 @@ Save and commit the `kubernetes` folder created in this section into your `iac-t
 
 === Conclusion
 
-In this section, we learned about Kuberenetes - a popular orchestration platform which simplifies the process of running containers at scale. We saw how it implements the Infrastructure as Code approach in the form of `objects` and `manifests` which allow you to describe in code the desired state of your container infrastructure which spans a cluster of VMs.
+In this section, we learned about Kubernetes - a popular orchestration platform which simplifies the process of running containers at scale. We saw how it implements the Infrastructure as Code approach in the form of `objects` and `manifests` which allow you to describe in code the desired state of your container infrastructure which spans a cluster of VMs.
 
 
 == Updating the service: towards a true pipeline
@@ -532,7 +534,7 @@ The simplest way to get Kubernetes logs is as follows. First, get all your pod I
 
 [source,bash]
 ----
-get pods --all-namespaces
+kubectl get pods --all-namespaces
 NAMESPACE     NAME                                                        READY   STATUS              RESTARTS   AGE
 default       node-svc-deployment-cf76549ff-9cdxr                         1/1     Running             0          3m11s
 default       node-svc-deployment-cf76549ff-d5rnq                         1/1     Running             0          3m11s
@@ -599,6 +601,7 @@ returning URL http://node-svc-01:3000/2
 ----
 
 You should see some routine-looking output, and some output that looks more like an error. Discuss with your teammates and/or in class. What do you think is causing the error? What are contributing factors? (To be discussed and worked on in class.)
+
 
 
 == Automating the delivery pipeline
