@@ -399,7 +399,7 @@ When a Service object is created, it is assigned a unique IP address called `clu
 
 So we create a Service for the node-svc applications.
 
-Review the file called `services.yaml` inside `kubernetes/manifests` directory with the following content:
+Review the file called `services.yaml` inside `node-svc` directory with the following content:
 
 [source,yaml]
 ----
