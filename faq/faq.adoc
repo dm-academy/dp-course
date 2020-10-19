@@ -1,5 +1,16 @@
 = Frequently asked questions
 
+== What is my Google Cloud Project? 
+
+The Google Cloud Project is a unique string of words and numbers that you can find in the Google console top left. Typically the menu item defaults to "My First Project":
+
+image:images/GoogleProj.png[]
+
+Under that menu you'll see the ID(s): 
+
+image:images/GoogleProj2.png[]
+(Your ID will NOT start with "proven-sum-", it will be some other random string of words and numbers. You can copy it from the menu here. You'll use it in many places throughout your work with Google.)
+
 == Nothing works like I expect (have you lost track of where you are?). 
 
 One big cause of frustration is losing track of where you are. Stop for a minute: are you in the Google Cloud Shell? Or an actual virtual machine you have created? The Google Cloud Shell has, for example, git installed. A lightweight VM probably will not. 
