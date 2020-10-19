@@ -23,7 +23,7 @@ A tutorial may have a step like:
 
 _Enter the following command_
 
-`$ mkdir <my email>`
+`$ mkdir <my account>`
 
 If you paste that in literally, you will get something like this: 
 
@@ -38,8 +38,8 @@ This applies in many cases, such as
 
 [source,bash]
 ----
-$ git clone <my repo path>
-$ curl <Kubernetes node IP>
+$ git clone <my repo path>    # substitute the ACTUAL GITHUB PATH
+$ curl <Kubernetes node IP:port>   # substitute the ACTUAL NODE IP ADDRESS, followed by ":", followed by the port.
 ----
 and so forth. 
 
