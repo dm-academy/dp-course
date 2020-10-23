@@ -9,6 +9,7 @@ image:images/GoogleProj.png[]
 Under that menu you'll see the ID(s): 
 
 image:images/GoogleProj2.png[]
+
 (Your ID will NOT start with "proven-sum-", it will be some other random string of words and numbers. You can copy it from the menu here. You'll use it in many places throughout your work with Google.)
 
 == Nothing works like I expect (have you lost track of where you are?). 
