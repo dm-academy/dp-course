@@ -28,7 +28,7 @@ This is THREE different passwords, as well as a public/private key pair, with a 
 == Setting up Teams
 
 * Teams will be the main communication channel.
-* I strongly prefer questions be posted in Teams rather than via calling me over. Leverage your classmates for support. 
+* I strongly prefer questions to be posted in Teams rather than via calling me over. Leverage your classmates for support. 
 * Open up Microsoft Teams
 * Go to the Teams tab on the side and click the "Join or Create Team" button on the right
 * Use "Join a team with a code"; the class code was sent out via Canvas announcement. 
