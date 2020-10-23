@@ -98,14 +98,14 @@ Once you have reviewed how your image will be built, run the following command i
 $ docker build -t <yourGoogleID>/node-svc .
 ----
 
-NOTE: A VERY common error with the `docker build` command is omitting the final period, which indicates the current directory. (You can specify other paths as well.)
+What is <yourGoogleID>? See https://github.com/dm-academy/dp-course/blob/master/faq/faq.adoc[the FAQ]. Also. a VERY common error with the `docker build` command is omitting the final period, which indicates the current directory. (You can specify other paths as well.)
 
 The resulting image will be named `node-svc`.
 Find it in the list of your local images:
 
 [source,bash]
 ----
-$ docker images | grep node-svc
+$ docker images 
 ----
 
 At your option, you can save your build command in a script, such as `build.sh`.
@@ -117,8 +117,8 @@ Now, run the container:
 docker run -d -p 8081:30100 <yourGoogleID>/node-svc
 ----
 
-Notice the "8081:3000" syntax.
-This means that while the container is running on port 3000 internally, it is externally exposed via port 8081.
+Notice the "8081:30100" syntax.
+This means that while the container is running on port 30100 internally, it is externally exposed via port 8081.
 
 Again, you may wish to save this in a script, such as `run.sh`.
 
@@ -133,6 +133,20 @@ $ curl localhost:8081
 Again, you may wish to save this in a script, such as `test.sh`.
 
 Take a screen shot of your docker run and curl commands with output. Paste into a new Word document for final submission. 
+
+=== Push container image to Google Container Registry and re-run
+
+Right now, your image is https://www.freecodecamp.org/news/where-are-docker-images-stored-docker-container-paths-explained/[stored locally], in /var/lib/docker. A better practice is storing them in a dedicated container registry. The https://hub.docker.com/[Docker Hub] is a well known registry, but for convenience (and to minimize the logins you have to manage) we will store the image in the https://cloud.google.com/container-registry/[Google Container Registry]. 
+
+Doing so is simply a matter of a `push`: 
+
+`$ docker push gcr.io/<yourGoogleID>/node-svc:latest`
+
+Notice that you can run directly: 
+
+`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc`
+
+Having a current container image in the Google Container Registry is a prerequisite for the next section. 
 
 === Conclusion
 
