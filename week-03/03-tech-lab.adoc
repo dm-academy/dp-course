@@ -142,9 +142,11 @@ Doing so is simply a matter of rebuilding and then pushing:
 
 [source,bash]
 ----
-$ docker build -t gcr.io/<yourGoogleID>/node-svc .
-$ docker push gcr.io/<yourGoogleID>/node-svc:latest
+$ docker build -t gcr.io/<your Google project>/node-svc .
+$ docker push gcr.io/<your Google project>/node-svc:latest
 ----
+
+NOTE: This is your Google _Project_, not your Google ID that you used above. 
 
 Notice that you can run directly: 
 

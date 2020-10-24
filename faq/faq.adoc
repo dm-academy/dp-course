@@ -124,6 +124,29 @@ Hit `y`, you should get:
 
 When starting up the nodejs server with `nodejs server.js &` you may encounter a `address already in use` error. Read carefully, as this output may be further down in the error output. This indicates that there is already a node server running. If you would like to start over, run `ps -ef` to list processes and then kill the correct process by id: `kill {process id}`
 
+== Port already allocated (not to be confused with address already in use)
+If on a `docker run` you get 
+
+[source,bash]
+----
+betz4871:node-svc$ docker run -d -p 8081:30100 dmacademy/node-svc
+8d25efd0b098984d5bf16038f609a5fc54861beb36345ad67ea011feb991c397
+docker: Error response from daemon: driver failed programming external connectivity on endpoint wizardly_shamir (c730f2ed00186404cef02d6e9d97d2f14f4d4328e5102393f3cff1f2d9ffaca8): Bind for 0.0.0.0:8081 failed: port is already allocated.
+----
+
+This means you already have a docker container running and attached to that port. 
+
+run `docker ps` and `docker kill` the image name that is already attached to that port.
+
+[source,bash]
+----
+betz4871:node-svc$ docker ps
+CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS              PORTS                    NAMES
+1571e18f6fb9        dmacademy/node-svc   "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes        0.0.0.0:8081->3000/tcp   cool_ardinghelli
+betz4871:node-svc$ docker kill cool_ardinghelli
+cool_ardinghelli
+----
+
 == Switching Github remote from http (cleartext password) to ssh
 See https://docs.github.com/en/github/using-git/changing-a-remotes-url[this link.]
 
