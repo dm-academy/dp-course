@@ -69,8 +69,12 @@ Error refreshing state: state snapshot was created by Terraform v0.12.8, which i
 ----
 
 execute 
-`rm -rf terraform.tfstate`
-`terraform init`
+
+[source,bash]
+----
+rm -rf terraform.tfstate
+terraform init
+----
 
 == Nano garbled
 
