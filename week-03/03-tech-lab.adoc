@@ -314,19 +314,16 @@ Kubernetes implements Infrastructure as Code approach to managing container infr
 * The compute resources available to those applications
 * The policies around how those applications behave, such as restart policies, upgrades, and fault-tolerance
 
-By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like;
-this is your cluster's *desired state*.
+By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like; this is your cluster's *desired state*.
 Kubernetes then makes sure that the cluster's actual state meets the desired state described in the object.
 
 Most of the times, you describe the object in a `.yaml` file called `manifest` and then give it to `kubectl` which in turn is responsible for relaying that information to Kubernetes via its API.
 
-*Deployment object* represents an application running on your cluster.
-We'll use it to run containers of our applications.
+*Deployment object* represents an application running on your cluster. We'll use it to run containers of our applications.
 
 Review the `deployments.yaml` file. 
 
-In this file we describe two `Deployment objects` which define what application containers and in what quantity should be run.
-The Deployment objects have the same structure so I'll briefly go over only one of them.
+In this file we describe two `Deployment objects` which define what application containers and in what quantity should be run. The Deployment objects have the same structure so I'll briefly go over only one of them.
 
 Each Kubernetes object has 4 required fields:
 
@@ -356,8 +353,7 @@ The `Pod template` which is a Pod object's definition nested inside the Deployme
 It has the required object fields such as `metadata` and `spec`, but it doesn't have `apiVersion` and `kind` fields as those would be redundant in this case.
 When we create a Deployment object, the Pod object(s) will be created as well. The number of Pods will be equal to the number of `replicas` specified. The Deployment object ensures that the right number of Pods (`replicas`) is always running.
 
-In the Pod object definition (`Pod template`) we specify container information such as a container image name, a container name, which is used by Kubernetes to run the application.
-We also add labels to identify what application this Pod object is used to run, this label value is then used by the `selector` field in the Deployment object to select the right Pod object.
+In the Pod object definition (`Pod template`) we specify container information such as a container image name, a container name, which is used by Kubernetes to run the application. We also add labels to identify what application this Pod object is used to run, this label value is then used by the `selector` field in the Deployment object to select the right Pod object.
 
 [source,yaml]
 ----
@@ -368,7 +364,7 @@ We also add labels to identify what application this Pod object is used to run, 
     spec:
       containers:
       - name: node-svc
-        image: dmacademy/node-svc
+        image: gcr.io/<your Google ID>/node-svc
 ----
 
 The container image will be downloaded from https://hub.docker.com/[Docker Hub] in this case: the node-svc image uploaded to the dmacademy organization. We could also use the https://cloud.google.com/container-registry/[Google Container Registry] or https://github.com/features/packages[Github Packages].
@@ -428,7 +424,7 @@ spec:
   ports:
   - protocol: TCP
     port: 30100
-    targetPort: 301 00
+    targetPort: 30100
     nodePort: 30100
 ----
 
@@ -506,9 +502,6 @@ Or, if you like, just issue the appropriate curl command.
 
 Take a screenshot of the results and submit to the lab assignment. 
 
-=== Save and commit the work
-
-Save and commit the `kubernetes` folder created in this section into your `iac-tutorial` repo. If you are going to take a break, you probably should destroy your Kubernetes cluster. 
 
 === Conclusion
 
