@@ -140,8 +140,11 @@ Right now, your image is https://www.freecodecamp.org/news/where-are-docker-imag
 
 Doing so is simply a matter of rebuilding and then pushing: 
 
-`$ docker build -t gcr.io/<yourGoogleID>/node-svc .`
-`$ docker push gcr.io/<yourGoogleID>/node-svc:latest`
+[source,bash]
+----
+$ docker build -t gcr.io/<yourGoogleID>/node-svc .
+$ docker push gcr.io/<yourGoogleID>/node-svc:latest
+----
 
 Notice that you can run directly: 
 
