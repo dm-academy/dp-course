@@ -138,8 +138,9 @@ Take a screen shot of your docker run and curl commands with output. Paste into 
 
 Right now, your image is https://www.freecodecamp.org/news/where-are-docker-images-stored-docker-container-paths-explained/[stored locally], in /var/lib/docker. A better practice is storing them in a dedicated container registry. The https://hub.docker.com/[Docker Hub] is a well known registry, but for convenience (and to minimize the logins you have to manage) we will store the image in the https://cloud.google.com/container-registry/[Google Container Registry]. 
 
-Doing so is simply a matter of a `push`: 
+Doing so is simply a matter of rebuilding and then pushing: 
 
+`$ docker build -t gcr.io/<yourGoogleID>/node-svc .`
 `$ docker push gcr.io/<yourGoogleID>/node-svc:latest`
 
 Notice that you can run directly: 
@@ -516,7 +517,7 @@ In the last section, we were able to access the application's main URL. Also, at
 * update server.js
 * test it locally (either directly or as a container)
 * rebuild the container
-* push it to the Docker Hub
+* push it to the Google Container Registry
 * tell Kubernetes to re-apply the deployment. 
 
 You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery (to be continued...)

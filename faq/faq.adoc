@@ -141,7 +141,7 @@ follow these instructions:
 
 [source,bash]
 ----
-sudo npm cache clean --force
+npm cache clean --force    # preface with sudo  if necessary
 rm package-lock.json
 rm -rf node_modules
 ----
