@@ -2,7 +2,7 @@
 
 = Lab 03 Docker, Kubernetes, and your first CD pipeline
 
-Check out branch master: 
+Go to the node-svc directory and check out branch master: 
 
 [source,bash]
 ----
@@ -91,7 +91,7 @@ CMD [ "node", "server.js" ]
 
 === Build Container Image
 
-Once you have reviewed how your image will be built, run the following command inside your `my-iac-tutorial` directory to create a container image for the node-svc application:
+Once you have reviewed how your image will be built, run the following command inside the node-svc directory to create a container image for the node-svc application:
 
 [source,bash]
 ----
