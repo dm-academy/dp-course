@@ -151,7 +151,18 @@ Doing so is simply a matter of rebuilding and then pushing:
 [source,bash]
 ----
 $ docker build -t gcr.io/<your Google project>/node-svc .
-$ docker push gcr.io/<your Google project>/node-svc:latest
+
+
+Now tag the docker image as shown below and then push it to the Google Container Repository.
+Go to this if you need additional guidance:  https://cloud.google.com/container-registry/docs/pushing-and-pulling
+
+Example:
+$ docker tag [SOURCE_IMAGE] [HOSTNAME]/[PROJECT-ID]/[IMAGE]
+$ docker push [HOSTNAME]/[PROJECT-ID]/[IMAGE]
+
+Actual: (place <yourGoogleID with your own yourGoogleID>)
+$ docker tag <yourGoogleID>/node-svc us.gcr.io/<yourGoogleID>/node-svc
+$ docker push us.gcr.io/<yourGoogleID>/node-svc:latest
 ----
 
 NOTE: This is your Google _Project_, not your Google ID that you used above. 
