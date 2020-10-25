@@ -489,8 +489,7 @@ The `ports` section specifies the port mapping between a Service and Pods that a
     nodePort: 30100
 ----
 
-The requests that come to any of your cluster nodes' public IP addresses on the specified `nodePort` will be routed to the `node-svc` Service cluster-internal IP address.
-The Service, which is listening on port 30100 (`port`) and is accessible within the cluster on this port, will then route the packets to the `targetPort` on one of the Pods which is part of this Service.
+The requests that come to any of your cluster nodes' public IP addresses on the specified `nodePort` will be routed to the `node-svc` Service cluster-internal IP address. The Service, which is listening on port 30100 (`port`) and is accessible within the cluster on this port, will then route the packets to the `targetPort` on one of the Pods which is part of this Service.
 
 For simplcity, we have used the same port for all three, but they may all differ.
 
@@ -528,7 +527,11 @@ Get a list of IP addresses of your cluster nodes:
 $ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances list --filter="tags.items=node-svc-k8s"
 ----
 
-Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `node-svc` application by issuing the appropriate curl command. 
+Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `node-svc` application by issuing the appropriate curl command:
+
+$ curl <cluster IP>:30100
+
+At this time, do not try a higher number (e.g. <cluster IP>:30100/2)
 
 NOTE: As of Oct 2020, there seems to be an issue with accessing the cluster from external IP addresses (eg via your browser) despite the existence of the "node-port-range" firewall rule. Extra credit for helping on this. 
 
@@ -569,79 +572,35 @@ The first question you should always ask in this situation: what do the logs say
 
 First, what is a log? It is a record of what the system is doing. Remember stdout and stderr from your Unix tutorial? (Review them if you don't.) These output streams are usually being monitored and recorded when software is deployed and started in a running system. Kubernetes is no exception. 
 
-The simplest way to get Kubernetes logs is as follows. First, get all your pod IDs: 
+The simplest way to get Kubernetes logs is as follows. First, try the command once more: 
+
+`$ curl <cluster IP>:30100/3`
+
+It should hang; hit ctrl-c. Repeat a few more times, so that the first pod is likely to see the error.
+
+Google Cloud has extensive monitoring. From the left top "hamburger" (the three lines) to the left of "Google Cloud Platform," select "Operations|Monitoring|Logs Explorer":
+
+image:images/svcMonitoring.png[]
+
+You should see something like this: 
+
+image:images/monitoring1.png[]
+
+Click on "Kubernetes Container" (circled), you should see something like:
+
+image:images/monitoring2.png[]
+
+You're now seeing the combination of stderr and stdout for your containers. Look at the orange !! warnings. What are they saying? 
+
+In particular, we are interested in the errors that start with "UnhandledPromiseRejectionWarning..." We see some calls to IP addresses that seem to be timing out (ETIMEDOUT error). Look in your source code for server.js. Does that IP address seem to be there somewhere? Like Line 5?
+
+This is an example of a hard-coded value that is now breaking. We could replace it with a current cluster IP address, but then we have to just keep updating the code every time. Clearly, there should be a better way. Fortunately there is a simple fix 
 
 [source,bash]
 ----
-kubectl get pods --all-namespaces
-NAMESPACE     NAME                                                        READY   STATUS              RESTARTS   AGE
-default       node-svc-deployment-cf76549ff-9cdxr                         1/1     Running             0          3m11s
-default       node-svc-deployment-cf76549ff-d5rnq                         1/1     Running             0          3m11s
-default       node-svc-deployment-cf76549ff-d9hq9                         0/1     ContainerCreating   0          3m11s
-default       node-svc-deployment-cf76549ff-s5vwf                         1/1     Running             0          3m11s
-default       node-svc-deployment-cf76549ff-w6chl                         1/1     Running             0          3m11s
-kube-system   event-exporter-v0.3.0-5cd6ccb7f7-l9lqc                      2/2     Running             0          70m
-kube-system   fluentd-gcp-scaler-6855f55bcc-kwd8l                         1/1     Running             0          70m
-kube-system   fluentd-gcp-v3.1.1-4qlhp                                    2/2     Running             0          70m
-kube-system   fluentd-gcp-v3.1.1-bhrhr                                    2/2     Running             0          70m
-kube-system   fluentd-gcp-v3.1.1-xhqs7                                    2/2     Running             0          70m
-kube-system   heapster-gke-5d76c889bb-wr8j6                               3/3     Running             0          69m
-kube-system   kube-dns-5c446b66bd-5r479                                   4/4     Running             0          71m
-kube-system   kube-dns-5c446b66bd-m7l6d                                   4/4     Running             0          70m
-kube-system   kube-dns-autoscaler-6b7f784798-dwk84                        1/1     Running             0          70m
-kube-system   kube-proxy-gke-node-svc-k8s-default-pool-53125139-07bt      1/1     Running             0          70m
-kube-system   kube-proxy-gke-node-svc-k8s-default-pool-53125139-ctw4      1/1     Running             0          70m
-kube-system   kube-proxy-gke-node-svc-k8s-default-pool-53125139-n2t5      1/1     Running             0          70m
-kube-system   l7-default-backend-84c9fcfbb-9lpcp                          1/1     Running             0          71m
-kube-system   metrics-server-v0.3.3-fdc67d4b6-2p7q9                       2/2     Running             0          70m
-kube-system   prometheus-to-sd-76wsg                                      2/2     Running             0          70m
-kube-system   prometheus-to-sd-hbdl9                                      2/2     Running             0          70m
-kube-system   prometheus-to-sd-xjvfw                                      2/2     Running             0          70m
-kube-system   stackdriver-metadata-agent-cluster-level-7bb8c5b7fd-hzz49   2/2     Running             0          69m
+$ docker build -t gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:v2 .
+$ docker push gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:v2
 ----
-
-This is a very important list and you should spend some time looking it over. 
-
-Now, get the log from the first pod: 
-
-[source,bash]
-----
-kubectl -n default logs node-svc-deployment-cf76549ff-9cdxr
-[various output]
-Running on 3000
-Console: request is testing a simple self-get
-Console: request is testing a simple self-post
-DateIPStamp reached with {"action":"GET"} 127.0.0.1
-Console: / Server returned success on get.
-{ action: 'GET',
-  arrTimeStamp:
-   [ '127.0.0.1 Tue Sep 08 2020 23:48:50 GMT+0000 (Coordinated Universal Time)' ] }
-Console: entered / post
-Console: / received {"firstName":"myFirstName","lastName":"myLastName"}
-DateIPStamp reached with {"firstName":"myFirstName","lastName":"myLastName","action":"POST"} 127.0.0.1
-Console: / returned {"firstName":"myFirstName","lastName":"myLastName","action":"POST","arrTimeStamp":["127.0.0.1 Tue Sep 08 2020 23:48:50 GMT+0000 (Coordinated Universal Time)"]}
-{ firstName: 'myFirstName',
-  lastName: 'myLastName',
-  action: 'POST',
-  arrTimeStamp:
-   [ '127.0.0.1 Tue Sep 08 2020 23:48:50 GMT+0000 (Coordinated Universal Time)' ] }
-/n GET, making GET subrequest
-returning URL http://node-svc-01:3000/2
-(node:1) UnhandledPromiseRejectionWarning: FetchError: request to http://node-svc-01:3000/2 failed, reason: getaddrinfo ENOTFOUND node-svc-01 node-svc-01:3000
-    at ClientRequest.<anonymous> (/app/node_modules/node-fetch/lib/index.js:1461:11)
-    at ClientRequest.emit (events.js:193:13)
-    at Socket.socketErrorListener (_http_client.js:397:9)
-    at Socket.emit (events.js:193:13)
-    at emitErrorNT (internal/streams/destroy.js:91:8)
-    at emitErrorAndCloseNT (internal/streams/destroy.js:59:3)
-    at processTicksAndRejections (internal/process/task_queues.js:81:17)
-(node:1) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
-(node:1) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
-----
-
-You should see some routine-looking output, and some output that looks more like an error. Discuss with your teammates and/or in class. What do you think is causing the error? What are contributing factors? (To be discussed and worked on in class.)
-
-
 
 == Automating the delivery pipeline
 
