@@ -273,7 +273,7 @@ Now, run Terraform to create a Kubernetes cluster consisting of 3 nodes (VMs for
 ----
 $ gcloud services enable container.googleapis.com # enable Kubernetes Engine API
 $ terraform init
-$ terraform apply -var <YOUR GOOGLE PROJECT ID>  # passing project on command line.
+$ terraform apply -var "project_id=$GOOGLE_CLOUD_PROJECT" -auto-approve  # passing project on command line as environment variable.
 ----
 
 Wait until Terraform finishes creation of the cluster. It can take about 3-5 minutes.
@@ -350,6 +350,8 @@ In the Pod object definition (`Pod template`) we specify container information s
         image: gcr.io/<your Google ID>/node-svc:v1
 ----
 
+Unfortunately, you cannot include an environment variable in YAML. So you have to alter the file.
+
 The container image will be downloaded from the https://cloud.google.com/container-registry/[Google Container Registry] (this is the one we tagged and uploaded as v1 in the previous section).
 
 === Create Deployment Objects
@@ -374,7 +376,7 @@ $ kubectl apply -f my-deployments.yaml
 ----
 It can take 5 minutes or more for the pods to be fully activated. Take a quick break, and then check the deployments and pods that have been created:
 
-*Pods still creating:*
+*Pods at start:*
 
 [source,bash]
 ----
@@ -388,6 +390,37 @@ node-svc-deployment-547f9d4c7f-58brr   0/1     ContainerCreating   0          59
 node-svc-deployment-547f9d4c7f-b5kjz   0/1     ContainerCreating   0          59s
 node-svc-deployment-547f9d4c7f-l9m7m   0/1     ContainerCreating   0          59s
 node-svc-deployment-547f9d4c7f-mrg6m   0/1     ContainerCreating   0          59s
+----
+
+*Pods still creating:*
+
+[source,bash]
+----
+$ kubectl get deploy
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+node-svc-deployment   2/5     5            2           51s
+$ kubectl get pods
+NAME                                   READY   STATUS              RESTARTS   AGE
+node-svc-deployment-547f9d4c7f-45zqv   1/1     Running             0          59s
+node-svc-deployment-547f9d4c7f-58brr   0/1     ContainerCreating   0          59s
+node-svc-deployment-547f9d4c7f-b5kjz   1/1     Running             0          59s
+node-svc-deployment-547f9d4c7f-l9m7m   0/1     ContainerCreating   0          59s
+node-svc-deployment-547f9d4c7f-mrg6m   0/1     ContainerCreating   0          59s
+----
+
+*All pods ready*
+[source,bash]
+----
+$ kubectl get deploy
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+node-svc-deployment   5/5     5            5           4m1s
+$ kubectl get pods
+NAME                                   READY   STATUS              RESTARTS   AGE
+node-svc-deployment-7ff4459995-4zxcv   1/1     Running             0          4m3s
+node-svc-deployment-7ff4459995-5dmtq   1/1     Running             0          4m3s
+node-svc-deployment-7ff4459995-l8bch   1/1     Running             0          4m3s
+node-svc-deployment-7ff4459995-m6p67   1/1     Running             0          4m3s
+node-svc-deployment-7ff4459995-s7nsb   1/1     Running             0          4m3s
 ----
 
 === Service manifests
@@ -475,7 +508,12 @@ Check that the services have been created:
 [source,bash]
 ----
 $ kubectl get svc
+NAME              TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)           AGE
+kubernetes        ClusterIP   10.3.240.1     <none>        443/TCP           11m
+node-svc-public   NodePort    10.3.245.179   <none>        30100:30100/TCP   7s
 ----
+
+(The IP addresses will be different for yours.)
 
 === Access Application
 
@@ -490,9 +528,9 @@ Get a list of IP addresses of your cluster nodes:
 $ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances list --filter="tags.items=node-svc-k8s"
 ----
 
-Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `node-svc` application in your browser. Just try the main address (no /).
+Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `node-svc` application by issuing the appropriate curl command. 
 
-Or, if you like, just issue the appropriate curl command. 
+NOTE: As of Oct 2020, there seems to be an issue with accessing the cluster from external IP addresses (eg via your browser) despite the existence of the "node-port-range" firewall rule. Extra credit for helping on this. 
 
 Take a screenshot of the results and submit to the lab assignment. 
 
