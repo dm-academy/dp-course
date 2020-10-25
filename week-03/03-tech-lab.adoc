@@ -123,8 +123,7 @@ Now, run the container:
 docker run -d -p 8081:30100 <yourGoogleID>/node-svc
 ----
 
-Notice the "8081:30100" syntax.
-This means that while the container is running on port 30100 internally, it is externally exposed via port 8081.
+Notice the "8081:30100" syntax. This means that while the container is running on port 30100 internally, it is externally exposed via port 8081.
 
 Again, you may wish to save this in a script, such as `run.sh`.
 
@@ -158,12 +157,14 @@ $ docker tag [SOURCE_IMAGE] [HOSTNAME]/[PROJECT-ID]/[IMAGE]:TAG
 $ docker push [HOSTNAME]/[PROJECT-ID]/[IMAGE]:TAG
 ----
 
-Actual  (replace <yourGoogleID> with your own yourGoogleID, and <your Google Project> with your Google project). We also as the actual tag are going to indicate v1, for "version 1":
+We are going to now explore some environment variables to make this easier. If you type the command `env`, you will see a number of useful values. Read through them until you find your Google ID and Google Project ID. They are named LOGNAME and GOOGLE_CLOUD_PROJECT. You can access them in any command by prefacing them with `$`:
+
+We also as the actual tag are going to indicate v1, for "version 1". 
 
 [source,bash]
 ----
-$ docker tag <yourGoogleID>/node-svc us.gcr.io/<your Google Project>/node-svc:v1
-$ docker push us.gcr.io/<your Google Project>/node-svc:v1
+$ docker tag $LOGNAME/node-svc gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:v1
+$ docker push gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:v1
 ----
 
 NOTE: This is your Google _Project_, not your Google ID that you used above. 
@@ -229,18 +230,13 @@ Questions arise as to:
 
 The world of containers is very different from the world of virtual machines and needs a special platform for management.
 
-Kubernetes is the most widely used orchestration platform for running and managing containers at scale.
-It solves the common problems (some of which we've mentioned above) related to running containers on multiple hosts. And we'll see in this section that it uses the Infrastructure as Code approach to managing container infrastructure.
+Kubernetes is the most widely used orchestration platform for running and managing containers at scale. It solves the common problems (some of which we've mentioned above) related to running containers on multiple hosts. And we'll see in this section that it uses the Infrastructure as Code approach to managing container infrastructure.
 
 Let's try to run our `node-svc` application on a Kubernetes cluster.
 
-
-
 === Describe Kubernetes cluster in Terraform
 
-We'll use https://cloud.google.com/kubernetes-engine/[Google Kubernetes Engine] (GKE) service to deploy a Kubernetes cluster of 3 nodes.
-
-We'll describe a Kubernetes cluster using Terraform so that we can manage it through code.
+We'll use https://cloud.google.com/kubernetes-engine/[Google Kubernetes Engine] (GKE) service to deploy a Kubernetes cluster of 3 nodes. We'll describe a Kubernetes cluster using Terraform so that we can manage it through code.
 
 Review these three files, which have changed since Lab 02:
 
@@ -258,15 +254,26 @@ We'll use this Terraform code to create a Kubernetes cluster.
 `main.tf` holds all the information about the cluster that should be created.
 It's parameterized using Terraform https://www.terraform.io/intro/getting-started/variables.html[input variables] which allow you to easily change configuration parameters.
 
-Look into `terraform.tfvars` and `providers.tf` files which contain definitions of the input variables and change them if necessary. You must change the Google project id in two places. 
+Look at the `providers.tf` file, which has a key change: 
 
-After you've corrected the variables, run Terraform to create a Kubernetes cluster consisting of 3 nodes (VMs for running our application containers). (You should know the command by now.)
+[source,bash]
+----
+provider "google" {
+  version = "~> 3.37.0"
+  project = var.project_id
+  region  = "us-central1-c"
+}
+----
+
+We have changed the project to https://www.terraform.io/docs/configuration/variables.html[an input variable.] We no longer "hard code" our project ID, which should be a secret. Instead, as we see below, we "pass" the project ID on the command line
+
+Now, run Terraform to create a Kubernetes cluster consisting of 3 nodes (VMs for running our application containers). 
 
 [source,bash]
 ----
 $ gcloud services enable container.googleapis.com # enable Kubernetes Engine API
-$ ~/bin/terraform init
-$ ~/bin/terraform apply
+$ terraform init
+$ terraform apply -var <YOUR GOOGLE PROJECT ID>  # passing project on command line.
 ----
 
 Wait until Terraform finishes creation of the cluster. It can take about 3-5 minutes.
@@ -340,21 +347,34 @@ In the Pod object definition (`Pod template`) we specify container information s
     spec:
       containers:
       - name: node-svc
-        image: gcr.io/<your Google ID>/node-svc
+        image: gcr.io/<your Google ID>/node-svc:v1
 ----
 
-The container image will be downloaded from https://hub.docker.com/[Docker Hub] in this case: the node-svc image uploaded to the dmacademy organization. We could also use the https://cloud.google.com/container-registry/[Google Container Registry] or https://github.com/features/packages[Github Packages].
+The container image will be downloaded from the https://cloud.google.com/container-registry/[Google Container Registry] (this is the one we tagged and uploaded as v1 in the previous section).
 
 === Create Deployment Objects
 
-Run a kubectl command to create Deployment objects inside your Kubernetes cluster (make sure to provide the correct path to the manifest file):
+IMPORTANT: It's strongly recommended to create your own "my-deployments.yaml" file so that you don't lose work if the course repository is updated.
+
+Create your own `my-deployments.yaml` and open it in `nano`:
 
 [source,bash]
 ----
-$ kubectl apply -f deployments.yaml
+$ cp deployments.yaml my-deployments.yaml
+$ nano my-deployments.yaml
 ----
 
-Check the deployments and pods that have been created:
+Change the Google project ID on the "image" line to match your Google project id (the full path should match the Docker tagged image at the end of the previous section in this lab).
+
+Then, run a kubectl command to create Deployment objects inside your Kubernetes cluster (make sure to provide the correct path to the manifest file):
+
+[source,bash]
+----
+$ kubectl apply -f my-deployments.yaml
+----
+It can take 5 minutes or more for the pods to be fully activated. Take a quick break, and then check the deployments and pods that have been created:
+
+*Pods still creating:*
 
 [source,bash]
 ----
@@ -369,8 +389,6 @@ node-svc-deployment-547f9d4c7f-b5kjz   0/1     ContainerCreating   0          59
 node-svc-deployment-547f9d4c7f-l9m7m   0/1     ContainerCreating   0          59s
 node-svc-deployment-547f9d4c7f-mrg6m   0/1     ContainerCreating   0          59s
 ----
-
-It can take 5 minutes or more for the pods to be fully activated.  
 
 === Service manifests
 
