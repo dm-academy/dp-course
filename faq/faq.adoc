@@ -19,9 +19,6 @@ image:images/GoogleProj2.png[]
 
 (Your ID will NOT start with "proven-sum-", it will be some other random string of words and numbers. You can copy it from the menu here. You'll use it in many places throughout your work with Google.)
 
-== Nothing works like I expect (have you lost track of where you are?). 
-
-One big cause of frustration is losing track of where you are. Stop for a minute: are you in the Google Cloud Shell? Or an actual virtual machine you have created? The Google Cloud Shell has, for example, git installed. A lightweight VM probably will not. 
 
 == I pasted in a command and it doesn't work
 
@@ -53,12 +50,18 @@ and so forth.
 
 Some tutorials may not use <>; there is no standard. 
 
+== Nothing works like I expect (have you lost track of where you are?). 
+
+One big cause of frustration is losing track of where you are. Stop for a minute: are you in the Google Cloud Shell? Or an actual virtual machine you have created? The Google Cloud Shell has, for example, git and node installed. A fresh, lightweight VM probably will not. 
+
 == Offending ECDSA key
 If you get an `offending ECDSA key` error, use the suggested removal command.
 
 == Permission denied (publickey)
 
-If you get the error `Permission denied (publickey).`, this probably means that your ssh-agent no longer has the node-user private key added. This easily happens if the Google Cloud Shell goes to sleep and wipes out your session. Check via issuing `ssh-add -l`.
+If you have not set up an SSH public/private key, you will get this error. Consult the appropriate lab materials; this is part of the instruction. 
+
+IF ssh *has worked before* on the Google Cloud Shell and you get the error `Permission denied (publickey).`, this probably means that your ssh-agent no longer has the node-user private key added. This easily happens if the Google Cloud Shell goes to sleep and wipes out your session. Check via issuing `ssh-add -l`.
 
 If you get a message to the effect that your agent is not running, type `eval `ssh-agent`` and then `ssh-add ~/.ssh/node-user`.
 
