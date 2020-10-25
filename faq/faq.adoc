@@ -1,5 +1,12 @@
 = Frequently asked questions
 
+== Are my Google ID and Google Cloud Project the same? 
+
+NO. 
+
+== What is my Google ID? 
+Your Google ID is your gmail ID, before the @ sign. It is also your username on the Google Cloud Shell.
+
 == What is my Google Cloud Project? 
 
 The Google Cloud Project is a unique string of words and numbers that you can find in the Google console top left. Typically the menu item defaults to "My First Project":
@@ -33,7 +40,7 @@ If you paste that in literally, you will get something like this:
 This is because 
 
 . You pasted in the `$`, which is there to just show you that you are operating at a command line
-. You pasted in, literally, `<my account>`, rather than replacing the `<my account>` with YOUR ACTUAL EMAIL ACCOUNT. In this case, you would NOT include the @stthomas.edu; however, this may vary. 
+. You pasted in, literally, `<my account>`, rather than replacing the `<my account>` with YOUR ACTUAL EMAIL ACCOUNT. In this case, you would NOT include the @stthomas.edu or @gmail.com; however, this may vary. 
 
 This applies in many cases, such as 
 
