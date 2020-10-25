@@ -182,3 +182,57 @@ npm cache clean --force    # preface with sudo  if necessary
 rm package-lock.json
 rm -rf node_modules
 ----
+
+=== Terraform version issues
+NOTE: As of early fall 2020, the Google Cloud Shell versions of Terraform and the Google Cloud Provisioner were out of date. This seems to have been fixed, but retaining this here. 
+
+You may need to install a local version of Terraform and always call it explicitly. 
+
+First, run:
+
+[source,bash]
+----
+$ terraform -v # Google's version
+
+----
+
+If you get a Terraform version under 13, such as: 
+
+[source,bash]
+----
+Terraform v0.12.24
++ provider.google v2.5.1
+Your version of Terraform is out of date! The latest version
+is 0.13.4. You can update by downloading from https://www.terraform.io/downloads.html
+betz4871:node-svc$ ~/bin/terraform -v
+---- 
+
+then you need to upgrade. (If you get a current version, then go to the next section, otherwise continue here.)
+
+Inspect and run: 
+
+[source,bash]
+----
+$ update-terraform.sh
+----
+
+This installs Terraform 13 in your local ~/bin directory. 
+
+See the difference: 
+
+[source,bash]
+----
+
+$ ~/terraform -v # your version
+  Terraform v0.13.4
++ provider registry.terraform.io/hashicorp/google v3.37.0
+----
+
+You need to ALWAYS call Terraform thus: 
+
+[source,bash]
+----
+$ ~/bin/terraform apply
+----
+
+Terraform will CRASH HARD if you do not do this.

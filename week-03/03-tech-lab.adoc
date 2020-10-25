@@ -170,7 +170,7 @@ NOTE: This is your Google _Project_, not your Google ID that you used above.
 
 Notice that you can run directly: 
 
-`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc`
+`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc:v1`
 
 Having a current container image in the Google Container Registry is a prerequisite for the next section. 
 
@@ -180,7 +180,7 @@ In this section, you adopted containers for running your application. This is a 
 
 We describe the configuration of our container image in a Dockerfile using Dockerfile's syntax. We then save that Dockerfile in our application repository. This way we can build the application image consistently across any environments.
 
-Destroy the current playground before moving on to the next section, through `docker ps`, `docker kill`, `docker images`, and `docker rmi`. In the example below, the container is named "beautiful_pascal". Yours will be different. Follow the example, substituting yours.
+Destroy the current playground before moving on to the next section, through `docker ps`, `docker kill`, `docker images`, and `docker rmi`. In the example below, the container is named "beautiful_pascal". Yours will be different (and you may have multiple). Follow the example, substituting yours.
 
 Take a screen shot of your cleanup. Paste into the Word document for final submission. 
 
@@ -189,7 +189,7 @@ Take a screen shot of your cleanup. Paste into the Word document for final submi
 ----
 $ docker ps
 CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS              PORTS                    NAMES
-64e60b7b0c81        <your google id>/node-svc   "docker-entrypoint.s…"   10 minutes ago      Up 10 minutes       0.0.0.0:8081->3000/tcp   beautiful_pascal
+64e60b7b0c81        <your google id>/node-svc   "docker-entrypoint.s…"   10 minutes ago      Up 10 minutes       0.0.0.0:8081->30100/tcp   beautiful_pascal
 $ docker kill beautiful_pascal
 beautiful_pascal
 $ docker images       # returns list of your images
@@ -234,57 +234,7 @@ It solves the common problems (some of which we've mentioned above) related to r
 
 Let's try to run our `node-svc` application on a Kubernetes cluster.
 
-=== TEMPORARY
-As of early fall 2020, the Google Cloud Shell versions of Terraform and the Google Cloud Provisioner are out of date. You may need to install a local version of Terraform and always call it explicitly. 
 
-First, run:
-
-[source,bash]
-----
-$ terraform -v # Google's version
-
-----
-
-If you get something like: 
-
-[source,bash]
-----
-Terraform v0.12.24
-+ provider.google v2.5.1
-Your version of Terraform is out of date! The latest version
-is 0.13.4. You can update by downloading from https://www.terraform.io/downloads.html
-betz4871:node-svc$ ~/bin/terraform -v
----- 
-
-then you need to upgrade. (If you get a current version, then go to the next section, otherwise continue here.)
-
-Inspect and run: 
-
-[source,bash]
-----
-$ update-terraform.sh
-----
-
-This installs Terraform 13 in your local ~/bin directory. 
-
-See the difference: 
-
-[source,bash]
-----
-
-$ ~/terraform -v # your version
-  Terraform v0.13.4
-+ provider registry.terraform.io/hashicorp/google v3.37.0
-----
-
-You need to ALWAYS call Terraform thus: 
-
-[source,bash]
-----
-$ ~/bin/terraform apply
-----
-
-Terraform will CRASH HARD if you do not do this.
 
 === Describe Kubernetes cluster in Terraform
 
