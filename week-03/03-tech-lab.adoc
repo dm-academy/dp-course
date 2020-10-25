@@ -146,23 +146,24 @@ Right now, your image is https://www.freecodecamp.org/news/where-are-docker-imag
 
 A better practice is storing images in a dedicated container registry. The https://hub.docker.com/[Docker Hub] is a well known registry, but for convenience (and to minimize the logins you have to manage) we will store the image in the https://cloud.google.com/container-registry/[Google Container Registry]. 
 
-Doing so is simply a matter of rebuilding and then pushing: 
+IMPORTANT: In the below section, you MUST be clear on the difference between your Google ID and your Google project.  See https://github.com/dm-academy/dp-course/blob/master/faq/faq.adoc[the FAQ]!
+
+To store an image in the Google Cloud Registry, we need to "tag" it, which in this case is more like a complete renaming.
+
+Example: 
 
 [source,bash]
 ----
-$ docker build -t gcr.io/<your Google project>/node-svc .
+$ docker tag [SOURCE_IMAGE] [HOSTNAME]/[PROJECT-ID]/[IMAGE]:TAG
+$ docker push [HOSTNAME]/[PROJECT-ID]/[IMAGE]:TAG
+----
 
+Actual  (replace <yourGoogleID> with your own yourGoogleID, and <your Google Project> with your Google project). We also as the actual tag are going to indicate v1, for "version 1":
 
-Now tag the docker image as shown below and then push it to the Google Container Repository.
-Go to this if you need additional guidance:  https://cloud.google.com/container-registry/docs/pushing-and-pulling
-
-Example:
-$ docker tag [SOURCE_IMAGE] [HOSTNAME]/[PROJECT-ID]/[IMAGE]
-$ docker push [HOSTNAME]/[PROJECT-ID]/[IMAGE]
-
-Actual: (place <yourGoogleID with your own yourGoogleID>)
-$ docker tag <yourGoogleID>/node-svc us.gcr.io/<yourGoogleID>/node-svc
-$ docker push us.gcr.io/<yourGoogleID>/node-svc:latest
+[source,bash]
+----
+$ docker tag <yourGoogleID>/node-svc us.gcr.io/<your Google Project>/node-svc:v1
+$ docker push us.gcr.io/<your Google Project>/node-svc:v1
 ----
 
 NOTE: This is your Google _Project_, not your Google ID that you used above. 
