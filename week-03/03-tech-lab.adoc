@@ -560,6 +560,8 @@ You'll quickly realize this is a set of often repeated actions. We're now ready 
 
 === Continuous delivery 
 
+Review https://pubs.opengroup.org/dpbok/standard/DPBoK.html#KLP-devops-technical-practices[DevOps Technical Practices] in the DPBoK. 
+
 In your directory, you will also find a directory called `.github,` with a subdirectory `workflows` and a file `GKE.yml`. The file is a Github Actions script. Have a look at it. It's a basic pipeline, including: 
 
 * testing the application
@@ -583,7 +585,6 @@ As the page indicates, you need to enable the appropriate APIs, create a service
 NOTE: Keep the service account key in a secure location, such as a password manager. It is equivalent to an ssh private key. Once you put it into Github, you cannot retrieve it. 
 
 Once you have this configured, the pipeline should run whenever you make a change to server.js and push it to your Github repo (a local change isn't sufficient). Try changing the output of `app.get('/0?'..` as suggested in the code comments.
-
 
 
 === Break/fix analysis
@@ -617,7 +618,31 @@ In particular, we are interested in the errors that start with "UnhandledPromise
 
 This is an example of a hard-coded value that is now breaking. We could replace it with a current cluster IP address, but then we have to just keep updating the code every time. Clearly, there should be a better way. Fortunately there is a simple fix, we just need to uncomment the appropriate line in server.js. Review it and do so. 
 
-Push the updated server.js file to your Github repository. This should kick off the pipeline and result in your Kubernetes cluster being automatically updated with the new file. 
+Push the updated server.js file to the master branch in your Github repository (or make the change on line on Github itself). This should kick off the pipeline and result in your Kubernetes cluster being automatically updated with the new file. 
+
+To see the pipeline in action, go to Actions and click on "Build and Deploy to GKE." You'll see the workflows that kick off with each commit to master. 
+
+image:images/action1.png[]
+
+Click on 
+
+Click on the top result which should say "Update server.js." You should see something like this:
+
+image:images/action2.png[]
+
+Then click on "Setup Build, Publish, and Deploy." 
+
+image:images/action3.png[]
+
+This is where you get to see the real cool stuff:
+
+image:images/action4.png[]
+
+You can click any of the ">" symbols for more information: 
+
+image:images/action5.png[]
+
+
 
 === Submitting evidence
 
