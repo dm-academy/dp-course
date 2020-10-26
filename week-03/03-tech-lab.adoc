@@ -594,13 +594,10 @@ You're now seeing the combination of stderr and stdout for your containers. Look
 
 In particular, we are interested in the errors that start with "UnhandledPromiseRejectionWarning..." We see some calls to IP addresses that seem to be timing out (ETIMEDOUT error). Look in your source code for server.js. Does that IP address seem to be there somewhere? Like Line 5?
 
-This is an example of a hard-coded value that is now breaking. We could replace it with a current cluster IP address, but then we have to just keep updating the code every time. Clearly, there should be a better way. Fortunately there is a simple fix 
+This is an example of a hard-coded value that is now breaking. We could replace it with a current cluster IP address, but then we have to just keep updating the code every time. Clearly, there should be a better way. Fortunately there is a simple fix, we just need to uncomment the appropriate line in server.js. Review it and do so. 
 
-[source,bash]
-----
-$ docker build -t gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:v2 .
-$ docker push gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:v2
-----
+Then, using the techniques you learned above, build a new version of the container tagged :v2, push it to GCR, update my-deployments.yaml, apply it to the cluster, and verify that you can now curl using higher numbers. 
+
 
 == Automating the delivery pipeline
 
@@ -613,8 +610,9 @@ We'll start with automated testing. As discussed in the DPBoK, we are continuall
 
 In the node-svc directory there is a `test` directory, with a file in it called `test.js`. Have a look at it. It is a very basic automated test that checks that `server.js` operates and successfully responds to a simple GET. 
 
-You can run the test by simply typing 
-`npm test`. Try it. 
+You can run the test by simply typing `npm test`. Try it.
+
+NOTE: If you have issues, you may need to perform `npm install`.
 
 === Continuous delivery 
 
@@ -625,7 +623,14 @@ In your directory, you will also find a directory called `.github,` with a subdi
 * pushing the Docker image to the Google Container Registry (GCR). 
 * deploying from the GCR to Kubernetes
 
-Your final task for this lab is to configure your Github repository to run the pipeline. See https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.]
+Your final task for this lab is to configure your Github repository to run the pipeline. 
+
+Go to the "Actions" tab in your fork of the node-svc repository and enable your workflows: 
+
+image:images/enableActions.png[]
+
+
+Next, see https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.]
 
 As the page indicates, you need to enable the appropriate APIs, create a service account, download the JSON service account key and configure the appropriate secrets in the repository Settings:
 
@@ -634,7 +639,7 @@ As the page indicates, you need to enable the appropriate APIs, create a service
 
 NOTE: Keep the service account key in a secure location, such as a password manager. It is equivalent to an ssh private key. Once you put it into Github, you cannot retrieve it. 
 
-Once you have this configured, the pipeline should run whenever you make a change to server.js. Try changing the output of `app.get('/0?'..` as suggested in the code comments.
+Once you have this configured, the pipeline should run whenever you make a change to server.js and push it to your Github repo (a local change isn't sufficient). Try changing the output of `app.get('/0?'..` as suggested in the code comments.
 
 === Submitting evidence
 
