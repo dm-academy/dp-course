@@ -159,12 +159,11 @@ $ docker push [HOSTNAME]/[PROJECT-ID]/[IMAGE]:TAG
 
 We are going to now explore some environment variables to make this easier. If you type the command `env`, you will see a number of useful values. Read through them until you find your Google ID and Google Project ID. They are named LOGNAME and GOOGLE_CLOUD_PROJECT. You can access them in any command by prefacing them with `$`:
 
-We also as the actual tag are going to indicate v1, for "version 1". 
 
 [source,bash]
 ----
-$ docker tag $LOGNAME/node-svc gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:v1
-$ docker push gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:v1
+$ docker tag $LOGNAME/node-svc gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest
+$ docker push gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest
 ----
 
 NOTE: This is your Google _Project_, not your Google ID that you used above. 
@@ -251,8 +250,7 @@ We'll use this Terraform code to create a Kubernetes cluster.
 
 === Create Kubernetes Cluster
 
-`main.tf` holds all the information about the cluster that should be created.
-It's parameterized using Terraform https://www.terraform.io/intro/getting-started/variables.html[input variables] which allow you to easily change configuration parameters.
+`main.tf` holds all the information about the cluster that should be created. It's parameterized using Terraform https://www.terraform.io/intro/getting-started/variables.html[input variables] which allow you to easily change configuration parameters.
 
 Look at the `providers.tf` file, which has a key change: 
 
@@ -291,7 +289,7 @@ GLBCDefaultBackend is running at https://104.197.22.1/api/v1/namespaces/kube-sys
 
 === Deployment manifest
 
-Kubernetes implements Infrastructure as Code approach to managing container infrastructure. It uses special entities called *objects* to represent the `desired state` of your cluster. With objects you can describe
+Kubernetes implements the Infrastructure as Code approach to managing container infrastructure. It uses special entities called *objects* to represent the `desired state` of your cluster. With objects you can describe
 
 * What containerized applications are running (and on which nodes)
 * The compute resources available to those applications
@@ -356,17 +354,7 @@ The container image will be downloaded from the https://cloud.google.com/contain
 
 === Create Deployment Objects
 
-IMPORTANT: It's strongly recommended to create your own "my-deployments.yaml" file so that you don't lose work if the course repository is updated.
-
-Create your own `my-deployments.yaml` and open it in `nano`:
-
-[source,bash]
-----
-$ cp deployments.yaml my-deployments.yaml
-$ nano my-deployments.yaml
-----
-
-Change the Google project ID on the "image" line to match your Google project id (the full path should match the Docker tagged image at the end of the previous section in this lab).
+In the file deployments.yaml change the Google project ID on the "image" line to match your Google project id (the full path should match the Docker tagged image at the end of the previous section in this lab).
 
 Then, run a kubectl command to create Deployment objects inside your Kubernetes cluster (make sure to provide the correct path to the manifest file):
 
@@ -527,13 +515,11 @@ Get a list of IP addresses of your cluster nodes:
 $ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances list --filter="tags.items=node-svc-k8s"
 ----
 
-Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `node-svc` application by issuing the appropriate curl command:
+Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `node-svc` application by issuing the appropriate curl command (or accessing via your browser):
 
 $ curl <cluster IP>:30100
 
 At this time, do not try a higher number (e.g. <cluster IP>:30100/2)
-
-NOTE: As of Oct 2020, there seems to be an issue with accessing the cluster from external IP addresses (eg via your browser) despite the existence of the "node-port-range" firewall rule. Extra credit for helping on this. 
 
 Take a screenshot of the results and submit to the lab assignment. 
 
@@ -543,9 +529,49 @@ Take a screenshot of the results and submit to the lab assignment.
 In this section, we learned about Kubernetes - a popular orchestration platform which simplifies the process of running containers at scale. We saw how it implements the Infrastructure as Code approach in the form of `objects` and `manifests` which allow you to describe in code the desired state of your container infrastructure which spans a cluster of VMs.
 
 
+== Automating the delivery pipeline
+
+Now that we have a working application that can be deployed to Kubernetes, we can automate the delivery pipeline. It's now time to start using Github Actions so that we can easily move changes into the cluster, without having to execute a lot of commands. 
+
+We'll start with automated testing. As discussed in the DPBoK, we are continually evolving our systems, and as we make changes, we need the systems to keep their existing functionality.
+
+=== Automated testing
+
+In the node-svc directory there is a `test` directory, with a file in it called `test.js`. Have a look at it. It is a very basic automated test that checks that `server.js` operates and successfully responds to a simple GET. 
+
+You can run the test by simply typing `npm test`. Try it.
+
+NOTE: If you have issues, you may need to perform `npm install`.
+
+=== Continuous delivery 
+
+In your directory, you will also find a directory called `.github,` with a subdirectory `workflows` and a file `GKE.yml`. The file is a Github Actions script. Have a look at it. It's a basic pipeline, including: 
+
+* testing the application
+* building the Docker image
+* pushing the Docker image to the Google Container Registry (GCR). 
+* deploying from the GCR to Kubernetes
+
+Your final task for this lab is to configure your Github repository to run the pipeline. 
+
+Go to the "Actions" tab in your fork of the node-svc repository and enable your workflows: 
+
+image:images/enableActions.png[]
+
+Next, see https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.]
+
+As the page indicates, you need to enable the appropriate APIs, create a service account, download the JSON service account key and configure the appropriate secrets in the repository Settings:
+
+* GKE_PROJECT
+* GKE_SA_KEY
+
+NOTE: Keep the service account key in a secure location, such as a password manager. It is equivalent to an ssh private key. Once you put it into Github, you cannot retrieve it. 
+
+Once you have this configured, the pipeline should run whenever you make a change to server.js and push it to your Github repo (a local change isn't sufficient). Try changing the output of `app.get('/0?'..` as suggested in the code comments.
+
 == Updating the service: towards a true pipeline
 
-In the last section, we were able to access the application's main URL. Also, at this point /0  is working .... but /1, /3, /30 etc are not. We need to: 
+In the last section, we were able to access the application's main URL. Also, at this point the simple URL  is working .... but /1, /3, /30 etc are not. We need to: 
 
 * figure out what's wrong
 * update server.js
@@ -555,15 +581,6 @@ In the last section, we were able to access the application's main URL. Also, at
 * tell Kubernetes to re-apply the deployment. 
 
 You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery (to be continued...)
-
-Next up: 
-
-* Break/fix analysis
-* Code commenting
-* Automated testing
-* Mutiple environments
-* Continuous delivery pipeline
-* Collaboration using Github
 
 === Break/fix analysis
 It's one thing to fix code that you're developing on your workstation. It's another thing entirely to fix code that is breaking in production. In this case, you have a service that worked fine on both VMs and Docker, but is ony partially functional in Kubernetes. 
@@ -596,54 +613,11 @@ In particular, we are interested in the errors that start with "UnhandledPromise
 
 This is an example of a hard-coded value that is now breaking. We could replace it with a current cluster IP address, but then we have to just keep updating the code every time. Clearly, there should be a better way. Fortunately there is a simple fix, we just need to uncomment the appropriate line in server.js. Review it and do so. 
 
-Then, using the techniques you learned above, build a new version of the container tagged :v2, push it to GCR, update my-deployments.yaml, apply it to the cluster, and verify that you can now curl using higher numbers. 
-
-
-== Automating the delivery pipeline
-
-Now that we have a working application that can be deployed to Kubernetes, we can automate the delivery pipeline. It's now time to start using Github Actions so that we can easily move changes into the cluster, without having to execute a lot of commands. 
-
-We'll start with automated testing. As discussed in the DPBoK, we are continually evolving our systems, and as we make changes, we need the systems to keep their existing functionality.
-
-
-=== Automated testing
-
-In the node-svc directory there is a `test` directory, with a file in it called `test.js`. Have a look at it. It is a very basic automated test that checks that `server.js` operates and successfully responds to a simple GET. 
-
-You can run the test by simply typing `npm test`. Try it.
-
-NOTE: If you have issues, you may need to perform `npm install`.
-
-=== Continuous delivery 
-
-In your directory, you will also find a directory called `.github,` with a subdirectory `workflows` and a file `GKE.yml`. The file is a Github Actions script. Have a look at it. It's a basic pipeline, including: 
-
-* testing the application
-* building the Docker image
-* pushing the Docker image to the Google Container Registry (GCR). 
-* deploying from the GCR to Kubernetes
-
-Your final task for this lab is to configure your Github repository to run the pipeline. 
-
-Go to the "Actions" tab in your fork of the node-svc repository and enable your workflows: 
-
-image:images/enableActions.png[]
-
-
-Next, see https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.]
-
-As the page indicates, you need to enable the appropriate APIs, create a service account, download the JSON service account key and configure the appropriate secrets in the repository Settings:
-
-* GKE_PROJECT
-* GKE_SA_KEY
-
-NOTE: Keep the service account key in a secure location, such as a password manager. It is equivalent to an ssh private key. Once you put it into Github, you cannot retrieve it. 
-
-Once you have this configured, the pipeline should run whenever you make a change to server.js and push it to your Github repo (a local change isn't sufficient). Try changing the output of `app.get('/0?'..` as suggested in the code comments.
+Push the updated server.js file to your Github repository. This should kick off the pipeline and result in your Kubernetes cluster being automatically updated with the new file. 
 
 === Submitting evidence
 
-Take a screenshot of the pipeline page showing that it has successfully run all steps, and a screen shot showing a /20 or greater call to the microservices running on the Kubernetes cluster. 
+Take a screenshot of the pipeline page showing that it has successfully run all steps, and a screen shot showing a /20 or greater call to the microservices running on the Kubernetes cluster (either via browser or curl). 
 
 === Destroy the cluster
 
