@@ -543,6 +543,19 @@ You can run the test by simply typing `npm test`. Try it.
 
 NOTE: If you have issues, you may need to perform `npm install`.
 
+== Updating the service: towards a true pipeline
+
+In the last section, we were able to access the application's main URL. Also, at this point the simple URL  is working .... but /1, /3, /30 etc are not. We need to: 
+
+* figure out what's wrong
+* update server.js
+* test it locally (either directly or as a container)
+* rebuild the container
+* push it to the Google Container Registry
+* tell Kubernetes to re-apply the deployment. 
+
+You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery (to be continued...)
+
 === Continuous delivery 
 
 In your directory, you will also find a directory called `.github,` with a subdirectory `workflows` and a file `GKE.yml`. The file is a Github Actions script. Have a look at it. It's a basic pipeline, including: 
@@ -569,18 +582,7 @@ NOTE: Keep the service account key in a secure location, such as a password mana
 
 Once you have this configured, the pipeline should run whenever you make a change to server.js and push it to your Github repo (a local change isn't sufficient). Try changing the output of `app.get('/0?'..` as suggested in the code comments.
 
-== Updating the service: towards a true pipeline
 
-In the last section, we were able to access the application's main URL. Also, at this point the simple URL  is working .... but /1, /3, /30 etc are not. We need to: 
-
-* figure out what's wrong
-* update server.js
-* test it locally (either directly or as a container)
-* rebuild the container
-* push it to the Google Container Registry
-* tell Kubernetes to re-apply the deployment. 
-
-You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery (to be continued...)
 
 === Break/fix analysis
 It's one thing to fix code that you're developing on your workstation. It's another thing entirely to fix code that is breaking in production. In this case, you have a service that worked fine on both VMs and Docker, but is ony partially functional in Kubernetes. 
