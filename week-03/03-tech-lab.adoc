@@ -625,7 +625,7 @@ To destroy the Kubernetes cluster, run the following command inside `kubernetes/
 
 [source,bash]
 ----
-$ ~/bin/terraform destroy
+$ terraform destroy -auto-approve
 ----
 
 
