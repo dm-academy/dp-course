@@ -1,6 +1,8 @@
 :linkattrs:
 
-= Lab 03 Docker, Kubernetes, and your first CD pipeline
+= Lab 03 UPDATED Docker, Kubernetes, and your first CD pipeline
+
+NOTE: It is important that your node-svc instance is forked and updated correctly. Refer to Lab 04 and if you have any doubts, you should delete all previous node-svc repos both locally and on Github, and fork and clone a new one. 
 
 Go to the node-svc directory and check out branch master: 
 
