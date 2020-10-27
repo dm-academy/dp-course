@@ -1,5 +1,12 @@
 = Frequently asked questions
 
+== Are my Google ID and Google Cloud Project the same? 
+
+NO. 
+
+== What is my Google ID? 
+Your Google ID is your gmail ID, before the @ sign. It is also your username on the Google Cloud Shell.
+
 == What is my Google Cloud Project? 
 
 The Google Cloud Project is a unique string of words and numbers that you can find in the Google console top left. Typically the menu item defaults to "My First Project":
@@ -12,9 +19,6 @@ image:images/GoogleProj2.png[]
 
 (Your ID will NOT start with "proven-sum-", it will be some other random string of words and numbers. You can copy it from the menu here. You'll use it in many places throughout your work with Google.)
 
-== Nothing works like I expect (have you lost track of where you are?). 
-
-One big cause of frustration is losing track of where you are. Stop for a minute: are you in the Google Cloud Shell? Or an actual virtual machine you have created? The Google Cloud Shell has, for example, git installed. A lightweight VM probably will not. 
 
 == I pasted in a command and it doesn't work
 
@@ -33,7 +37,7 @@ If you paste that in literally, you will get something like this:
 This is because 
 
 . You pasted in the `$`, which is there to just show you that you are operating at a command line
-. You pasted in, literally, `<my account>`, rather than replacing the `<my account>` with YOUR ACTUAL EMAIL ACCOUNT. In this case, you would NOT include the @stthomas.edu; however, this may vary. 
+. You pasted in, literally, `<my account>`, rather than replacing the `<my account>` with YOUR ACTUAL EMAIL ACCOUNT. In this case, you would NOT include the @stthomas.edu or @gmail.com; however, this may vary. 
 
 This applies in many cases, such as 
 
@@ -46,12 +50,18 @@ and so forth.
 
 Some tutorials may not use <>; there is no standard. 
 
+== Nothing works like I expect (have you lost track of where you are?). 
+
+One big cause of frustration is losing track of where you are. Stop for a minute: are you in the Google Cloud Shell? Or an actual virtual machine you have created? The Google Cloud Shell has, for example, git and node installed. A fresh, lightweight VM probably will not. 
+
 == Offending ECDSA key
 If you get an `offending ECDSA key` error, use the suggested removal command.
 
 == Permission denied (publickey)
 
-If you get the error `Permission denied (publickey).`, this probably means that your ssh-agent no longer has the node-user private key added. This easily happens if the Google Cloud Shell goes to sleep and wipes out your session. Check via issuing `ssh-add -l`.
+If you have not set up an SSH public/private key, you will get this error. Consult the appropriate lab materials; this is part of the instruction. 
+
+IF ssh *has worked before* on the Google Cloud Shell and you get the error `Permission denied (publickey).`, this probably means that your ssh-agent no longer has the node-user private key added. This easily happens if the Google Cloud Shell goes to sleep and wipes out your session. Check via issuing `ssh-add -l`.
 
 If you get a message to the effect that your agent is not running, type `eval `ssh-agent`` and then `ssh-add ~/.ssh/node-user`.
 
@@ -69,8 +79,12 @@ Error refreshing state: state snapshot was created by Terraform v0.12.8, which i
 ----
 
 execute 
-`rm -rf terraform.tfstate`
-`terraform init`
+
+[source,bash]
+----
+rm -rf terraform.tfstate
+terraform init
+----
 
 == Nano garbled
 
@@ -124,6 +138,29 @@ Hit `y`, you should get:
 
 When starting up the nodejs server with `nodejs server.js &` you may encounter a `address already in use` error. Read carefully, as this output may be further down in the error output. This indicates that there is already a node server running. If you would like to start over, run `ps -ef` to list processes and then kill the correct process by id: `kill {process id}`
 
+== Port already allocated (not to be confused with address already in use)
+If on a `docker run` you get 
+
+[source,bash]
+----
+betz4871:node-svc$ docker run -d -p 8081:30100 dmacademy/node-svc
+8d25efd0b098984d5bf16038f609a5fc54861beb36345ad67ea011feb991c397
+docker: Error response from daemon: driver failed programming external connectivity on endpoint wizardly_shamir (c730f2ed00186404cef02d6e9d97d2f14f4d4328e5102393f3cff1f2d9ffaca8): Bind for 0.0.0.0:8081 failed: port is already allocated.
+----
+
+This means you already have a docker container running and attached to that port. 
+
+run `docker ps` and `docker kill` the image name that is already attached to that port.
+
+[source,bash]
+----
+betz4871:node-svc$ docker ps
+CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS              PORTS                    NAMES
+1571e18f6fb9        dmacademy/node-svc   "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes        0.0.0.0:8081->3000/tcp   cool_ardinghelli
+betz4871:node-svc$ docker kill cool_ardinghelli
+cool_ardinghelli
+----
+
 == Switching Github remote from http (cleartext password) to ssh
 See https://docs.github.com/en/github/using-git/changing-a-remotes-url[this link.]
 
@@ -141,7 +178,61 @@ follow these instructions:
 
 [source,bash]
 ----
-sudo npm cache clean --force
+npm cache clean --force    # preface with sudo  if necessary
 rm package-lock.json
 rm -rf node_modules
 ----
+
+=== Terraform version issues
+NOTE: As of early fall 2020, the Google Cloud Shell versions of Terraform and the Google Cloud Provisioner were out of date. This seems to have been fixed, but retaining this here. 
+
+You may need to install a local version of Terraform and always call it explicitly. 
+
+First, run:
+
+[source,bash]
+----
+$ terraform -v # Google's version
+
+----
+
+If you get a Terraform version under 13, such as: 
+
+[source,bash]
+----
+Terraform v0.12.24
++ provider.google v2.5.1
+Your version of Terraform is out of date! The latest version
+is 0.13.4. You can update by downloading from https://www.terraform.io/downloads.html
+betz4871:node-svc$ ~/bin/terraform -v
+---- 
+
+then you need to upgrade. (If you get a current version, then go to the next section, otherwise continue here.)
+
+Inspect and run: 
+
+[source,bash]
+----
+$ update-terraform.sh
+----
+
+This installs Terraform 13 in your local ~/bin directory. 
+
+See the difference: 
+
+[source,bash]
+----
+
+$ ~/terraform -v # your version
+  Terraform v0.13.4
++ provider registry.terraform.io/hashicorp/google v3.37.0
+----
+
+You need to ALWAYS call Terraform thus: 
+
+[source,bash]
+----
+$ ~/bin/terraform apply
+----
+
+Terraform will CRASH HARD if you do not do this.
