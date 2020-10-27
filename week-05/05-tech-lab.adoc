@@ -33,7 +33,7 @@ https://uofstthomasmn-my.sharepoint.com/:x:/r/personal/betz4871_stthomas_edu/Doc
 As a team, develop a product roadmap based on Cost of Delay. Here are the assumptions: 
 
 * You have an 5-person team, and at 80% time you have 20 person-days per week. You operate in 2-week sprints (40 days). Assume the team is paid, in total, $10,000/week.
-* Over the next 2 months, you would like to develop 20 new features. 
+* Over the next 4 months, you would like to develop 20 new features. 
 ** 20% of the new features will take 2 person days
 ** 20% will take 5 person days
 ** 20% will take 10 person days
@@ -60,6 +60,7 @@ Developing your own format for the project plan (a spreadsheet is fine), answer 
 Your spreadsheet should show the necessary calculations. You may write them up in Word or Powerpoint. 
 
 Since you all will make different assumptions, there is no right or wrong answer. Be prepared to present and discuss your findings in class. 
+
 
 
 

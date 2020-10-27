@@ -248,7 +248,7 @@ What this does not mention is that a git repository can have _multiple_ remotes.
 
 (This lab is based on these instructions: https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork)
 
-So, let's configure a remotes for node-svc. 
+So, let's configure a remote for node-svc. 
 
 Go to your `repos` directory (or wherever you have put the repos). Enter (`cd`) into the node-svc repo, if you aren't there already from the last step. 
 
@@ -290,6 +290,16 @@ Here is the final configuration you should have:
 
 image:images/finalRepo.png[]
 
+If the instructor indicates that a change from dm-academy/node-svc needs to be pulled into your local version, execute the following: 
+
+[source,bash]
+----
+$ git fetch upstream  # pull down changes from dm-academy/node-svc
+$ git reset --hard upstream/master   # or perhaps a different branch, e.g. /03
+$ git push --force  # update your copy on Github
+----
+
+Notice that this will discard any changes you have made locally. 
 
 === Assignment
 
@@ -310,6 +320,8 @@ In the assignment submission on Canvas, paste the link to the pull request (PR) 
 * https://www.freecodecamp.org/news/how-to-delete-a-git-branch-both-locally-and-remotely/
 
 * https://www.freecodecamp.org/news/git-pull-force-how-to-overwrite-local-changes-with-git/
+
+* https://github.community/t/syncing-a-fork-leaves-me-one-commit-ahead-of-upstream-master/1435
 
 
 === Bonus: Github CLI

@@ -1,31 +1,31 @@
 :linkattrs:
 
-= Lab 03 Docker, Kubernetes, and your first CD pipeline
+= Lab 03 UPDATED Docker, Kubernetes, and your first CD pipeline
 
-Check out branch master: 
+NOTE: It is important that your node-svc instance is forked and updated correctly. Refer to Lab 04 and if you have any doubts, you should delete all previous node-svc repos both locally and on Github, and fork and clone a new one. 
+
+Go to the node-svc directory and check out branch master: 
 
 [source,bash]
 ----
 $ git checkout master
 ----
 
+NOTE: We are not using branch 03 for fall 2020 due to https://github.com/dm-academy/node-svc/issues/24[this issue]. This is open for extra credit if anyone can resolve.
+
 Notice how some files disappear. That's right, we won't be using Ansible or Packer any more.
 
 == Docker
 
-In this section, we will talk about managing containers for the first time in this tutorial.
-Particularly, we will talk about https://www.docker.com/what-docker[Docker] which is the most widely used platform for running containers.
+In this section, we will talk about managing containers for the first time in this tutorial. Particularly, we will talk about https://www.docker.com/what-docker[Docker] which is the most widely used platform for running containers.
 
 NOTE: For this section we will just run the container on the Google Cloud Shell, which can run containers locally. No VMs!
 
 === Intro
 
-Remember when we talked about packer, we mentioned a few words about *Immutable Infrastructure* model? The idea was to package all application dependencies and application itself inside a machine image, so that we don't have to configure the system after start.
-Containers implement the same model, but they do it in a more efficient way.
+Remember when we talked about packer, we mentioned a few words about *Immutable Infrastructure* model? The idea was to package all application dependencies and application itself inside a machine image, so that we don't have to configure the system after start. Containers implement the same model, but they do it in a more efficient way.
 
-Containers allow you to create self-contained isolated environments for running your applications.
-
-They have some significant advantages over VMs in terms of implementing Immutable Infrastructure model:
+Containers allow you to create self-contained isolated environments for running your applications. They have some significant advantages over VMs in terms of implementing Immutable Infrastructure model:
 
 * *Containers are much faster to start than VMs.* Container starts in seconds, while a VM takes minutes. It's important when you're doing an update/rollback or scaling your service.
 * *Containers enable better utilization of compute resources.* Very often computer resources of a VM running an application are underutilized. Launching multiple instances of the same application on one VM has a lot of difficulties: different application versions may need different versions of dependent libraries, init scripts require special configuration. With containers, running multiple instances of the same application on the same machine is easy and doesn't require any system configuration.
@@ -34,7 +34,7 @@ They have some significant advantages over VMs in terms of implementing Immutabl
 Let's try to implement *Immutable Infrastructure* model with Docker containers, while paying special attention to the *Dockerfile* part as a way to practice *Infrastructure as Code* approach.
 
 === The Dockerfile
-Open and review the file called Dockerfile in the node-svc master branch. 
+Open and review the file called Dockerfile. 
 
 You describe a container image that you want to create in a special file called *Dockerfile*.
 
@@ -53,9 +53,9 @@ It basically works like a `cd` command on Linux.
 * `CMD` sets a default command, which will be executed when a container starts.
 This should be a command to start your application.
 
-See how these instructions are used in the Dockerfile in your to create a Docker container image for our node-svc application.
+See how these instructions are used in the Dockerfile to create a Docker container image for our node-svc application.
 
-This Dockerfile repeats the steps that we did multiple times by now to configure a running environment for our application and run it.
+This Dockerfile repeats the steps that we have done multiple times and in various ways in previous labs to configure a running environment for our application and run it.
 
 We first choose an image that already contains Node of required version:
 
@@ -91,14 +91,18 @@ CMD [ "node", "server.js" ]
 
 === Build Container Image
 
-Once you have reviewed how your image will be built, run the following command inside your `my-iac-tutorial` directory to create a container image for the node-svc application:
+Once you have reviewed how your image will be built, run the following command inside the node-svc directory to create a container image for the node-svc application:
 
 [source,bash]
 ----
 $ docker build -t <yourGoogleID>/node-svc .
 ----
 
-What is <yourGoogleID>? See https://github.com/dm-academy/dp-course/blob/master/faq/faq.adoc[the FAQ]. Also. a VERY common error with the `docker build` command is omitting the final period, which indicates the current directory. (You can specify other paths as well.)
+What is <yourGoogleID>? See https://github.com/dm-academy/dp-course/blob/master/faq/faq.adoc[the FAQ]. 
+
+Also. a VERY common error with the `docker build` command is omitting the final period, which indicates the current directory. (You can specify other paths as well.)
+
+image:images/finalDot.png[]
 
 The resulting image will be named `node-svc`.
 Find it in the list of your local images:
@@ -106,7 +110,11 @@ Find it in the list of your local images:
 [source,bash]
 ----
 $ docker images 
+betz4871/node-svc   latest              80287ac2c4a0        36 seconds ago      950MB
+node                11                  5b97b72da029        15 months ago       904MB
 ----
+
+What's going on? You only created one image, but there are two. That's because Docker also pulls down and stores the base image (in this case, the image with Node installed) that you started with (review the FROM: syntax in your Dockerfile, above).
 
 At your option, you can save your build command in a script, such as `build.sh`.
 
@@ -117,8 +125,7 @@ Now, run the container:
 docker run -d -p 8081:30100 <yourGoogleID>/node-svc
 ----
 
-Notice the "8081:30100" syntax.
-This means that while the container is running on port 30100 internally, it is externally exposed via port 8081.
+Notice the "8081:30100" syntax. This means that while the container is running on port 30100 internally, it is externally exposed via port 8081.
 
 Again, you may wish to save this in a script, such as `run.sh`.
 
@@ -136,15 +143,36 @@ Take a screen shot of your docker run and curl commands with output. Paste into 
 
 === Push container image to Google Container Registry and re-run
 
-Right now, your image is https://www.freecodecamp.org/news/where-are-docker-images-stored-docker-container-paths-explained/[stored locally], in /var/lib/docker. A better practice is storing them in a dedicated container registry. The https://hub.docker.com/[Docker Hub] is a well known registry, but for convenience (and to minimize the logins you have to manage) we will store the image in the https://cloud.google.com/container-registry/[Google Container Registry]. 
+Right now, your image is https://www.freecodecamp.org/news/where-are-docker-images-stored-docker-container-paths-explained/[stored locally], in /var/lib/docker. This directory is cleaned out every time your Google Cloud Shell goes to sleep. 
 
-Doing so is simply a matter of a `push`: 
+A better practice is storing images in a dedicated container registry. The https://hub.docker.com/[Docker Hub] is a well known registry, but for convenience (and to minimize the logins you have to manage) we will store the image in the https://cloud.google.com/container-registry/[Google Container Registry]. 
 
-`$ docker push gcr.io/<yourGoogleID>/node-svc:latest`
+IMPORTANT: In the below section, you MUST be clear on the difference between your Google ID and your Google project.  See https://github.com/dm-academy/dp-course/blob/master/faq/faq.adoc[the FAQ]!
+
+To store an image in the Google Cloud Registry, we need to "tag" it, which in this case is more like a complete renaming.
+
+Example: 
+
+[source,bash]
+----
+$ docker tag [SOURCE_IMAGE] [HOSTNAME]/[PROJECT-ID]/[IMAGE]:TAG
+$ docker push [HOSTNAME]/[PROJECT-ID]/[IMAGE]:TAG
+----
+
+We are going to now explore some environment variables to make this easier. If you type the command `env`, you will see a number of useful values. Read through them until you find your Google ID and Google Project ID. They are named LOGNAME and GOOGLE_CLOUD_PROJECT. You can access them in any command by prefacing them with `$`:
+
+
+[source,bash]
+----
+$ docker tag $LOGNAME/node-svc gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest
+$ docker push gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest
+----
+
+NOTE: This is your Google _Project_, not your Google ID that you used above. 
 
 Notice that you can run directly: 
 
-`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc`
+`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc:v1`
 
 Having a current container image in the Google Container Registry is a prerequisite for the next section. 
 
@@ -154,7 +182,7 @@ In this section, you adopted containers for running your application. This is a 
 
 We describe the configuration of our container image in a Dockerfile using Dockerfile's syntax. We then save that Dockerfile in our application repository. This way we can build the application image consistently across any environments.
 
-Destroy the current playground before moving on to the next section, through `docker ps`, `docker kill`, `docker images`, and `docker rmi`. In the example below, the container is named "beautiful_pascal". Yours will be different. Follow the example, substituting yours.
+Destroy the current playground before moving on to the next section, through `docker ps`, `docker kill`, `docker images`, and `docker rmi`. In the example below, the container is named "beautiful_pascal". Yours will be different (and you may have multiple). Follow the example, substituting yours.
 
 Take a screen shot of your cleanup. Paste into the Word document for final submission. 
 
@@ -163,7 +191,7 @@ Take a screen shot of your cleanup. Paste into the Word document for final submi
 ----
 $ docker ps
 CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS              PORTS                    NAMES
-64e60b7b0c81        <your google id>/node-svc   "docker-entrypoint.s…"   10 minutes ago      Up 10 minutes       0.0.0.0:8081->3000/tcp   beautiful_pascal
+64e60b7b0c81        <your google id>/node-svc   "docker-entrypoint.s…"   10 minutes ago      Up 10 minutes       0.0.0.0:8081->30100/tcp   beautiful_pascal
 $ docker kill beautiful_pascal
 beautiful_pascal
 $ docker images       # returns list of your images
@@ -203,68 +231,13 @@ Questions arise as to:
 
 The world of containers is very different from the world of virtual machines and needs a special platform for management.
 
-Kubernetes is the most widely used orchestration platform for running and managing containers at scale.
-It solves the common problems (some of which we've mentioned above) related to running containers on multiple hosts. And we'll see in this section that it uses the Infrastructure as Code approach to managing container infrastructure.
+Kubernetes is the most widely used orchestration platform for running and managing containers at scale. It solves the common problems (some of which we've mentioned above) related to running containers on multiple hosts. And we'll see in this section that it uses the Infrastructure as Code approach to managing container infrastructure.
 
 Let's try to run our `node-svc` application on a Kubernetes cluster.
 
-=== TEMPORARY
-As of early fall 2020, the Google Cloud Shell versions of Terraform and the Google Cloud Provisioner are out of date. You may need to install a local version of Terraform and always call it explicitly. 
-
-First, run:
-
-[source,bash]
-----
-$ terraform -v # Google's version
-
-----
-
-If you get something like: 
-
-[source,bash]
-----
-Terraform v0.12.24
-+ provider.google v2.5.1
-Your version of Terraform is out of date! The latest version
-is 0.13.4. You can update by downloading from https://www.terraform.io/downloads.html
-betz4871:node-svc$ ~/bin/terraform -v
----- 
-
-then you need to upgrade. (If you get a current version, then go to the next section, otherwise continue here.)
-
-Inspect and run: 
-
-[source,bash]
-----
-$ update-terraform.sh
-----
-
-This installs Terraform 13 in your local ~/bin directory. 
-
-See the difference: 
-
-[source,bash]
-----
-
-$ ~/terraform -v # your version
-  Terraform v0.13.4
-+ provider registry.terraform.io/hashicorp/google v3.37.0
-----
-
-You need to ALWAYS call Terraform thus: 
-
-[source,bash]
-----
-$ ~/bin/terraform apply
-----
-
-Terraform will CRASH HARD if you do not do this.
-
 === Describe Kubernetes cluster in Terraform
 
-We'll use https://cloud.google.com/kubernetes-engine/[Google Kubernetes Engine] (GKE) service to deploy a Kubernetes cluster of 3 nodes.
-
-We'll describe a Kubernetes cluster using Terraform so that we can manage it through code.
+We'll use https://cloud.google.com/kubernetes-engine/[Google Kubernetes Engine] (GKE) service to deploy a Kubernetes cluster of 3 nodes. We'll describe a Kubernetes cluster using Terraform so that we can manage it through code.
 
 Review these three files, which have changed since Lab 02:
 
@@ -279,18 +252,28 @@ We'll use this Terraform code to create a Kubernetes cluster.
 
 === Create Kubernetes Cluster
 
-`main.tf` holds all the information about the cluster that should be created.
-It's parameterized using Terraform https://www.terraform.io/intro/getting-started/variables.html[input variables] which allow you to easily change configuration parameters.
+`main.tf` holds all the information about the cluster that should be created. It's parameterized using Terraform https://www.terraform.io/intro/getting-started/variables.html[input variables] which allow you to easily change configuration parameters.
 
-Look into `terraform.tfvars` and `providers.tf` files which contain definitions of the input variables and change them if necessary. You must change the Google project id in two places. 
+Look at the `providers.tf` file, which has a key change: 
 
-After you've corrected the variables, run Terraform to create a Kubernetes cluster consisting of 3 nodes (VMs for running our application containers). (You should know the command by now.)
+[source,bash]
+----
+provider "google" {
+  version = "~> 3.37.0"
+  project = var.project_id
+  region  = "us-central1-c"
+}
+----
+
+We have changed the project to https://www.terraform.io/docs/configuration/variables.html[an input variable.] We no longer "hard code" our project ID, which should be a secret. Instead, as we see below, we "pass" the project ID on the command line
+
+Now, run Terraform to create a Kubernetes cluster consisting of 3 nodes (VMs for running our application containers). 
 
 [source,bash]
 ----
 $ gcloud services enable container.googleapis.com # enable Kubernetes Engine API
-$ ~/bin/terraform init
-$ ~/bin/terraform apply
+$ terraform init
+$ terraform apply -var "project_id=$GOOGLE_CLOUD_PROJECT" -auto-approve  # passing project on command line as environment variable.
 ----
 
 Wait until Terraform finishes creation of the cluster. It can take about 3-5 minutes.
@@ -308,25 +291,22 @@ GLBCDefaultBackend is running at https://104.197.22.1/api/v1/namespaces/kube-sys
 
 === Deployment manifest
 
-Kubernetes implements Infrastructure as Code approach to managing container infrastructure. It uses special entities called *objects* to represent the `desired state` of your cluster. With objects you can describe
+Kubernetes implements the Infrastructure as Code approach to managing container infrastructure. It uses special entities called *objects* to represent the `desired state` of your cluster. With objects you can describe
 
 * What containerized applications are running (and on which nodes)
 * The compute resources available to those applications
 * The policies around how those applications behave, such as restart policies, upgrades, and fault-tolerance
 
-By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like;
-this is your cluster's *desired state*.
+By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like; this is your cluster's *desired state*.
 Kubernetes then makes sure that the cluster's actual state meets the desired state described in the object.
 
 Most of the times, you describe the object in a `.yaml` file called `manifest` and then give it to `kubectl` which in turn is responsible for relaying that information to Kubernetes via its API.
 
-*Deployment object* represents an application running on your cluster.
-We'll use it to run containers of our applications.
+*Deployment object* represents an application running on your cluster. We'll use it to run containers of our applications.
 
 Review the `deployments.yaml` file. 
 
-In this file we describe two `Deployment objects` which define what application containers and in what quantity should be run.
-The Deployment objects have the same structure so I'll briefly go over only one of them.
+In this file we describe two `Deployment objects` which define what application containers and in what quantity should be run. The Deployment objects have the same structure so I'll briefly go over only one of them.
 
 Each Kubernetes object has 4 required fields:
 
@@ -356,8 +336,7 @@ The `Pod template` which is a Pod object's definition nested inside the Deployme
 It has the required object fields such as `metadata` and `spec`, but it doesn't have `apiVersion` and `kind` fields as those would be redundant in this case.
 When we create a Deployment object, the Pod object(s) will be created as well. The number of Pods will be equal to the number of `replicas` specified. The Deployment object ensures that the right number of Pods (`replicas`) is always running.
 
-In the Pod object definition (`Pod template`) we specify container information such as a container image name, a container name, which is used by Kubernetes to run the application.
-We also add labels to identify what application this Pod object is used to run, this label value is then used by the `selector` field in the Deployment object to select the right Pod object.
+In the Pod object definition (`Pod template`) we specify container information such as a container image name, a container name, which is used by Kubernetes to run the application. We also add labels to identify what application this Pod object is used to run, this label value is then used by the `selector` field in the Deployment object to select the right Pod object.
 
 [source,yaml]
 ----
@@ -368,21 +347,26 @@ We also add labels to identify what application this Pod object is used to run, 
     spec:
       containers:
       - name: node-svc
-        image: dmacademy/node-svc
+        image: gcr.io/<your Google ID>/node-svc:v1
 ----
 
-The container image will be downloaded from https://hub.docker.com/[Docker Hub] in this case: the node-svc image uploaded to the dmacademy organization. We could also use the https://cloud.google.com/container-registry/[Google Container Registry] or https://github.com/features/packages[Github Packages].
+Unfortunately, you cannot include an environment variable in YAML. So you have to alter the file.
+
+The container image will be downloaded from the https://cloud.google.com/container-registry/[Google Container Registry] (this is the one we tagged and uploaded as v1 in the previous section).
 
 === Create Deployment Objects
 
-Run a kubectl command to create Deployment objects inside your Kubernetes cluster (make sure to provide the correct path to the manifest file):
+In the file deployments.yaml change the Google project ID on the "image" line to match your Google project id (the full path should match the Docker tagged image at the end of the previous section in this lab).
+
+Then, run a kubectl command to create Deployment objects inside your Kubernetes cluster (make sure to provide the correct path to the manifest file):
 
 [source,bash]
 ----
-$ kubectl apply -f deployments.yaml
+$ kubectl apply -f my-deployments.yaml
 ----
+It can take 5 minutes or more for the pods to be fully activated. Take a quick break, and then check the deployments and pods that have been created:
 
-Check the deployments and pods that have been created:
+*Pods at start:*
 
 [source,bash]
 ----
@@ -398,7 +382,36 @@ node-svc-deployment-547f9d4c7f-l9m7m   0/1     ContainerCreating   0          59
 node-svc-deployment-547f9d4c7f-mrg6m   0/1     ContainerCreating   0          59s
 ----
 
-It can take 5 minutes or more for the pods to be fully activated.  
+*Pods still creating:*
+
+[source,bash]
+----
+$ kubectl get deploy
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+node-svc-deployment   2/5     5            2           51s
+$ kubectl get pods
+NAME                                   READY   STATUS              RESTARTS   AGE
+node-svc-deployment-547f9d4c7f-45zqv   1/1     Running             0          59s
+node-svc-deployment-547f9d4c7f-58brr   0/1     ContainerCreating   0          59s
+node-svc-deployment-547f9d4c7f-b5kjz   1/1     Running             0          59s
+node-svc-deployment-547f9d4c7f-l9m7m   0/1     ContainerCreating   0          59s
+node-svc-deployment-547f9d4c7f-mrg6m   0/1     ContainerCreating   0          59s
+----
+
+*All pods ready*
+[source,bash]
+----
+$ kubectl get deploy
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+node-svc-deployment   5/5     5            5           4m1s
+$ kubectl get pods
+NAME                                   READY   STATUS              RESTARTS   AGE
+node-svc-deployment-7ff4459995-4zxcv   1/1     Running             0          4m3s
+node-svc-deployment-7ff4459995-5dmtq   1/1     Running             0          4m3s
+node-svc-deployment-7ff4459995-l8bch   1/1     Running             0          4m3s
+node-svc-deployment-7ff4459995-m6p67   1/1     Running             0          4m3s
+node-svc-deployment-7ff4459995-s7nsb   1/1     Running             0          4m3s
+----
 
 === Service manifests
 
@@ -428,7 +441,7 @@ spec:
   ports:
   - protocol: TCP
     port: 30100
-    targetPort: 301 00
+    targetPort: 30100
     nodePort: 30100
 ----
 
@@ -466,8 +479,7 @@ The `ports` section specifies the port mapping between a Service and Pods that a
     nodePort: 30100
 ----
 
-The requests that come to any of your cluster nodes' public IP addresses on the specified `nodePort` will be routed to the `node-svc` Service cluster-internal IP address.
-The Service, which is listening on port 30100 (`port`) and is accessible within the cluster on this port, will then route the packets to the `targetPort` on one of the Pods which is part of this Service.
+The requests that come to any of your cluster nodes' public IP addresses on the specified `nodePort` will be routed to the `node-svc` Service cluster-internal IP address. The Service, which is listening on port 30100 (`port`) and is accessible within the cluster on this port, will then route the packets to the `targetPort` on one of the Pods which is part of this Service.
 
 For simplcity, we have used the same port for all three, but they may all differ.
 
@@ -485,7 +497,12 @@ Check that the services have been created:
 [source,bash]
 ----
 $ kubectl get svc
+NAME              TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)           AGE
+kubernetes        ClusterIP   10.3.240.1     <none>        443/TCP           11m
+node-svc-public   NodePort    10.3.245.179   <none>        30100:30100/TCP   7s
 ----
+
+(The IP addresses will be different for yours.)
 
 === Access Application
 
@@ -500,122 +517,18 @@ Get a list of IP addresses of your cluster nodes:
 $ gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)" compute instances list --filter="tags.items=node-svc-k8s"
 ----
 
-Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `node-svc` application in your browser. Just try the main address (no /).
+Use any of your nodes public IP addresses and the node port `30100` which we specified in the service object definition to reach the `node-svc` application by issuing the appropriate curl command (or accessing via your browser):
 
-Or, if you like, just issue the appropriate curl command. 
+$ curl <cluster IP>:30100
+
+At this time, do not try a higher number (e.g. <cluster IP>:30100/2)
 
 Take a screenshot of the results and submit to the lab assignment. 
 
-=== Save and commit the work
-
-Save and commit the `kubernetes` folder created in this section into your `iac-tutorial` repo. If you are going to take a break, you probably should destroy your Kubernetes cluster. 
 
 === Conclusion
 
 In this section, we learned about Kubernetes - a popular orchestration platform which simplifies the process of running containers at scale. We saw how it implements the Infrastructure as Code approach in the form of `objects` and `manifests` which allow you to describe in code the desired state of your container infrastructure which spans a cluster of VMs.
-
-
-== Updating the service: towards a true pipeline
-
-In the last section, we were able to access the application's main URL. Also, at this point /0  is working .... but /1, /3, /30 etc are not. We need to: 
-
-* figure out what's wrong
-* update server.js
-* test it locally (either directly or as a container)
-* rebuild the container
-* push it to the Docker Hub
-* tell Kubernetes to re-apply the deployment. 
-
-You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery (to be continued...)
-
-Next up: 
-
-* Break/fix analysis
-* Code commenting
-* Automated testing
-* Mutiple environments
-* Continuous delivery pipeline
-* Collaboration using Github
-
-=== Break/fix analysis
-It's one thing to fix code that you're developing on your workstation. It's another thing entirely to fix code that is breaking in production. In this case, you have a service that worked fine on both VMs and Docker, but is ony partially functional in Kubernetes. 
-
-The first question you should always ask in this situation: what do the logs say? 
-
-First, what is a log? It is a record of what the system is doing. Remember stdout and stderr from your Unix tutorial? (Review them if you don't.) These output streams are usually being monitored and recorded when software is deployed and started in a running system. Kubernetes is no exception. 
-
-The simplest way to get Kubernetes logs is as follows. First, get all your pod IDs: 
-
-[source,bash]
-----
-kubectl get pods --all-namespaces
-NAMESPACE     NAME                                                        READY   STATUS              RESTARTS   AGE
-default       node-svc-deployment-cf76549ff-9cdxr                         1/1     Running             0          3m11s
-default       node-svc-deployment-cf76549ff-d5rnq                         1/1     Running             0          3m11s
-default       node-svc-deployment-cf76549ff-d9hq9                         0/1     ContainerCreating   0          3m11s
-default       node-svc-deployment-cf76549ff-s5vwf                         1/1     Running             0          3m11s
-default       node-svc-deployment-cf76549ff-w6chl                         1/1     Running             0          3m11s
-kube-system   event-exporter-v0.3.0-5cd6ccb7f7-l9lqc                      2/2     Running             0          70m
-kube-system   fluentd-gcp-scaler-6855f55bcc-kwd8l                         1/1     Running             0          70m
-kube-system   fluentd-gcp-v3.1.1-4qlhp                                    2/2     Running             0          70m
-kube-system   fluentd-gcp-v3.1.1-bhrhr                                    2/2     Running             0          70m
-kube-system   fluentd-gcp-v3.1.1-xhqs7                                    2/2     Running             0          70m
-kube-system   heapster-gke-5d76c889bb-wr8j6                               3/3     Running             0          69m
-kube-system   kube-dns-5c446b66bd-5r479                                   4/4     Running             0          71m
-kube-system   kube-dns-5c446b66bd-m7l6d                                   4/4     Running             0          70m
-kube-system   kube-dns-autoscaler-6b7f784798-dwk84                        1/1     Running             0          70m
-kube-system   kube-proxy-gke-node-svc-k8s-default-pool-53125139-07bt      1/1     Running             0          70m
-kube-system   kube-proxy-gke-node-svc-k8s-default-pool-53125139-ctw4      1/1     Running             0          70m
-kube-system   kube-proxy-gke-node-svc-k8s-default-pool-53125139-n2t5      1/1     Running             0          70m
-kube-system   l7-default-backend-84c9fcfbb-9lpcp                          1/1     Running             0          71m
-kube-system   metrics-server-v0.3.3-fdc67d4b6-2p7q9                       2/2     Running             0          70m
-kube-system   prometheus-to-sd-76wsg                                      2/2     Running             0          70m
-kube-system   prometheus-to-sd-hbdl9                                      2/2     Running             0          70m
-kube-system   prometheus-to-sd-xjvfw                                      2/2     Running             0          70m
-kube-system   stackdriver-metadata-agent-cluster-level-7bb8c5b7fd-hzz49   2/2     Running             0          69m
-----
-
-This is a very important list and you should spend some time looking it over. 
-
-Now, get the log from the first pod: 
-
-[source,bash]
-----
-kubectl -n default logs node-svc-deployment-cf76549ff-9cdxr
-[various output]
-Running on 3000
-Console: request is testing a simple self-get
-Console: request is testing a simple self-post
-DateIPStamp reached with {"action":"GET"} 127.0.0.1
-Console: / Server returned success on get.
-{ action: 'GET',
-  arrTimeStamp:
-   [ '127.0.0.1 Tue Sep 08 2020 23:48:50 GMT+0000 (Coordinated Universal Time)' ] }
-Console: entered / post
-Console: / received {"firstName":"myFirstName","lastName":"myLastName"}
-DateIPStamp reached with {"firstName":"myFirstName","lastName":"myLastName","action":"POST"} 127.0.0.1
-Console: / returned {"firstName":"myFirstName","lastName":"myLastName","action":"POST","arrTimeStamp":["127.0.0.1 Tue Sep 08 2020 23:48:50 GMT+0000 (Coordinated Universal Time)"]}
-{ firstName: 'myFirstName',
-  lastName: 'myLastName',
-  action: 'POST',
-  arrTimeStamp:
-   [ '127.0.0.1 Tue Sep 08 2020 23:48:50 GMT+0000 (Coordinated Universal Time)' ] }
-/n GET, making GET subrequest
-returning URL http://node-svc-01:3000/2
-(node:1) UnhandledPromiseRejectionWarning: FetchError: request to http://node-svc-01:3000/2 failed, reason: getaddrinfo ENOTFOUND node-svc-01 node-svc-01:3000
-    at ClientRequest.<anonymous> (/app/node_modules/node-fetch/lib/index.js:1461:11)
-    at ClientRequest.emit (events.js:193:13)
-    at Socket.socketErrorListener (_http_client.js:397:9)
-    at Socket.emit (events.js:193:13)
-    at emitErrorNT (internal/streams/destroy.js:91:8)
-    at emitErrorAndCloseNT (internal/streams/destroy.js:59:3)
-    at processTicksAndRejections (internal/process/task_queues.js:81:17)
-(node:1) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
-(node:1) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
-----
-
-You should see some routine-looking output, and some output that looks more like an error. Discuss with your teammates and/or in class. What do you think is causing the error? What are contributing factors? (To be discussed and worked on in class.)
-
 
 
 == Automating the delivery pipeline
@@ -624,15 +537,30 @@ Now that we have a working application that can be deployed to Kubernetes, we ca
 
 We'll start with automated testing. As discussed in the DPBoK, we are continually evolving our systems, and as we make changes, we need the systems to keep their existing functionality.
 
-
 === Automated testing
 
 In the node-svc directory there is a `test` directory, with a file in it called `test.js`. Have a look at it. It is a very basic automated test that checks that `server.js` operates and successfully responds to a simple GET. 
 
-You can run the test by simply typing 
-`npm test`. Try it. 
+You can run the test by simply typing `npm test`. Try it.
+
+NOTE: If you have issues, you may need to perform `npm install`.
+
+== Updating the service: towards a true pipeline
+
+In the last section, we were able to access the application's main URL. Also, at this point the simple URL  is working .... but /1, /3, /30 etc are not. We need to: 
+
+* figure out what's wrong
+* update server.js
+* test it locally (either directly or as a container)
+* rebuild the container
+* push it to the Google Container Registry
+* tell Kubernetes to re-apply the deployment. 
+
+You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery (to be continued...)
 
 === Continuous delivery 
+
+Review https://pubs.opengroup.org/dpbok/standard/DPBoK.html#KLP-devops-technical-practices[DevOps Technical Practices] in the DPBoK. 
 
 In your directory, you will also find a directory called `.github,` with a subdirectory `workflows` and a file `GKE.yml`. The file is a Github Actions script. Have a look at it. It's a basic pipeline, including: 
 
@@ -641,7 +569,13 @@ In your directory, you will also find a directory called `.github,` with a subdi
 * pushing the Docker image to the Google Container Registry (GCR). 
 * deploying from the GCR to Kubernetes
 
-Your final task for this lab is to configure your Github repository to run the pipeline. See https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.]
+Your final task for this lab is to configure your Github repository to run the pipeline. 
+
+Go to the "Actions" tab in your fork of the node-svc repository and enable your workflows: 
+
+image:images/enableActions.png[]
+
+Next, see https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.]
 
 As the page indicates, you need to enable the appropriate APIs, create a service account, download the JSON service account key and configure the appropriate secrets in the repository Settings:
 
@@ -650,11 +584,69 @@ As the page indicates, you need to enable the appropriate APIs, create a service
 
 NOTE: Keep the service account key in a secure location, such as a password manager. It is equivalent to an ssh private key. Once you put it into Github, you cannot retrieve it. 
 
-Once you have this configured, the pipeline should run whenever you make a change to server.js. Try changing the output of `app.get('/0?'..` as suggested in the code comments.
+Once you have this configured, the pipeline should run whenever you make a change to server.js and push it to your Github repo (a local change isn't sufficient). Try changing the output of `app.get('/0?'..` as suggested in the code comments.
+
+
+=== Break/fix analysis
+It's one thing to fix code that you're developing on your workstation. It's another thing entirely to fix code that is breaking in production. In this case, you have a service that worked fine on both VMs and Docker, but is ony partially functional in Kubernetes. 
+
+The first question you should always ask in this situation: what do the logs say? 
+
+First, what is a log? It is a record of what the system is doing. Remember stdout and stderr from your Unix tutorial? (Review them if you don't.) These output streams are usually being monitored and recorded when software is deployed and started in a running system. Kubernetes is no exception. 
+
+The simplest way to get Kubernetes logs is as follows. First, try the command once more: 
+
+`$ curl <cluster IP>:30100/3`
+
+It should hang; hit ctrl-c. Repeat a few more times, so that the first pod is likely to see the error.
+
+Google Cloud has extensive monitoring. From the left top "hamburger" (the three lines) to the left of "Google Cloud Platform," select "Operations|Monitoring|Logs Explorer":
+
+image:images/svcMonitoring.png[]
+
+You should see something like this: 
+
+image:images/monitoring1.png[]
+
+Click on "Kubernetes Container" (circled), you should see something like:
+
+image:images/monitoring2.png[]
+
+You're now seeing the combination of stderr and stdout for your containers. Look at the orange !! warnings. What are they saying? 
+
+In particular, we are interested in the errors that start with "UnhandledPromiseRejectionWarning..." We see some calls to IP addresses that seem to be timing out (ETIMEDOUT error). Look in your source code for server.js. Does that IP address seem to be there somewhere? Like Line 5?
+
+This is an example of a hard-coded value that is now breaking. We could replace it with a current cluster IP address, but then we have to just keep updating the code every time. Clearly, there should be a better way. Fortunately there is a simple fix, we just need to uncomment the appropriate line in server.js. Review it and do so. 
+
+Push the updated server.js file to the master branch in your Github repository (or make the change on line on Github itself). This should kick off the pipeline and result in your Kubernetes cluster being automatically updated with the new file. 
+
+To see the pipeline in action, go to Actions and click on "Build and Deploy to GKE." You'll see the workflows that kick off with each commit to master. 
+
+image:images/action1.png[]
+
+Click on 
+
+Click on the top result which should say "Update server.js." You should see something like this:
+
+image:images/action2.png[]
+
+Then click on "Setup Build, Publish, and Deploy." 
+
+image:images/action3.png[]
+
+This is where you get to see the real cool stuff:
+
+image:images/action4.png[]
+
+You can click any of the ">" symbols for more information: 
+
+image:images/action5.png[]
+
+
 
 === Submitting evidence
 
-Take a screenshot of the pipeline page showing that it has successfully run all steps, and a screen shot showing a /20 or greater call to the microservices running on the Kubernetes cluster. 
+Take a screenshot of the pipeline page showing that it has successfully run all steps, and a screen shot showing a /20 or greater call to the microservices running on the Kubernetes cluster (either via browser or curl). 
 
 === Destroy the cluster
 
@@ -662,7 +654,7 @@ To destroy the Kubernetes cluster, run the following command inside `kubernetes/
 
 [source,bash]
 ----
-$ ~/bin/terraform destroy
+$ terraform destroy -auto-approve
 ----
 
 

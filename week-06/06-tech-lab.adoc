@@ -2,6 +2,7 @@
 
 ==  Overview
 
+Fall 2020: In Lab 06, we will use monitoring tools to help us understand how to finish lab 03. 
 
 https://console.cloud.google.com/logs/
 https://console.cloud.google.com/monitoring/services
