@@ -171,7 +171,7 @@ git clone https://github.com/your-github-username/dp-course
 ----
 
 In the above command, BE SURE TO CHANGE "your-github-username" to YOUR ACTUAL GITHUB USERNAME
-Did you notice how git created a directory _inside_ the repos directory? The clone command will always create a directory to contain the new files it's brining down. That directory will automatically be named to match the github repository that you are cloning.
+Did you notice how git created a directory _inside_ the repos directory? The clone command will always create a directory to contain the new files it's bringing down. That directory will automatically be named to match the github repository that you are cloning.
 
 NOTE: I recommend keeping all git repositories in your `repos` directory.
 
@@ -208,6 +208,6 @@ git push origin master
 
 Go up to Github and check that you can view the change in YOUR version of the dp-course repo. Then, issue a pull request back to me, by going to Pull Requests and clicking the New Pull Request button. It should default to a pull request back to dm-academy/dp-course; if it doesn't, request assistance.
 
-Git and github could fill a course by themselves, but one key concept to keep in mind is that of the *commit*. Don't think of commiting like saving a file. Rather, think of it like adding a notation of a certain change to an existing chain of changes. If you start from the beginning and replay all of the changes in the chain, you wind up at the current state of the document. This means that advanced git commands allow you to forward and reverse through this chain of changes. More on this in lab 04.
+Git and github could fill a course by themselves, but one key concept to keep in mind is that of the *commit*. Don't think of committing like saving a file. Rather, think of it like adding a notation of a certain change to an existing chain of changes. If you start from the beginning and replay all of the changes in the chain, you wind up at the current state of the document. This means that advanced git commands allow you to forward and reverse through this chain of changes. More on this in lab 04.
 
 IMPORTANT: From this point forward, you are STRONGLY ENCOURAGED to submit issues and enhancements to the course documentation. Extra credit points are readily available for contributing to the class in this manner. Don't allow yourself to "get stuck." Communicate with your classmates in MS Teams and if you are still stuck then raise a Github issue. If you are stuck, the problem is in the instructions, and we need to fix it. 
