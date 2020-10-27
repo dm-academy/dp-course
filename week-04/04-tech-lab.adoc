@@ -310,3 +310,104 @@ In the assignment submission on Canvas, paste the link to the pull request (PR) 
 * https://www.freecodecamp.org/news/how-to-delete-a-git-branch-both-locally-and-remotely/
 
 * https://www.freecodecamp.org/news/git-pull-force-how-to-overwrite-local-changes-with-git/
+
+
+=== Bonus: Github CLI
+
+By this point you've used the command line to issue commands to git - an open source version control framework. You've also pushed your work up to Github - a remote system that interacts with git and allows you to collaborate with others using that same version control framework. You've been using the Github web interface to create issues and pull requests. But if you like using the command line, Github has recently introduced a way to interact with their systems through that interface - the https://cli.github.com/manual/[Github CLI]. You can create a commit, push it up to github and open a pull request all without taking your hands off the keyboard.
+
+If you'd like to set this up in the Google Cloud Shell, follow along.
+
+The installation docs for the Github CLI are pretty straightforward, but because the Google Cloud Shell wipes out all the data except what's in your home directory, well be doing a manual build.
+
+From your repos directory run:
+[source, bash]
+----
+git clone https://github.com/cli/cli.git gh-cli
+----
+
+Now change directories to your newly cloned gh-cli directory
+
+[source, bash]
+----
+cd gh-cli
+----
+
+Now we'll run the command to build the project
+
+[source, bash]
+----
+make
+----
+
+Finally, we're going to move the executable file we just made to the `bin` directory in the root of our home directory. You may very well have this directory available from a previous lab when we installed terraform to it. Let's find out.
+
+[source, bash]
+----
+ll ~/bin
+----
+
+If your terminal shows a list of files, you have a bin directory already. If you get an error stating "No such file or directory" just run `mkdir ~/bin` and you'll be set.
+
+Let's finish our install by running
+
+[source, bash]
+----
+sudo mv ./bin/gh ~/bin
+----
+
+Run `gh version` and you should see some output like this:
+
+[source, bash]
+----
+gh version 1.1.0 (2020-10-06)
+https://github.com/cli/cli/releases/latest
+----
+
+We still need to setup the Github CLI to be able to interact with our github account. We do this with a personal access token. This is a secret value that we'll give to the Github CLI during a one-time setup process. We'll be granting this token full access to our account, so it's very important you not share this token outside of this context. In fact, Github considers this token sensitive enough that it will only ever show it to you once - when you create it.
+
+In a web browser go to https://github.com/settings/tokens and click the "generate new token" button. You'll see a screen that allows you to define the scope of what this token can do. In this case, we're going to select every available box, since we want to be able to fully interact with our github account.
+
+image:images/personal_token.png[]
+
+Once you've checked all the boxes and given the token a name that makes sense, click "generate token" at the bottom of the screen.
+
+Once you do, github will display the token value.
+
+IMPORTANT: Do not close this page until you have completed the next steps. If you do, you'll lose access to the token value and will need to repeat the above steps
+
+Go back to your command line and type:
+
+[source, bash]
+----
+gh auth login
+----
+
+We only need to do this once. After typing the command, go through the following sequence:
+
+1. Select "Github.com"
+2. Select "Paste an authentication token"
+3. Copy the token displayed in your web browser and paste it into the command line prompt that is asking for your token
+4. Choose "SSH". You __have__ been working with github via SSH and not HTTPS, right?
+
+Congratulations, you're tied into your github account via the CLI.
+
+The https://cli.github.com/manual/index[Github Cli Manual] lays out everything you can do, but let's try out a few commands. Via the command line, change directories to the dp-course directory.
+
+[source, bash]
+----
+gh repo view
+----
+
+You'll get a command line summary of the repository.
+
+Now try:
+
+[source, bash]
+----
+gh issue list
+----
+
+You'll get a view of all the open issues in the repository. Feel free to explore other commands. Adding a `-h` flag to any base command like `gh issue -h` will display a list of all the available actions for that command. You'll discover that you can create issue and pull requests, among other useful actions.
+
+The Github CLI cannot yet replace the Github web interface entirely, but when it comes to continuing your git workflows without taking your hands off the keyboard, it can't be beat.
