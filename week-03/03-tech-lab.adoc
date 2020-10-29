@@ -347,7 +347,7 @@ In the Pod object definition (`Pod template`) we specify container information s
     spec:
       containers:
       - name: node-svc
-        image: gcr.io/<your Google ID>/node-svc:v1
+        image: gcr.io/<YOUR GOOGLE PROJECT>/node-svc:latest
 ----
 
 Unfortunately, you cannot include an environment variable in YAML. So you have to alter the file.
