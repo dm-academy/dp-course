@@ -600,7 +600,7 @@ The simplest way to get Kubernetes logs is as follows. First, try the command on
 
 It should hang; hit ctrl-c. Repeat a few more times, so that the first pod is likely to see the error.
 
-Google Cloud has extensive monitoring. From the left top "hamburger" (the three lines) to the left of "Google Cloud Platform," select "Operations|Logging|Logs Explorer":
+Google Cloud has extensive monitoring. From the left top "hamburger" (the three lines) to the left of "Google Cloud Platform," select "Operations|Monitoring|Logs Explorer":
 
 image:images/svcMonitoring.png[]
 
