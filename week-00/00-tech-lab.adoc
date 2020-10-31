@@ -171,10 +171,15 @@ git clone https://github.com/your-github-username/dp-course
 ----
 
 In the above command, BE SURE TO CHANGE "your-github-username" to YOUR ACTUAL GITHUB USERNAME
+Did you notice how git created a directory _inside_ the repos directory? The clone command will always create a directory to contain the new files it's bringing down. That directory will automatically be named to match the github repository that you are cloning.
 
 NOTE: I recommend keeping all git repositories in your `repos` directory.
 
-Now, you should have all the lab files locally on your Google Cloud Shell. You can open them in nano or vi or other text editor. In this way you can change them and submit changes back to the central repo as pull requests. 
+Now, you should have all the lab files locally on your Google Cloud Shell. You can open them in nano or vi or other text editor. In this way you can change them and submit changes back to the central repo as pull requests. If nano or vi are giving you trouble, you can also use the Google Cloud Shell's native editor. You can launch the editor be clicking this button at the top right of your cloud shell screen:
+
+image::images/editor.png[]
+
+Once you are done editing, you can toggle back to the cloud shell by clicking the same button, which will now read `Open Terminal`.
 
 REQUIRED ASSIGNMENT: Try submitting a minor change as a "pull request" to the README, or any other file if you like (preferably something helpful, but you can propose any kind of change) via the techniques presented in the tutorial. Note that you will not be able to accept the change, as I am the maintainer of this file. I would have to approve. 
 
@@ -201,6 +206,8 @@ git commit -m "some message"   # obviously you change this as appropriate for th
 git push origin master
 ----
 
-Go up to Github and check that you can view the change in YOUR version of the dp-course repo. Then, issue a pull request back to me, by going to Pull Requests and clicking the New Pull Request button. It should default to a pull request back to dm-academy/dp-course; if it doesn't, request assistance. 
+Go up to Github and check that you can view the change in YOUR version of the dp-course repo. Then, issue a pull request back to me, by going to Pull Requests and clicking the New Pull Request button. It should default to a pull request back to dm-academy/dp-course; if it doesn't, request assistance.
+
+Git and github could fill a course by themselves, but one key concept to keep in mind is that of the *commit*. Don't think of committing like saving a file. Rather, think of it like adding a notation of a certain change to an existing chain of changes. If you start from the beginning and replay all of the changes in the chain, you wind up at the current state of the document. This means that advanced git commands allow you to forward and reverse through this chain of changes. More on this in lab 04.
 
 IMPORTANT: From this point forward, you are STRONGLY ENCOURAGED to submit issues and enhancements to the course documentation. Extra credit points are readily available for contributing to the class in this manner. Don't allow yourself to "get stuck." Communicate with your classmates in MS Teams and if you are still stuck then raise a Github issue. If you are stuck, the problem is in the instructions, and we need to fix it. 
