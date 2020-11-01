@@ -556,7 +556,9 @@ In the last section, we were able to access the application's main URL. Also, at
 * push it to the Google Container Registry
 * tell Kubernetes to re-apply the deployment. 
 
-You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery (to be continued...)
+You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery. Please review the following diagram:
+
+image:images/pipeline.png[]
 
 === Continuous delivery 
 
@@ -641,7 +643,6 @@ image:images/action4.png[]
 You can click any of the ">" symbols for more information: 
 
 image:images/action5.png[]
-
 
 
 === Submitting evidence
