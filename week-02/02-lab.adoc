@@ -482,7 +482,6 @@ During this Terraform run, no resources have been created or changed, which mean
 
 Secondly, under "Outputs:", you should see the public IP of the VM we created.
 
-Save and commit your changes created in this lab into your course repo.
 
 == Conclusion
 
@@ -643,13 +642,13 @@ $ ansible-playbook deploy.yml
 
 === Access Application
 
-Access the application in your browser by its public IP (don't forget to specify the port 3000) and make sure application has been deployed and is functional.
+Access the application in your browser by its public IP (don't forget to specify the port 30100) and make sure application has been deployed and is functional.
 
 === Add a node
 
 Now, using the knowledge you have, add a second server, node-svc-02, to the Terraform and Ansible files and re-apply them. 
 
-Prove your work by issuing a URL of /20 or above to the microservice on either machine and sending me a screen shot of the output in Teams.
+Prove your work by issuing a URL of /20 or above (e.g. http://<ip address>:30100/20) to the microservice on either machine and posting a screen shot of the output to the Canvas assignment.
 
 === Save and commit the work
 

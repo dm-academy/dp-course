@@ -1,4 +1,6 @@
 # dp-course
+Laboratories for SEIS 664. 
+
 This repository contains labs supporting the Digital Practitioner Body of Knowledge standard delivered as a semester-long, Masters' level course. 
 
 There is at this writing one technical lab a week. 
