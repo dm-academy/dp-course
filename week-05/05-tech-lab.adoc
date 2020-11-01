@@ -1,5 +1,7 @@
 = Lab 05 Work management with Teams and Github
 
+_Fall 2020 instructor's notes: emphasize cumulative value per day, and calibrate final #s so that costs/benefits are more aligned_
+
 ==  Overview
 
 This will be another relatively light lab, as we continue to get caught up on the technical labs from Context 1. 
@@ -48,6 +50,8 @@ As a team, develop a product roadmap based on Cost of Delay. Here are the assump
 (Duration and priority are randomly associated - use whatever mix you like, but do mix them up - for example, your $1000/day value features should be a mix of the various durations, chosen from 2, 5, 10, 20, 35.)
 
 Also, features cannot cross Scrum iteration boundaries. They must be started and finished within the sprint. 
+
+The feature starts making money as soon as the iteration is done. So, if you create a $50/day feature in iteration 1, as soon as iteration 2 starts your company is making $50/day, 7 days a week. You need to add this up and increase the revenue number whenever new features come on line. 
 
 Developing your own format for the project plan (a spreadsheet is fine), answer the following questions: 
 
