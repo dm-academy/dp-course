@@ -586,7 +586,7 @@ As the page indicates, you need to enable the appropriate APIs, create a service
 
 NOTE: Keep the service account key in a secure location, such as a password manager. It is equivalent to an ssh private key. Once you put it into Github, you cannot retrieve it. 
 
-Once you have this configured, the pipeline should run whenever you make a change to server.js and push it to your Github repo (a local change isn't sufficient). Try changing the output of `app.get('/0?'..` as suggested in the code comments.
+Assignment: Once you have this configured, the pipeline should run whenever you make a change to server.js and push it to your Github repo (a local change isn't sufficient). Try changing the output of `app.get('/0?'..` as suggested in the code comments. If you prefer, simply change a comment in server.js if you want to start more simply. 
 
 
 === Break/fix analysis
@@ -618,7 +618,9 @@ You're now seeing the combination of stderr and stdout for your containers. Look
 
 In particular, we are interested in the errors that start with "UnhandledPromiseRejectionWarning..." We see some calls to IP addresses that seem to be timing out (ETIMEDOUT error). Look in your source code for server.js. Does that IP address seem to be there somewhere? Like Line 5?
 
-This is an example of a hard-coded value that is now breaking. We could replace it with a current cluster IP address, but then we have to just keep updating the code every time. Clearly, there should be a better way. Fortunately there is a simple fix, we just need to uncomment the appropriate line in server.js. Review it and do so. 
+This is an example of a hard-coded value that is now breaking. We could replace it with a current cluster IP address, but then we have to just keep updating the code every time. Clearly, there should be a better way. Fortunately there is a simple fix, we just need to uncomment the appropriate line in server.js (and comment the line that is not suitable for Kubernetes). 
+
+So, this is your assignment: review server.js and figure out what line to comment and what line to uncomment. 
 
 Push the updated server.js file to the master branch in your Github repository (or make the change on line on Github itself). This should kick off the pipeline and result in your Kubernetes cluster being automatically updated with the new file. 
 
@@ -626,7 +628,6 @@ To see the pipeline in action, go to Actions and click on "Build and Deploy to G
 
 image:images/action1.png[]
 
-Click on 
 
 Click on the top result which should say "Update server.js." You should see something like this:
 
@@ -644,6 +645,9 @@ You can click any of the ">" symbols for more information:
 
 image:images/action5.png[]
 
+Here is an annotated version of the pipeline run: 
+
+image:images/pipeline2.png[]
 
 === Submitting evidence
 
