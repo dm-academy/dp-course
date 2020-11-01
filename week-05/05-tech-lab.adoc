@@ -1,6 +1,6 @@
 = Lab 05 Work management with Teams and Github
 
-_Fall 2020 instructor's notes: emphasize cumulative value per day, and calibrate final #s so that costs/benefits are more aligned_
+
 
 ==  Overview
 
@@ -66,7 +66,7 @@ Your spreadsheet should show the necessary calculations. You may write them up i
 Since you all will make different assumptions, there is no right or wrong answer. Be prepared to present and discuss your findings in class. 
 
 
-
+_Fall 2020 instructor's notes: emphasize cumulative value per day, and calibrate final #s so that costs/benefits are more aligned_
 
 
 
