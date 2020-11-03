@@ -362,7 +362,7 @@ Then, run a kubectl command to create Deployment objects inside your Kubernetes 
 
 [source,bash]
 ----
-$ kubectl apply -f my-deployments.yaml
+$ kubectl apply -f deployments.yaml
 ----
 It can take 5 minutes or more for the pods to be fully activated. Take a quick break, and then check the deployments and pods that have been created:
 
