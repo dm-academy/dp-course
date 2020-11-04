@@ -558,7 +558,7 @@ In the last section, we were able to access the application's main URL. Also, at
 
 You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery. Please review the following diagram:
 
-image:images/pipeline.png[]
+image:images/Pipeline.png[]
 
 === Continuous delivery 
 
