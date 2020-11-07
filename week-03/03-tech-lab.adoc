@@ -581,13 +581,13 @@ image:images/enableActions.png[]
 
 Next, review https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.] You do NOT do all the steps. You only do some: 
 
-1)  enable the appropriate APIs
+1)  enable the appropriate APIs but NOT continue to "Go to Credentials." Go back to https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke[this page].
 
 2) skip
 
 3) skip
 
-4) create a service account, recommend calling it `node-svc-k8s`
+4) Via the provided link, create a service account, recommend calling it `node-svc-k8s`
 
 5) Add `Kubernetes Engine Developer` and `Storage Admin` to the service account
 
