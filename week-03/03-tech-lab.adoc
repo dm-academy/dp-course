@@ -172,7 +172,7 @@ NOTE: This is your Google _Project_, not your Google ID that you used above.
 
 Notice that you can run directly: 
 
-`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc:v1`
+`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc:latest
 
 Having a current container image in the Google Container Registry is a prerequisite for the next section. 
 
