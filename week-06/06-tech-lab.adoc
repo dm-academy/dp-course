@@ -75,7 +75,7 @@ But what happened? The cluster was running five replicas of the service. One was
 
 How does the message "Shutdown Signal" appear in the log? It's in server.js. Paste a screen shot of the code that generates it, including the URL path that starts the shutdown process.
 
-=== Kubernetes uptime
+=== Service uptime
 
 A simple way to have confidence in a service is to create an uptime check. A simple one periodically accesses a URL and validates that it's responding as expected. 
 
