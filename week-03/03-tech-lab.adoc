@@ -581,7 +581,7 @@ image:images/enableActions.png[]
 
 Next, review https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.] You do NOT do all the steps. You only do some: 
 
-1)  enable the appropriate APIs but NOT continue to "Go to Credentials." Go back to https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke[this page].
+1)  enable the appropriate APIs but DO NOT continue to "Go to Credentials." Go back to https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke[this page].
 
 2) skip
 
