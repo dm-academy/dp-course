@@ -75,3 +75,34 @@ But what happened? The cluster was running five replicas of the service. One was
 
 How does the message "Shutdown Signal" appear in the log? It's in server.js. Paste a screen shot of the code that generates it, including the URL path that starts the shutdown process.
 
+=== Kubernetes uptime
+
+A simple way to have confidence in a service is to create an uptime check. A simple one periodically accesses a URL and validates that it's responding as expected. 
+
+Google makes it easy to create such checks. Go to  https://console.cloud.google.com/monitoring, "Uptime checks|CREATE CHECK."
+
+*Assignment*. We are not going to give you detailed instructions, as this should be straightforward. Give the check a title, put one of the node IP addresses in, set the port (you have to open up the further options), ensure that the response content contains the word GET, and set the notification so that you get emailed if it's down. You have to configure an email as a notification channel, and refresh the list to choose it. 
+
+Once you have this configured, break you service by going `kubectl delete svc node-svc-public` from the Google Cloud Shell. 
+
+You should within 5 minutes get an email that looks like this: 
+
+image:images/uptimeFail.png[]
+
+Take a screenshot of the email and paste it into your assignment. You can navigate to the incident by going to "View Incident" button on the bottom. Do so, and inspect the various elements and bits of information. What do you think "acknowledge incident" does? Click on it. What do you think "silence incident" does?
+
+To bring the service back up, run `kubectl apply -f services.yaml`, which will reinstate the public IP service on the cluster and cause the uptime check to recover.
+
+Within 5 minutes you should get an email that looks like this: 
+
+image:images/uptimeRecovered.png[]
+
+Take a screenshot of the email and paste it into your assignment. 
+
+== Conclusion
+
+Submit your Word docment via Canvas. 
+
+
+ 
+
