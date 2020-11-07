@@ -579,9 +579,21 @@ Go to the "Actions" tab in your fork of the node-svc repository and enable your 
 
 image:images/enableActions.png[]
 
-Next, see https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.]
+Next, review https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.] You do NOT do all the steps. You only do some: 
 
-As the page indicates, you need to enable the appropriate APIs, create a service account, download the JSON service account key and configure the appropriate secrets in the repository Settings:
+1)  enable the appropriate APIs
+
+2) skip
+
+3) skip
+
+4) create a service account, recommend calling it `node-svc-k8s`
+
+5) Add `Kubernetes Engine Developer` and `Storage Admin` to the service account
+
+6) Create and download the JSON service account key to a SAFE location. You only get one chance!
+
+Now, configure the appropriate secrets in your forked Github repository Settings:
 
 * GKE_PROJECT
 * GKE_SA_KEY
