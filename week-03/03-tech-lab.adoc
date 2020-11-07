@@ -174,7 +174,7 @@ Optionally, go to the Container Registry in the Google Cloud Platform and verify
 
 Notice that you can run directly: 
 
-`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc:v1`
+`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc:latest
 
 Having a current container image in the Google Container Registry is a prerequisite for the next section. 
 
