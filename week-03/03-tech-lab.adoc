@@ -593,12 +593,14 @@ Next, review https://github.com/GoogleCloudPlatform/github-actions/tree/master/e
 
 6) Create and download the JSON service account key to a SAFE location. You only get one chance!
 
-Now, configure the appropriate secrets in your forked Github repository Settings:
+7) configure the appropriate secrets in your forked Github repository Settings:
 
 * GKE_PROJECT
 * GKE_SA_KEY
 
 NOTE: Keep the service account key in a secure location, such as a password manager. It is equivalent to an ssh private key. Once you put it into Github, you cannot retrieve it. 
+
+8) double check
 
 Assignment: Once you have this configured, the pipeline should run whenever you make a change to server.js and push it to your Github repo (a local change isn't sufficient). Try changing the output of `app.get('/0?'..` as suggested in the code comments. If you prefer, simply change a comment in server.js if you want to start more simply. 
 
