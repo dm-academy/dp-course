@@ -79,7 +79,7 @@ How does the message "Shutdown Signal" appear in the log? It's in server.js. Pas
 
 === Service uptime
 
-A simple way to have confidence in a service is to create an uptime check. A simple one periodically accesses a URL and validates that it's responding as expected. 
+A simple way to have confidence in a service is to create an uptime check. A basic uptime check periodically accesses a URL and validates that it's responding as expected. 
 
 Google makes it easy to create such checks. Go to  https://console.cloud.google.com/monitoring, "Uptime checks|CREATE CHECK."
 
