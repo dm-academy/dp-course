@@ -170,6 +170,8 @@ $ docker push gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest
 
 NOTE: This is your Google _Project_, not your Google ID that you used above. 
 
+Optionally, go to the Container Registry in the Google Cloud Platform and verify your image was uploaded. 
+
 Notice that you can run directly: 
 
 `$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc:v1`
