@@ -63,7 +63,9 @@ One of the features of the https://github.com/dm-academy/node-svc[node-svc] app 
 
 `curl <node-url>:30100/999` 
 
-whichever container receives it will SHUT DOWN. Kubernetes will then react. 
+whichever container receives it will SHUT DOWN. 
+
+Do so. Kubernetes will then react. 
 
 What did it do? For this, we need to look not at monitoring, but logs. Go to  https://console.cloud.google.com/logs/. You may need to hit the "Jump to Now" button. You should see: 
 
