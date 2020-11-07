@@ -83,6 +83,8 @@ Google makes it easy to create such checks. Go to  https://console.cloud.google.
 
 *Assignment*. We are not going to give you detailed instructions, as this should be straightforward. Give the check a title, put one of the node IP addresses in, set the port (you have to open up the further options), ensure that the response content contains the word GET, and set the notification so that you get emailed if it's down. You have to configure an email as a notification channel, and refresh the list to choose it. 
 
+You can test that the check works before you save it (there's a button).
+
 Once you have this configured, break you service by going `kubectl delete svc node-svc-public` from the Google Cloud Shell. 
 
 You should within 5 minutes get an email that looks like this: 
@@ -98,6 +100,8 @@ Within 5 minutes you should get an email that looks like this:
 image:images/uptimeRecovered.png[]
 
 Take a screenshot of the email and paste it into your assignment. 
+
+Destroy your cluster until you need it next. I would not delete the uptime check; you will get emailed from it until (I think) you acknowledge and silence it.
 
 == Conclusion
 
