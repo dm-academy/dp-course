@@ -73,9 +73,17 @@ You got a second email noting that the system has recovered.
 
 This is less than ideal - we don't want to flood our help desk system with useless alerts (this can lead to https://en.wikipedia.org/wiki/Alarm_fatigue[alarm fatigue]). Further, we now have two separate tickets that reference the same system alert. This can add confusion when multiple team members are working on the same problem.
 
-There is not a way to fix this from the GCP side - the email notification system will always send a notice when a check fails and again when it recovers. We might choose a different notification channel like GCP's pub/sub system, which would let us wire in additional logic to remove recovery notifications or, better yet, associate them with the original failure and update our service desk system to show that the alert has recovered.
+There is not a way to fix this from the GCP side - the email notification system will always send a notice when a check fails and again when it recovers. We might choose a different notification channel, like GCP's pub/sub system, which would let us wire in additional logic to remove recovery notifications or, better yet, associate them with the original failure and update our service desk system to show that the alert has recovered.
 
 Service desk systems also have tools to watch for certain ticket attributes and perform automated operations on them.
 
 *Bonus Assignment*
 Look in the `Automation` menu in your service desk project settings and see if you can build an automation that deletes incoming GCP recovery notices. Even more extra credit if you can design an automation that finds the original alert ticket and closes it when an associated recovery notice comes in. I have not tried this, so I am not sure if it is possible.
+
+Include a screenshot of your automation recipe in your assignment doc.
+
+== Conclusion
+
+Submit your word document via Canvas.
+
+Destroy your cluster so you are not charged for it. You do not need to worry about fees from your Jira project, since you are on the free plan.
