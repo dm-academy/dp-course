@@ -6,7 +6,7 @@ Fall 2020: In Lab 06 we explored basic monitoring and metrics. As part of monito
 
 Prerequisite: Fire up your node-svc cluster if necessary. Once this is complete, ensure that your uptime check from Lab 06 is checking your cluster and that the check is reporting success.
 
-== Team-based Alerting
+=== Service Desks
 
 If the service we're running is critical to our business, we want to make sure that a failure of that service never goes unnoticed. A common pattern to accomplish this is to have an on-call rotation. Services like PagerDuty or VictorOps let us set up schedules that route alerts to an on-call member of the team who can then diagnose the problem and get working on a fix or call in additional help.
 
@@ -43,3 +43,39 @@ We've just created a ticket through our internal system. What happens if we want
 image:images/emailSetup.png[]
 
 * Send an email to this address from your personal email account. In addition to seeing a ticket created in your service desk system, you should also get an automated response from the service desk system back to your own email account letting you know that your request was received. Good service desk software allows us to automate processes like letting a customer know we've received their request.
+
+*Assignment*
+Take a screenshot of the queues page in your service desk portal. It should now contain two tickets - one you made from within the service desk system itself and one you sent in via email.
+
+Take a second screenshot of the ticket detail page resulting from your email ticket. You'll see that that the ticket details indicate that the ticket was raised via email. Paste both screenshots into your assignment doc.
+
+=== Team-based Alerting
+
+We're finally getting around to centralized alerting. If you remember how we setup our uptime check in Lab 06, you can see where this is going - we're going to setup our Google Uptime check to send notification emails to our service desk system.
+
+Before we can do this, we need to make sure that our service desk doesn't filter out these emails. Most service desk software that can receive tickets via email attempts to filter out spam.
+
+* Go back to the `project settings` menu and select `Email requests` once again.
+* In the upper right of this screen (across from the `Email` heading) is a three dot menu. Open this and select `Manage allowlist`.
+* Select `Add domain name` and enter `google.com`
+* The dialog box should appear as below when this is successful.
+
+image:images/emailAllow.png[]
+
+*Assignment*
+Head over to the GCP monitoring service. Find your uptime check from Lab 06 and change its notification to send to your service desk email. Now cause your uptime check to fail like you did in Lab 06.
+
+You should eventually see a ticket show up in your service desk system. Take a screen shot of this ticket detail screen and include it in your assignment doc.
+
+Now fix your kubernetes cluster and watch your uptime check recover. Keep an eye on your service desk once this happens. What do you notice?
+
+You got a second email noting that the system has recovered.
+
+This is less than ideal - we don't want to flood our help desk system with useless alerts (this can lead to https://en.wikipedia.org/wiki/Alarm_fatigue[alarm fatigue]). Further, we now have two separate tickets that reference the same system alert. This can add confusion when multiple team members are working on the same problem.
+
+There is not a way to fix this from the GCP side - the email notification system will always send a notice when a check fails and again when it recovers. We might choose a different notification channel like GCP's pub/sub system, which would let us wire in additional logic to remove recovery notifications or, better yet, associate them with the original failure and update our service desk system to show that the alert has recovered.
+
+Service desk systems also have tools to watch for certain ticket attributes and perform automated operations on them.
+
+*Bonus Assignment*
+Look in the `Automation` menu in your service desk project settings and see if you can build an automation that deletes incoming GCP recovery notices. Even more extra credit if you can design an automation that finds the original alert ticket and closes it when an associated recovery notice comes in. I have not tried this, so I am not sure if it is possible.
