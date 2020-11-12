@@ -172,9 +172,9 @@ NOTE: This is your Google _Project_, not your Google ID that you used above.
 
 Optionally, go to the Container Registry in the Google Cloud Platform and verify your image was uploaded. 
 
-Notice that you can run directly: 
+Notice that you can run directly, but first call 'docker ps' to see if port 8081 has already been bound.  If it is, call "docker kill" to un-bind it.
 
-`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc:latest
+$ docker run -d -p 8081:30100 gcr.io/<Google Project ID>/node-svc:latest
 
 Having a current container image in the Google Container Registry is a prerequisite for the next section. 
 
