@@ -168,8 +168,7 @@ $ docker tag [SOURCE_IMAGE] [HOSTNAME]/[PROJECT-ID]/[IMAGE]:TAG
 $ docker push [HOSTNAME]/[PROJECT-ID]/[IMAGE]:TAG
 ----
 
-We are going to now explore some environment variables to make this easier. If you type the command `env`, you will see a number of useful values. Read through them until you find your Google ID and Google Project ID. They are named LOGNAME and GOOGLE_CLOUD_PROJECT. You can access them in any command by prefacing them with `$`:
-
+With the environment variables introduced above:
 
 [source,bash]
 ----
