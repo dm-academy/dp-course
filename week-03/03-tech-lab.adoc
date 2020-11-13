@@ -131,7 +131,7 @@ Now, run the container:
 
 [source,bash]
 ----
-docker run -d -p 8081:30100 <yourGoogleID>/node-svc
+docker run -d -p 8081:30100 $LOGNAME/node-svc
 ----
 
 Notice the "8081:30100" syntax. This means that while the container is running on port 30100 internally, it is externally exposed via port 8081.
