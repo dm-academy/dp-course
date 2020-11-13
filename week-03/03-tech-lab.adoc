@@ -557,7 +557,7 @@ NOTE: If you have issues, you may need to perform `npm install`.
 
 == Updating the service: towards a true pipeline
 
-In the last section, we were able to access the application's main URL. Also, at this point the simple URL  is working .... but /1, /3, /30 etc are not. We need to: 
+In the last section, we were able to access the application's main URL. Also, at this point the simple URL  is working .... but /1, /3, /30 etc are not. In the next major section of this lab, we need to: 
 
 * figure out what's wrong
 * update server.js
@@ -565,6 +565,8 @@ In the last section, we were able to access the application's main URL. Also, at
 * rebuild the container
 * push it to the Google Container Registry
 * tell Kubernetes to re-apply the deployment. 
+
+_The above is just a summary. Study it, but you do not need to do anything. We will go step by step below._
 
 You'll quickly realize this is a set of often repeated actions. We're now ready for continuous delivery. Please review the following diagram:
 
