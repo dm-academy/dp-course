@@ -164,8 +164,8 @@ We are going to now explore some environment variables to make this easier. If y
 
 [source,bash]
 ----
-$ docker tag $LOGNAME/node-svc gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest
-$ docker push gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest
+docker tag $LOGNAME/node-svc gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest
+docker push gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest
 ----
 
 NOTE: This is your Google _Project_, not your Google ID that you used above. 
@@ -174,7 +174,7 @@ Optionally, go to the Container Registry in the Google Cloud Platform and verify
 
 Notice that you can run directly: 
 
-`$ docker run -d -p 8081:30100 gcr.io/<your Google ID>/node-svc:latest
+`docker run -d -p 8081:30100 gcr.io/$GOOGLE_CLOUD_PROJECT/node-svc:latest`
 
 Having a current container image in the Google Container Registry is a prerequisite for the next section. 
 
