@@ -574,7 +574,7 @@ image:images/Pipeline.png[]
 
 Review https://pubs.opengroup.org/dpbok/standard/DPBoK.html#KLP-devops-technical-practices[DevOps Technical Practices] in the DPBoK. 
 
-In your directory, you will also find a directory called `.github,` with a subdirectory `workflows` and a file `GKE.yml`. The file is a Github Actions script. Have a look at it. It's a basic pipeline, including: 
+In your cloned node-svc directory, you will also find a directory called `.github,` with a subdirectory `workflows` and a file `GKE.yml`. The file is a Github Actions script. Have a look at it. It's a basic pipeline, including: 
 
 * testing the application
 * building the Docker image
