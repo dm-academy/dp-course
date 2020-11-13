@@ -582,6 +582,8 @@ In your cloned node-svc directory, you will also find a directory called `.githu
 * building the Docker image
 * pushing the Docker image to the Google Container Registry (GCR). 
 * deploying from the GCR to Kubernetes
+ 
+ _Again the above is just a summary of what we will explore more deeply below._
 
 Your final task for this lab is to configure your Github repository to run the pipeline. 
 
