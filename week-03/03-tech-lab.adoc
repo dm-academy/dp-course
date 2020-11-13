@@ -671,7 +671,7 @@ Take a screenshot of the pipeline page showing that it has successfully run all 
 
 === Destroy the cluster
 
-To destroy the Kubernetes cluster, run the following command inside `kubernetes/terraform` directory:
+To destroy the Kubernetes cluster, run the following command:
 
 [source,bash]
 ----
