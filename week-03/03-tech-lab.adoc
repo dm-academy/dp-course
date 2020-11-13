@@ -360,9 +360,9 @@ In the Pod object definition (`Pod template`) we specify container information s
         image: gcr.io/<YOUR GOOGLE PROJECT>/node-svc:latest
 ----
 
-Unfortunately, you cannot include an environment variable in YAML. So you have to alter the file.
+*TO DO*: Unfortunately, you cannot include an environment variable in YAML. So you have to alter the file. What value do you think needs to be changed? To what? 
 
-The container image will be downloaded from the https://cloud.google.com/container-registry/[Google Container Registry] (this is the one we tagged and uploaded as v1 in the previous section).
+The container image will be downloaded from the https://cloud.google.com/container-registry/[Google Container Registry] (this is the one we tagged and uploaded as v1 in the previous section). 
 
 === Create Deployment Objects
 
