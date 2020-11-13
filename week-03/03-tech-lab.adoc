@@ -91,11 +91,21 @@ CMD [ "node", "server.js" ]
 
 === Build Container Image
 
-Once you have reviewed how your image will be built, run the following command inside the node-svc directory to create a container image for the node-svc application:
+We are going to now explore some environment variables to make this easier. If you type the command `env`, you will see a number of useful values. Read through them until you find your Google ID and Google Project ID. They are named LOGNAME and GOOGLE_CLOUD_PROJECT. You can access them in any command by prefacing them with `$`.
+
+At a command prompt, review their values by typing: 
 
 [source,bash]
 ----
-$ docker build -t <yourGoogleID>/node-svc .
+echo $LOGNAME
+echo $GOOGLE_CLOUD_PROJECT
+----
+
+Now that you have reviewed how your image will be built, run the following command inside the node-svc directory to create a container image for the node-svc application:
+
+[source,bash]
+----
+docker build -t $LOGNAME/node-svc .
 ----
 
 What is <yourGoogleID>? See https://github.com/dm-academy/dp-course/blob/master/faq/faq.adoc[the FAQ]. 
