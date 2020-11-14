@@ -591,6 +591,8 @@ Go to the "Actions" tab in your fork of the node-svc repository and enable your 
 
 image:images/enableActions.png[]
 
+_instructor's note: provide screen shot of steps 1,4,5, etc_
+
 Next, review https://github.com/GoogleCloudPlatform/github-actions/tree/master/example-workflows/gke[this page.] You do NOT do all the steps. You only do some: 
 
 1)  enable the appropriate APIs but DO NOT continue to "Go to Credentials." Go back to https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke[this page].
@@ -644,7 +646,7 @@ image:images/monitoring2.png[]
 
 You're now seeing the combination of stderr and stdout for your containers. Look at the orange !! warnings. What are they saying? 
 
-In particular, we are interested in the errors that start with "UnhandledPromiseRejectionWarning..." We see some calls to IP addresses that seem to be timing out (ETIMEDOUT error). Look in your source code for server.js. Does that IP address seem to be there somewhere? Like Line 5?
+In particular, we are interested in the errors that start with "UnhandledPromiseRejectionWarning..." We see some calls to IP addresses that seem to be timing out (ETIMEDOUT error). Look in your source code for server.js. Does that IP address seem to be there somewhere? Like Line 9?
 
 This is an example of a hard-coded value that is now breaking. We could replace it with a current cluster IP address, but then we have to just keep updating the code every time. Clearly, there should be a better way. Fortunately there is a simple fix, we just need to uncomment the appropriate line in server.js (and comment the line that is not suitable for Kubernetes). 
 
@@ -680,6 +682,8 @@ image:images/pipeline2.png[]
 === Submitting evidence
 
 Take a screenshot of the pipeline page showing that it has successfully run all steps, and a screen shot showing a *successful* /20 or greater call to the microservices running on the Kubernetes cluster (either via browser or curl). (By successful, I mean that you have multiple lines of output returned, showing the service calling itself and returning a timestamp.)
+
+_instructor's note: provide screen shot of example output_
 
 === Destroy the cluster
 
