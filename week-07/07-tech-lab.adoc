@@ -47,7 +47,7 @@ image:images/emailSetup.png[]
 *Assignment*
 Take a screenshot of the queues page in your service desk portal. It should now contain two tickets - one you made from within the service desk system itself and one you sent in via email.
 
-Take a second screenshot of the ticket detail page resulting from your email ticket. You'll see that that the ticket details indicate that the ticket was raised via email. Paste both screenshots into your assignment doc.
+Take a second screenshot of the ticket detail page resulting from your email ticket. You'll see that the ticket details indicate that the ticket was raised via email. Paste both screenshots into your assignment doc.
 
 === Team-based Alerting
 
