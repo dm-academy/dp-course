@@ -65,7 +65,7 @@ image:images/emailAllow.png[]
 *Assignment*
 Head over to the GCP monitoring service. Find your uptime check from Lab 06 and change its notification to send to your service desk email. 
 
-NOTE: If you spun up your cluster fresh for this lab, you'll need to collect the endpoints like we did in Lab 06. Unfortunately Google makes it difficult to edit an existing check. You can, however, make a copy of your existing check and edit that. Find your uptime check in the Google monitoring console and click the three-dots menu. Select the `copy` option.
+NOTE: If you spun up your cluster fresh for this lab, you'll need to collect the endpoints like we did in Lab 06 so that you can enter them in your uptime check configuration. Unfortunately Google makes it difficult to edit an existing check with these new endpoints. You can, however, make a copy of your existing check and edit that. Find your uptime check in the Google monitoring console and click the three-dots menu. Select the `copy` option.
 
 Now cause your uptime check to fail like you did in Lab 06.
 
