@@ -26,7 +26,9 @@ The system will prompt you to create your first project based off a template. Th
 
 image:images/templates.png[]
 
-You'll finally arrive at a screen that shows you an overview of your new service desk project.
+You'll arrive at a screen that shows you all of your projects, including the one you just created (this may be the only project you see). Select your project.
+
+At long last, here is an overview of your new service desk project.
 
 image:images/home.png[]
 
