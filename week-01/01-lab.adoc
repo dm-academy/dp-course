@@ -31,7 +31,7 @@ For your first effort, you will manually configure a simple system running a bas
 
 NOTE: We will talk more about infrastructure as code in Session 02. However, you will start right away with it. Infrastructure as code means that, for the most part, we will configure our systems using scripts and other text files, as opposed to using a graphical user interface. 
 
-=== Google Cloud Platform
+=== GCP
 
 In this tutorial, we use the https://cloud.google.com/[Google Cloud Platform] to provision the compute infrastructure. You have already signed up.
 
