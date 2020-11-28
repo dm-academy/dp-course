@@ -236,3 +236,13 @@ $ ~/bin/terraform apply
 ----
 
 Terraform will CRASH HARD if you do not do this.
+
+=== Github Actions Failing with an "Unexpected token ۶ in JSON at position 0"
+NOTE: If you are getting the error "Unexpected token ۶ in JSON at position 0" then you will need to look
+at your GKE_SA_KEY and make sure that this is correct. You should go ahead and copy the key again and redo 
+your earlier entry.  Again, you are looking for a key that has many lines and not just a one line or 20 
+character key.
+
+How do you get to the GKE_SA_KEY again?  First go into Settings in the directory that you are currently in 
+here in Github, then select Secrets on the left hand menu.
+
