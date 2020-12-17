@@ -22,30 +22,26 @@ You will fix at least two vulnerabilities and participate in group and class dis
 
 === Getting started
 
-Go to your home directory.
+Start up a Virtual Machine, login to your personal server and perform an update.
 
- cd
+$ sudo apt-get update 
 
 Install Lynis. The overall instructions are here:  
 
 https://cisofy.com/documentation/lynis/get-started
 
-You should download using the git approach.
+Download lynis using the 'Installation via Git' approach.  
+NOTE: Use sudo to perform the clone operaton.
 
-NOTE: If you choose to clone into /usr/local, you will need to sudo.
+Run lynis audit system.
 
-This scan is run internally on the server, as a script or application that reviews the server's configuration in painstaking detail. It will generate hundreds of findings. 
-You should pick one or two and research them and figure out if there is an easy fix.
+NOTE: Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
+Since you are redirecting the output to a file, you may have to cd to a directory where you have write permission. Then use the syntax `sudo <directory where the lynis executable got downloaded>/lynis audit system > lynis_out"
 
-Start by logging into your personal server. 
+The lynis scan is run internally on the server, as a script or application that reviews the server's configuration in painstaking detail.   
+It will generate hundreds of findings.  You should pick one or two and research them and figure out if there is an easy fix.
 
-Go to:
-
-https://cisofy.com/documentation/lynis/get-started/#first-run and run the scan.
-
-Be sure to run lynis with the syntax `sudo ./lynis audit system`, because it is not in your path. Sudo gives you more results.
-
-You should be able to run the first scan as the lynis directions suggest. This scan is run internally on the server, as a script or application that reviews the 
+This scan is run internally on the server, as a script or application that reviews the 
 server's configuration in painstaking detail. Lots of output that looks like:
 
 ....
@@ -155,18 +151,25 @@ When you have reflected enough on the Java deserialization vulnerability and the
 
 First review the first few pages of the https://github.com/zaproxy/zaproxy/releases/download/2.5.0/ZAPGettingStartedGuide-2.5.pdf[zaproxy docs].
 
-ON YOUR VM, go:
+ON YOUR VM, perform an update and install java and apache2:
 
 ....
 sudo apt-get update
 sudo apt-get install -y default-jdk apache2
-
-wget https://github.com/zaproxy/zaproxy/releases/download/2.5.0/ZAP_2.5.0_Linux.tar.gz
-tar -xvf ZAP_2.5.0_Linux.tar.gz
-
-cd ZAP_2.5.0/
-./zap.sh -cmd -quickurl http://localhost:80
 ....
+
+Install owasp-zap.  
+Go to https://www.zaproxy.org/download/ and scroll down until you find the link 'ZAP Linux Repos'.  Click on this link to go to the download page.
+On the download page, select your operating system, then click on 'Add repository and install manually'.  Execute the commands that get displayed for 
+the operating system that you chose.
+
+For example, if you chose the Ubuntu operation system:
+image::owasp_zap_download.png[]
+
+....
+
+./zap.sh -cmd -quickurl http://localhost:80
+
 
 We run this script externally to the machine being tested, and give it the URL. It then probes the URL and the server, as a form of penetration testing. It will again generate a number of findings. Research them and figure out if there is an easy fix. Share with class on Slack.
 
