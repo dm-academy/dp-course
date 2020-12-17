@@ -31,6 +31,7 @@ Install Lynis. The overall instructions are here:
 https://cisofy.com/documentation/lynis/get-started
 
 Download lynis using the 'Installation via Git' approach.  
+
 NOTE: Use sudo to perform the clone operaton.
 
 Run lynis audit system.
@@ -164,6 +165,7 @@ On the download page, select your operating system, then click on 'Add repositor
 the operating system that you chose.
 
 For example, if you chose the Ubuntu operation system:
+
 image::owasp_zap_download.png[]
 
 ....
