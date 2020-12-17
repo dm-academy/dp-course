@@ -22,8 +22,7 @@ You will fix at least two vulnerabilities and participate in group and class dis
 
 === Getting started
 
-Start up a Virtual Machine from your Google Cloud Console or from the Google Cloud Shell (refer to Lab 01 if you don't remember how to do this).
-ssh into your personal server.
+Start up a Virtual Machine from your Google Cloud Console or from the Google Cloud Shell, then ssh into your personal server.
 
 Perform an update and install lynis.
 
@@ -34,35 +33,18 @@ sudo apt-get install lynis
 ....
 
 Lynis will not be installed in the directory you are currently in.  Use the 'find' command to determine where it was installed.
-Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds
-of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
 
 ....
 sudo find / -name lynis
 ....
 
-This command will display all the directories that contain the name 'lynis', e.g.
-   /etc/bash_completion.d/lynis
-   /etc/lynis
-   /usr/share/doc/lynis
-   /usr/share/menu/lynis
-   /usr/share/lintian/overrides/lynis
-   /usr/share/lynis
-   /usr/sbin/lynis
-
-Examine thesee directories and find the one that contains the executable lynis*.  Once you know where it got downloaded, run 'audit system' with the 
---quick option (don't wait for user input).  Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a 
-file, e.g. lynis_out, so you can view it later.  If the executable lynis* was found in the /usr/sbin directory:
+This command will display all the directories that contain the name 'lynis'.  Examine thesee directories and find the one that contains the executable lynis*.  Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.  If the executable lynis* was found in the /usr/sbin directory:
 
 ....
 sudo /usr/sbin//lynis --quick audit system > lynis_out
 ....
 
-The lynis scan is run internally on the server, as a script or application that reviews the server's configuration in painstaking detail.   
-It will generate hundreds of findings.  You should pick one or two and research them and figure out if there is an easy fix.
-
-This scan is run internally on the server, as a script or application that reviews the 
-server's configuration in painstaking detail. Lots of output that looks like:
+The lynis scan is run internally on the server, as a script or application that reviews the server's configuration in painstaking detail.  Pick one or two findings,  research them and figure out if there is an easy fix.  The lynis output should look like:
 
 ....
 - Checking for old files in /tmp                            [ OK ]
@@ -85,13 +67,13 @@ server's configuration in painstaking detail. Lots of output that looks like:
 
 Let's fix the minium and maxium password age issue in login.defs.
 
-Open file /etc/login.defs using text editor:
+Open file /etc/login.defs using the text editor:
 
 ....
 sudo nano /etc/login.defs
 ....
 
-Change the values as shown:
+Change the values of PASS_MAX_DAYS and PASS_MIN_DAYS as shown:
 
  PASS_MAX_DAYS 30
  PASS_MIN_DAYS 1
@@ -108,7 +90,7 @@ confirms that this is no longer an issue.
 
 === System hardening
 
-Now for the hard part. Find another vulnerability you can fix. To use class time most efficiently, you should post the vulnerabilities you are researching to Slack. Don't start on something someone else is doing.
+Now for the hard part. Find another vulnerability you can fix. To use class time most efficiently, you should post the vulnerabilities you are researching to the class. Don't start on something someone else is doing.
 
 You should take some time and think about and/or research the risk any given vulnerability presents. Remember the CISSP terminology:
 
@@ -135,7 +117,7 @@ First, you need to figure out the configuration change required to fix the vulne
 * 3 : 20 points.
 * 10 or more: 30 points
 
-In order to gain the extra credit:
+In order to gain the extra credit, this fix should be performed in a hardened Packer image.
 * Create a new VM and run the vulnerability scanner.
 * Save the output to a text file, named "initial-output.log"
 * Run the necessary commands to fix the vulnerability.
@@ -188,8 +170,7 @@ After owasp-zap is installed, use the 'find' command to determine where zap.sh w
 sudo find / -name zap.sh
 ....
 
-This command will display all the directories that contain the name 'zap.sh', e.g.
-   /usr/bin/owasp-zap
+This command will display the directory that contains 'zap.sh', e.g.   /usr/bin/owasp-zap
 
 Run zap.sh and redirect the output to a file so you can view it later, e.g zap_sh_out.  
 
@@ -219,8 +200,8 @@ The following tools were evaluated as part of developing this lab.
 
 === Lynis
 
-https://cisofy.com/lynis/
-http://linux-audit.com/linux-vulnerabilities-explained-from-detection-to-treatment/
+https://cisofy.com/lynis
+http://linux-audit.com/linux-vulnerabilities-explained-from-detection-to-treatment
 
 === ZAP
 https://www.zaproxy.org
