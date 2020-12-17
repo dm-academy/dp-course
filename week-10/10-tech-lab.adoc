@@ -22,22 +22,32 @@ You will fix at least two vulnerabilities and participate in group and class dis
 
 === Getting started
 
-Start up a Virtual Machine, login to your personal server and perform an update.
+Start up a Virtual Machine, login to your personal server, perform an update and install lynis.
+Lynis will not be installed in the directory you are currently in.  Use the 'find' command to determine where it was installed.
+Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds
+of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
 
-$ sudo apt-get update 
+....
+cd ~
+sudo apt-get update
+sudo apt-get install lynis
+sudo find / -name lynis
+   /etc/bash_completion.d/lynis
+   /etc/lynis
+   /usr/share/doc/lynis
+   /usr/share/menu/lynis
+   /usr/share/lintian/overrides/lynis
+   /usr/share/lynis
+   /usr/sbin/lynis
+Examine these locations to find the executable lynis*.  The lynis executable is located in /usr/sbin. 
+....
 
-Install Lynis. The overall instructions are here:  
+Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds of findings 
+that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
 
-https://cisofy.com/documentation/lynis/get-started
-
-Download lynis using the 'Installation via Git' approach.  
-
-NOTE: Use sudo to perform the clone operaton.
-
-Run lynis audit system.
-
-NOTE: Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
-Since you are redirecting the output to a file, you may have to cd to a directory where you have write permission. Then use the syntax `sudo <directory where the lynis executable got downloaded>/lynis audit system > lynis_out"
+....
+sudo /usr/sbin/lynis --quick audit system > lynis_out
+....
 
 The lynis scan is run internally on the server, as a script or application that reviews the server's configuration in painstaking detail.   
 It will generate hundreds of findings.  You should pick one or two and research them and figure out if there is an easy fix.
@@ -148,30 +158,41 @@ You may need to Google "regular expressions."
 === Web vulnerability testing scan
 (if time)
 
-When you have reflected enough on the Java deserialization vulnerability and the implications of that article, move on to a Web vulnerability. We will install Java and apache2 on your VM. (Don't try to install these on the main server; you won't be able to.)
+When you have reflected enough on the Java deserialization vulnerability and the implications of that article, move on to a Web vulnerability. We will install 
+Java and apache2 on your VM. (Don't try to install these on the main server; you won't be able to.)
 
-First review the first few pages of the https://github.com/zaproxy/zaproxy/releases/download/2.5.0/ZAPGettingStartedGuide-2.5.pdf[zaproxy docs].
-
-ON YOUR VM, perform an update and install java and apache2:
+ON YOUR VM, perform an update and install java and apache2.  You can check if apache2 got installed by issuing the curl command.
 
 ....
 sudo apt-get update
 sudo apt-get install -y default-jdk apache2
+curl localhost:80
 ....
 
 Install owasp-zap.  
 Go to https://www.zaproxy.org/download/ and scroll down until you find the link 'ZAP Linux Repos'.  Click on this link to go to the download page.
-On the download page, select your operating system, then click on 'Add repository and install manually'.  Execute the commands that get displayed for 
+On the download page, select your operating system, then click on 'Add repository and install manually'.  Run the commands that get displayed for 
 the operating system that you chose.
 
 For example, if you chose the Ubuntu operation system:
 
 image::owasp_zap_download.png[]
 
+After owasp-zap is installed, use the 'find' command to determine where zap.sh was installed.  Run it and redirect its output to a file, 
+e.g. zap_sh_out, so you can view it later.
+
 ....
+sudo find / -name owasp-zap
+   /usr/share/doc/owasp-zap
+   /usr/share/owasp-zap
+   /usr/share/owasp-zap/debian/owasp-zap
+   /usr/share/owasp-zap/debian/owasp-zap/usr/share/owasp-zap
+   /usr/bin/owasp-zap
+Examine these locations to find the executable zap.sh*.  The zap.sh executable is located in /usr/share/owasp-zap.
 
-./zap.sh -cmd -quickurl http://localhost:80
-
+Examine zap.sh, run it and redirect the output to a file.
+sudo /usr/share/owasp-zap/zap.sh -cmd -quickurl http://localhost:80 > zap_sh_out
+....
 
 We run this script externally to the machine being tested, and give it the URL. It then probes the URL and the server, as a form of penetration testing. It will again generate a number of findings. Research them and figure out if there is an easy fix. Share with class on Slack.
 
