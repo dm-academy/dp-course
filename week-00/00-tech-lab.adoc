@@ -1,11 +1,12 @@
+Just test text for the assignment. 
+
 = Lab 00: Setup
 
 NOTE: We are in a bootstrapping phase. We need to get you set up on Github and Google Cloud so that you can learn Linux. But that means you need to execute some Linux without knowing much about it. Do your best to follow the instructions. 
 
-NOTE: These instructions are always a work in progress. 
+NOTE: These instructions are always a work in progress. This is a test. 
 
-
-Objectives of this lab: 
+Objectives of this lab are as follows: 
 
 - Set up MS Teams
 - Set up Google Compute Engine
