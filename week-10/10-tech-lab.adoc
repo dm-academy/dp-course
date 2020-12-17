@@ -32,21 +32,13 @@ cd ~
 sudo apt-get update
 sudo apt-get install lynis
 sudo find / -name lynis
-   /etc/bash_completion.d/lynis
-   /etc/lynis
-   /usr/share/doc/lynis
-   /usr/share/menu/lynis
-   /usr/share/lintian/overrides/lynis
-   /usr/share/lynis
-   /usr/sbin/lynis
-Examine these locations to find the executable lynis*.  The lynis executable is located in /usr/sbin. 
 ....
 
-Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds of findings 
-that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
+Examine the locations to find the executable lynis*.  Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  
+Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
 
 ....
-sudo /usr/sbin/lynis --quick audit system > lynis_out
+sudo <lynis* directory>/lynis --quick audit system > lynis_out
 ....
 
 The lynis scan is run internally on the server, as a script or application that reviews the server's configuration in painstaking detail.   
@@ -182,16 +174,8 @@ After owasp-zap is installed, use the 'find' command to determine where zap.sh w
 e.g. zap_sh_out, so you can view it later.
 
 ....
-sudo find / -name owasp-zap
-   /usr/share/doc/owasp-zap
-   /usr/share/owasp-zap
-   /usr/share/owasp-zap/debian/owasp-zap
-   /usr/share/owasp-zap/debian/owasp-zap/usr/share/owasp-zap
-   /usr/bin/owasp-zap
-Examine these locations to find the executable zap.sh*.  The zap.sh executable is located in /usr/share/owasp-zap.
-
-Examine zap.sh, run it and redirect the output to a file.
-sudo /usr/share/owasp-zap/zap.sh -cmd -quickurl http://localhost:80 > zap_sh_out
+sudo find / -name zap.sh
+sudo <zap.sh* directory>/zap.sh -cmd -quickurl http://localhost:80 > zap_sh_out
 ....
 
 We run this script externally to the machine being tested, and give it the URL. It then probes the URL and the server, as a form of penetration testing. It will again generate a number of findings. Research them and figure out if there is an easy fix. Share with class on Slack.
