@@ -38,10 +38,10 @@ Lynis will not be installed in the directory you are currently in.  Use the 'fin
 sudo find / -name lynis
 ....
 
-This command will display all the directories that contain the name 'lynis'.  Examine thesee directories and find the one that contains the executable lynis*.  Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.  If the executable lynis* was found in the /usr/sbin directory:
+This command will display all the directories that contain the name 'lynis'.  Examine thesee directories and find the one that contains the executable lynis*.  Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.  For example, if the executable lynis* was found in the /usr/sbin directory, your command would be:
 
 ....
-sudo /usr/sbin//lynis --quick audit system > lynis_out
+sudo /usr/sbin/lynis --quick audit system > lynis_out
 ....
 
 The lynis scan is run internally on the server, as a script or application that reviews the server's configuration in painstaking detail.  Pick one or two findings,  research them and figure out if there is an easy fix.  The lynis output should look like:
@@ -170,9 +170,9 @@ After owasp-zap is installed, use the 'find' command to determine where zap.sh w
 sudo find / -name zap.sh
 ....
 
-This command will display the directory that contains 'zap.sh', e.g.   /usr/bin/owasp-zap
+This command will display the directory that contains the executable 'zap.sh'.
 
-Run zap.sh and redirect the output to a file so you can view it later, e.g zap_sh_out.  
+Run zap.sh and redirect the output to a file so you can view it later, e.g zap_sh_out.  For example, if 'zap.sh'* was found in the /usr/bin/owasp-zap directory, your command would be:
 
 ....
 sudo /usr/bin/owasp-zap/zap.sh -cmd -quickurl http://localhost:80 > zap_sh_out
