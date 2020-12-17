@@ -118,6 +118,7 @@ First, you need to figure out the configuration change required to fix the vulne
 * 10 or more: 30 points
 
 In order to gain the extra credit, this fix should be performed in a hardened Packer image.
+
 * Create a new VM and run the vulnerability scanner.
 * Save the output to a text file, named "initial-output.log"
 * Run the necessary commands to fix the vulnerability.
