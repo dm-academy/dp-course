@@ -163,15 +163,14 @@ curl localhost:80
 
 Install owasp-zap.  
 Go to https://www.zaproxy.org/download/ and scroll down until you find the link 'ZAP Linux Repos'.  Click on this link to go to the download page.
-On the download page, select your operating system, then click on 'Add repository and install manually'.  Run the commands that get displayed for 
-the operating system that you chose.
+On the download page, select your operating system, then click on 'Add repository and install manually'.  
 
 For example, if you chose the Ubuntu operation system:
 
 image::owasp_zap_download.png[]
 
-After owasp-zap is installed, use the 'find' command to determine where zap.sh was installed.  Run it and redirect its output to a file, 
-e.g. zap_sh_out, so you can view it later.
+Run the commands that get displayed for the operating system that you chose.  After owasp-zap is installed, use the 'find' command to determine where zap.sh 
+was installed.  Run it and redirect its output to a file, e.g. zap_sh_out, so you can view it later.
 
 ....
 sudo find / -name zap.sh
