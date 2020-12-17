@@ -22,23 +22,40 @@ You will fix at least two vulnerabilities and participate in group and class dis
 
 === Getting started
 
-Start up a Virtual Machine, login to your personal server, perform an update and install lynis.
-Lynis will not be installed in the directory you are currently in.  Use the 'find' command to determine where it was installed.
-Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds
-of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
+Start up a Virtual Machine from your Google Cloud Console or from the Google Cloud Shell (refer to Lab 01 if you don't remember how to do this).
+ssh into your personal server.
+
+Perform an update and install lynis.
 
 ....
 cd ~
 sudo apt-get update
 sudo apt-get install lynis
+....
+
+Lynis will not be installed in the directory you are currently in.  Use the 'find' command to determine where it was installed.
+Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds
+of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
+
+....
 sudo find / -name lynis
 ....
 
-Examine the locations to find the executable lynis*.  Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  
-Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.
+This command will display all the directories that contain the name 'lynis', e.g.
+   /etc/bash_completion.d/lynis
+   /etc/lynis
+   /usr/share/doc/lynis
+   /usr/share/menu/lynis
+   /usr/share/lintian/overrides/lynis
+   /usr/share/lynis
+   /usr/sbin/lynis
+
+Examine thesee directories and find the one that contains the executable lynis*.  Once you know where it got downloaded, run 'audit system' with the 
+--quick option (don't wait for user input).  Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a 
+file, e.g. lynis_out, so you can view it later.  If the executable lynis* was found in the /usr/sbin directory:
 
 ....
-sudo <lynis* directory>/lynis --quick audit system > lynis_out
+sudo /usr/sbin//lynis --quick audit system > lynis_out
 ....
 
 The lynis scan is run internally on the server, as a script or application that reviews the server's configuration in painstaking detail.   
@@ -54,12 +71,11 @@ server's configuration in painstaking detail. Lots of output that looks like:
  - Checking Locate database                                 [ FOUND ]
 .
 .
-.
-
- * Consider hardening SSH configuration [SSH-7408]
+  * Consider hardening SSH configuration [SSH-7408]
     - Details  : AllowAgentForwarding (YES --> NO)
       https://cisofy.com/controls/SSH-7408/
-
+.
+.
   * Configure minimum password age in /etc/login.defs [AUTH-9286]
       https://cisofy.com/controls/AUTH-9286/
 
@@ -70,23 +86,25 @@ server's configuration in painstaking detail. Lots of output that looks like:
 Let's fix the minium and maxium password age issue in login.defs.
 
 Open file /etc/login.defs using text editor:
-# sudo nano /etc/login.defs
 
-Setup (sample) values as follows:
+....
+sudo nano /etc/login.defs
+....
+
+Change the values as shown:
 
  PASS_MAX_DAYS 30
  PASS_MIN_DAYS 1
  PASS_WARN_AGE 7
 
-To restart sshd on ubuntu 16, use the command:
+Restart the sshd.  To restart the sshd on Ubuntu 16.04/18.04/20.04 LTS or above, use the command:
 
- sudo systemctl restart sshd
+....
+sudo systemctl restart sshd
+....
 
-For earlier versions of Ubuntu, use:
-
- sudo service ssh restart
-
-Between these two resources you should be able to fix the issue. If you have questions, post them to Slack. When you have fixed the issue, run the scan again and confirm the banner is no longer an issue.
+When you have fixed the issue, run the lynis scan again and redirect it to a new output file.  Submit a screen shot of the warning and a screenshot that
+confirms that this is no longer an issue.
 
 === System hardening
 
@@ -104,9 +122,6 @@ NOTE: Do not try to fix the banners issue. It only can be tested by logging dire
 
 Be prepared to share you results, positive or negative. If you fix a vulnerability, be sure to document the steps so they could be scripted.
 
-After you have fixed one more lynis vulnerability, read http://www.sonatype.org/nexus/2015/11/13/did-you-wake-up-to-an-alert-about-the-java-deserialization-vulnerability and discuss with your neighbors. What is the National Vulnerability Database? Be prepared to discuss in class.
-
-
 == Permanently fixing one or more vulnerabilities (10+ extra credit points).
 
 First, you need to figure out the configuration change required to fix the vulnerability. It should be something that you can script.
@@ -121,7 +136,6 @@ First, you need to figure out the configuration change required to fix the vulne
 * 10 or more: 30 points
 
 In order to gain the extra credit:
-
 * Create a new VM and run the vulnerability scanner.
 * Save the output to a text file, named "initial-output.log"
 * Run the necessary commands to fix the vulnerability.
@@ -150,10 +164,8 @@ You may need to Google "regular expressions."
 === Web vulnerability testing scan
 (if time)
 
-When you have reflected enough on the Java deserialization vulnerability and the implications of that article, move on to a Web vulnerability. We will install 
-Java and apache2 on your VM. (Don't try to install these on the main server; you won't be able to.)
-
-ON YOUR VM, perform an update and install java and apache2.  You can check if apache2 got installed by issuing the curl command.
+We will now install Java and apache2 on your VM. On your VM, perform an update and then install java and apache2.  
+You can check if apache2 got installed by issuing the curl command.
 
 ....
 sudo apt-get update
@@ -169,22 +181,31 @@ For example, if you chose the Ubuntu operation system:
 
 image::owasp_zap_download.png[]
 
-Run the commands that get displayed for the operating system that you chose.  After owasp-zap is installed, use the 'find' command to determine where zap.sh 
-was installed.  Run it and redirect its output to a file, e.g. zap_sh_out, so you can view it later.
+Run the commands that get displayed for the operating system that you chose.  
+After owasp-zap is installed, use the 'find' command to determine where zap.sh was installed.  
 
 ....
 sudo find / -name zap.sh
-sudo <zap.sh* directory>/zap.sh -cmd -quickurl http://localhost:80 > zap_sh_out
 ....
 
-We run this script externally to the machine being tested, and give it the URL. It then probes the URL and the server, as a form of penetration testing. It will again generate a number of findings. Research them and figure out if there is an easy fix. Share with class on Slack.
+This command will display all the directories that contain the name 'zap.sh', e.g.
+   /usr/bin/owasp-zap
+
+Run zap.sh and redirect the output to a file so you can view it later, e.g zap_sh_out.  
+
+....
+sudo /usr/bin/owasp-zap/zap.sh -cmd -quickurl http://localhost:80 > zap_sh_out
+....
+
+We run this script externally to the machine being tested, and give it the URL. It then probes the URL and the server, as a form of penetration testing. 
+It will again generate a number of findings. Research them and figure out if there is an easy fix. 
 
 NOTE: You will get raw XML dumped to the terminal. You can cut and paste this to an *.xml document on your workstation and open it with a browser for an easier view.
 
 === Optional ITSM process
 Time and instructor lab preparation permitting:
 
-* The vulnerability should be registered as a Problem in iTOP, against the server it is detected on.
+* The vulnerability should be registered as a Problem in Jira SD, against the server it is detected on.
 
 * The server rebuild that fixes it will be executed as a Change.
 
@@ -199,30 +220,10 @@ The following tools were evaluated as part of developing this lab.
 === Lynis
 
 https://cisofy.com/lynis/
-http://linux-audit.com/how-to-deal-with-lynis-suggestions/
 http://linux-audit.com/linux-vulnerabilities-explained-from-detection-to-treatment/
 
-=== OpenSCAP
-http://www.open-scap.org/
-
 === ZAP
-https://github.com/zaproxy/zaproxy
-https://github.com/zaproxy/zaproxy/releases/download/2.4.0/ZAPGettingStartedGuide-2.4.pdf
+https://www.zaproxy.org
 
-=== NIST database
-https://nvd.nist.gov/
 
-=== Listings
-http://resources.infosecinstitute.com/14-popular-web-application-vulnerability-scanners/
 
-http://www.networkworld.com/article/2176429/security/security-6-free-network-vulnerability-scanners.html
-
-=== Useful stuff
-http://hardenubuntu.com/initial-setup/
-http://www.sonatype.org/nexus/2015/11/13/did-you-wake-up-to-an-alert-about-the-java-deserialization-vulnerability
-
-http://continuousdelivery.com/2013/08/risk-management-theatre/
-
-Nessus is often used by security professionals; it is commercial.
-
-OpenVAS is another option, not evaluated.
