@@ -146,8 +146,7 @@ You may need to Google "regular expressions."
 === Web vulnerability testing scan
 (if time)
 
-We will now install Java and apache2 on your VM. On your VM, perform an update and then install java and apache2.  
-You can check if apache2 got installed by issuing the curl command.
+We will now install Java and apache2 on the VM that you created for the lynis scan or you can create a new VM. On your VM, perform an update and then install java and apache2.  You can check if apache2 got installed by issuing the curl command.
 
 ....
 sudo apt-get update
