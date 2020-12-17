@@ -26,7 +26,9 @@ The system will prompt you to create your first project based off a template. Th
 
 image:images/templates.png[]
 
-You'll finally arrive at a screen that shows you an overview of your new service desk project.
+You'll arrive at a screen that shows you all of your projects, including the one you just created (this may be the only project you see). Select your project.
+
+At long last, here is an overview of your new service desk project.
 
 image:images/home.png[]
 
@@ -63,7 +65,13 @@ Before we can do this, we need to make sure that our service desk doesn't filter
 image:images/emailAllow.png[]
 
 *Assignment*
-Head over to the GCP monitoring service. Find your uptime check from Lab 06 and change its notification to send to your service desk email. Now cause your uptime check to fail like you did in Lab 06.
+Head over to the GCP monitoring service. The first thing we want to do is change the email address that your uptime check will notify. It's easiest to do this by changing the email tied to the alert channel in Google Monitoring. In the screenshot below, note the `Edit Notification Channels` menu item at the top of the screen. Click this and among all the notification channels listed on the resulting screen, you'll see the email channel associated with your uptime check. You can edit this item and change it to the email from your service desk.
+
+image:images/notification.png[]
+
+NOTE: If you spun up your cluster fresh for this lab, you'll need to collect the endpoints like we did in Lab 06 so that you can enter them in your uptime check configuration. Unfortunately Google makes it difficult to edit an existing check with these new endpoints. You can, however, make a copy of your existing check and edit that. Find your uptime check in the Google monitoring console and click the three-dots menu. Select the `copy` option.
+
+Now cause your uptime check to fail like you did in Lab 06.
 
 You should eventually see a ticket show up in your service desk system. Take a screen shot of this ticket detail screen and include it in your assignment doc.
 
