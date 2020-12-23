@@ -11,13 +11,13 @@ Objectives:
 
 == Overview
 
-This lab is for those of you that don't know how to create a VM instance using the Google Cloud Console. Up to this point, we have created a VM instance, created a ssh public key and then shelled into VM instance using the Google Cloud Platform command line.  Just like any other software package, there are alternative ways to do this.  This lab will show you an alternate method of creating a VM instance and then shelling into from the Google Cloud console.
+This lab is for those of you that aren't familiar with how to create a VM instance using the Google Cloud Console. Up to this point, we have created a VM instance, created a ssh public key and then shelled into VM instance using the Google Cloud Platform command line.  Just like any other software package, there are alternative ways to do this.  This lab will show you an alternate method of creating a VM instance and then shelling into from the Google Cloud Console.
 
-Also, in prior labs we have created a VM instance and checked to see if we could connect to the instance by issuing the curl command.  We confirmed connection to the instance if the command line prompt came back after issuing the curl command.  This really isn't that exciting and doesn't show you what you can do with the VM instance.  In this lab, we will display an html page in the VM instance from your browser.  This is how you would connect to a website if you were surfing the internet.
+Also, in prior labs we have created a VM instance and checked to see if we could connect to the instance by issuing the curl command.  We confirmed connection to the instance if the command line prompt came back after issuing the curl command.  This really isn't that exciting and doesn't show you what you can do with the VM instance.  In this lab, we will display an html page in the VM instance from your browser.  It reflects what you would expect to see when you visit a website.
 
 === Lab 01 Review
 
-In Lab 01, we created a VM instance using the following commands from the Google Cloud Platform to provision the compute infrastructure.  
+In Lab 01, we created a VM instance using the following commands in the Google Cloud Shell.
 
 [source,bash]
 ----
@@ -46,9 +46,10 @@ $ export NODE_IP_01=$(gcloud --format="value(networkInterfaces[0].accessConfigs[
 $ ssh node-user@${NODE_IP_01}
 ----
 
+
 === Getting started with the Google Cloud Console
 
-We can create a VM instance on the Google Cloud Console by looking at the gcloud command:  
+We can create a VM instance using the Google Cloud Console.  You can use the syntax of the command line call as a guide to set up the VM instance on the Google Cloud Console. 
 
 [source,bash]
 ----
@@ -61,16 +62,24 @@ We can create a VM instance on the Google Cloud Console by looking at the gcloud
 
 image::gcloud_compute_instance.png[]
 
+
+On the VM Instances page,
+
+
 [source,bash]
 ----
 "create" -> Click Create
 ----
 
+
 image::VM_Instances_Create.png[]
 
-You will then be on the Create Instance page where you can set up the VM environment.  Here, you can enter the instance name, set the region and zone, configure the machine and machine type, select a boot disk and set up firewall rules.
+
+You will then be taken to the Create Instance page where you can set up the VM environment.  Here, you can enter the instance name, set the region and zone, configure the machine and machine type, select a boot disk and set up firewall rules.
+
 
 image::Create_instance.png[]
+
 
 Go ahead and start up the Google Cloud Console and create a VM instance using the following values:
 
@@ -80,7 +89,16 @@ Go ahead and start up the Google Cloud Console and create a VM instance using th
     Leave the default region at us-central-1 (Iowa) and us-central1-a
     Leave the machine family at General-purpose
     Leave the Series at E2
-    Set the machine-type to e2-micro.  Note the monthly estimated cost in the upper right.  
+    Set the machine-type to e2-micro.  Note the monthly estimated cost in the upper right.  Switch to a different machine-type and note the new estimated cost
+    Set the boot-disk to Ubuntu.  Once again note the monthly estimated cost.
+    Under Firewall, allow HTTP traffic.
+    
+    Before you click Create, if you would like to see the equivalent command line syntax, click on 
+    
+    
+    
+    
+    
     
     
 ----
