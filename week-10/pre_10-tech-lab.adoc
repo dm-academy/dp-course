@@ -138,6 +138,11 @@ image:Apache2_Ubuntu_Default_Page.png[]
 This is a more exciting way to see that you are connected to your VM instance than what we see by issuing a curl command.  Submit a screenshot of your Apache2 default page.  You have completed this lab.
 
 
+[source,bash]
+----
+Be sure to destroy the VM instance that you created.
+----
+
 === Extra credit
 
 When you install apache2, it creates a default page to display when the VM instance is accessed. This defalut page is named index.html  For extra credit, delete the apache2 default index.html page and create your own index.html default page.  Open a browser window and submit a screenshot of your default page. 
