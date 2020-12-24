@@ -63,6 +63,7 @@ We can create a VM instance using the Google Cloud Console.  You can use the syn
 image::gcloud_compute_instance.png[]
 
 
+
 On the VM Instances page,
 
 
@@ -92,14 +93,58 @@ Go ahead and start up the Google Cloud Console and create a VM instance using th
     Set the machine-type to e2-micro.  Note the monthly estimated cost in the upper right.  Switch to a different machine-type and note the new estimated cost
     Set the boot-disk to Ubuntu.  Once again note the monthly estimated cost.
     Under Firewall, allow HTTP traffic.
+    Take a screenshot of the Create Instance setup.
     
-    Before you click Create, if you would like to see the equivalent command line syntax, click on 
+    Before you click Create, if you would like to see the equivalent command line syntax, click on "Equivalent REST or command line"
+    Go ahead and view the equivalent command line and submit a screenshot of it.
     
-    
-    
-    
-    
-    
-    
+    Click Create.  Your VM instance will now be created.  Submit a screenshot of your newly created VM instance.
 ----
+
+=== ssh into the VM instance
+
+Wait until your VM instance has been created. Before you ssh into your VM instance, if you would like to see the equivalent command line syntax, click on the drop down arrow to the right of SSH, and mouse down and click on "View gcloud command".  Go ahead and do this and submit a submit a screenshot of the command.
+
+
+image::ssh_gcloud_command.png[]
+
+
+Now, go ahead and click on SSH.  You should see a shell window pop up and start connecting to your VM instance.  If you don't see this, close the shell window and click SSH again. 
+
+
+image::ssh.png[]
+
+
+=== Install java and apache2
+After you have successfully SSH'd in your VM instance, perfrom and updata and install java and apache2.  Issue a curl command to see if you're connected.  You should see some html code get displayed.
+
+
+[source,bash]
+----
+sudo apt-get update
+sudo apt-get install -y default-jdk apache2
+curl localhost:80
+----
+
+
+OK, so that you're connected to your VM instance, let's confirm the connection via a browser window.  Copy the External IP address from the VM Instance, go to a browser window and enter the External IP address that you copied.
+
+
+image::Copy_External_IP.png[]
+
+
+You should see the Apache2 default page.  
+
+
+image:Apache2_Ubuntu_Default_Page.png[]
+
+
+This is a more exciting way to see that you are connected to your VM instance than what we see by issuing a curl command.  Submit a screenshot of your Apache2 default page.  You have completed this lab.
+
+
+=== Extra credit
+
+When you install apache2, it creates a default page to display when the VM instance is accessed. This defalut page is named index.html  For extra credit, delete the apache2 default index.html page and create your own index.html default page.  Open a browser window and submit a screenshot of your default page. 
+
+
 
