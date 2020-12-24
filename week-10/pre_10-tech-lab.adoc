@@ -112,7 +112,7 @@ image::ssh.png[]
 
 
 === Install java and apache2
-After you have successfully SSH'd in your VM instance, perfrom and updata and install java and apache2.  Issue a curl command to see if you're connected.  You should see some html code get displayed.
+After you have successfully SSH'd in your VM instance, perfrom an update and install java and apache2.  Issue a curl command to see if you're connected.  You should see some html code get displayed.
 
 
 [source,bash]
