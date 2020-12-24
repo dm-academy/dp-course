@@ -105,10 +105,6 @@ Go ahead and start up the Google Cloud Console and create a VM instance using th
 
 Wait until your VM instance has been created. Before you ssh into your VM instance, if you would like to see the equivalent command line syntax, click on the drop down arrow to the right of SSH, and mouse down and click on "View gcloud command".  Go ahead and do this and submit a submit a screenshot of the command.
 
-
-image::ssh_gcloud_command.png[]
-
-
 Now, go ahead and click on SSH.  You should see a shell window pop up and start connecting to your VM instance.  If you don't see this, close the shell window and click SSH again. 
 
 
