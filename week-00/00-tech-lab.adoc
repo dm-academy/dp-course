@@ -144,6 +144,14 @@ Here are some more detailed steps for those who are having issues:
 * Go to your account settings
 * Go to the section marked "SSH and GPG Keys"
 * Create a new SSH key, naming it preferably with the date and pasting your clipboard into the large text box.
+* Go to the command prompt in the Google Cloud Shell and type `ssh -T git@github.com`. You should get the message: 
+Hi <yourGithubID>! You've successfully authenticated, but GitHub does not provide shell access.
+
+You may also get a warning starting with `The authenticity of host 'github.com...` - in this case, type yes. You then get the success message. 
+
+If you get other results, post screen shots to Teams. 
+
+REQUIRED: When you have succeeded, post a screen shot showing the Github "Hi" message to your Canvas assignment. 
 
 *Do NOT continue until you have ssh working.*
 
@@ -208,6 +216,8 @@ git push origin master
 ----
 
 Go up to Github and check that you can view the change in YOUR version of the dp-course repo. Then, issue a pull request back to me, by going to Pull Requests and clicking the New Pull Request button. It should default to a pull request back to dm-academy/dp-course; if it doesn't, request assistance.
+
+Post a screen shot of the pull request to the Canvas assignment. 
 
 Git and github could fill a course by themselves, but one key concept to keep in mind is that of the *commit*. Don't think of committing like saving a file. Rather, think of it like adding a notation of a certain change to an existing chain of changes. If you start from the beginning and replay all of the changes in the chain, you wind up at the current state of the document. This means that advanced git commands allow you to forward and reverse through this chain of changes. More on this in lab 04.
 
