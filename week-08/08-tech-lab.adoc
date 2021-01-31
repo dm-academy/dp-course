@@ -1,1 +1,4 @@
+= Lab 08: IT finance, cloud cost control, sourcing, software supply chain, the CMDB problem
+
+
 THIS THIS THIS https://www.env0.com/blog/were-opensourcing-terratag-to-make-multicloud-resource-tagging-easier
