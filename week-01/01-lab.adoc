@@ -81,7 +81,7 @@ You've signed up for a free tier of https://cloud.google.com/[Google Cloud Platf
 
 First thing we will do is to provision a virtual machine (VM) inside GCP for running the application.
 
-Use the following gcloud command in your terminal to launch a VM with Ubuntu 16.04 distro:
+Use the following gcloud command in your terminal to launch a VM with Ubuntu 20.04 distro:
 
 [source,bash]
 ----
