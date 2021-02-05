@@ -1,0 +1,211 @@
+= Lab 10: Security, and Governance, Risk, and Compliance
+
+== Objectives
+
+In this lab, you will gain some hands on experience in vulnerability scanning and remediation.
+
+Objectives:
+
+* Understand a "vulnerability" and how it can be detected
+* Understand how a vulnerability may be fixed or remediated
+
+== Overview
+
+Working individually, you will run an "inside-out" vulnerability scan and a simple "outside-in" penetration scan on a virtual machine.  
+
+The testing will be performed by downloading a vulnerability scanner and running it on your server.
+
+You will research the results and recommend at least one fix that can be implemented.
+
+You will fix at least two vulnerabilities and participate in group and class discussion about how this relates to the broader topics of governance, risk, and compliance.
+
+
+=== Getting started
+
+Start up a Virtual Machine from your Google Cloud Console or from the Google Cloud Shell, then ssh into your personal server.
+
+Perform an update and install lynis.
+
+....
+cd ~
+sudo apt-get update
+sudo apt-get install lynis
+....
+
+Lynis will not be installed in the directory you are currently in.  Use the 'find' command to determine where it was installed.
+
+....
+sudo find / -name lynis
+....
+
+This command will display all the directories that contain the name 'lynis'.  Examine thesee directories and find the one that contains the executable lynis*.  Once you know where it got downloaded, run 'audit system' with the --quick option (don't wait for user input).  Lynis will generate hundreds of findings that will scroll off your display.  Redirect the lynis output to a file, e.g. lynis_out, so you can view it later.  For example, if the executable lynis* was found in the /usr/sbin directory, your command would be:
+
+....
+sudo /usr/sbin/lynis --quick audit system > lynis_out
+....
+
+The lynis scan is run internally on the server, as a script or application that reviews the server's configuration in painstaking detail.  Pick one or two findings,  research them and figure out if there is an easy fix.  The lynis output should look like:
+
+....
+- Checking for old files in /tmp                            [ OK ]
+ - Checking /tmp sticky bit                                 [ OK ]
+ - Mount options of /                                       [ OK ]
+ - Checking Locate database                                 [ FOUND ]
+.
+.
+  * Consider hardening SSH configuration [SSH-7408]
+    - Details  : AllowAgentForwarding (YES --> NO)
+      https://cisofy.com/controls/SSH-7408/
+.
+.
+  * Configure minimum password age in /etc/login.defs [AUTH-9286]
+      https://cisofy.com/controls/AUTH-9286/
+
+  * Configure maximum password age in /etc/login.defs [AUTH-9286]
+      https://cisofy.com/controls/AUTH-9286/
+....
+
+Let's fix the minium and maxium password age issue in login.defs.
+
+Open file /etc/login.defs using the text editor:
+
+....
+sudo nano /etc/login.defs
+....
+
+Change the values of PASS_MAX_DAYS and PASS_MIN_DAYS as shown:
+
+ PASS_MAX_DAYS 30
+ PASS_MIN_DAYS 1
+ PASS_WARN_AGE 7
+
+Restart the sshd.  To restart the sshd on Ubuntu 16.04/18.04/20.04 LTS or above, use the command:
+
+....
+sudo systemctl restart sshd
+....
+
+When you have fixed the issue, run the lynis scan again and redirect it to a new output file.  Submit a screen shot of the warning and a screenshot that
+confirms that this is no longer an issue.
+
+=== System hardening
+
+Now for the hard part. Find another vulnerability you can fix. To use class time most efficiently, you should post the vulnerabilities you are researching to the class. Don't start on something someone else is doing.
+
+You should take some time and think about and/or research the risk any given vulnerability presents. Remember the CISSP terminology:
+
+image::4.10-security-taxonomy.png[]
+
+We will pause class and discuss interesting cases.
+
+TIP: If you search Google on the Lynis ID, e.g. `AUTH-9286`, you should be taken to the cisofy.com site (or perhaps other resources) which will get you started on resolving it.
+
+NOTE: Do not try to fix the banners issue. It only can be tested by logging directly into the server console (which in the case of a VM doesn't really exist), not via ssh.
+
+Be prepared to share you results, positive or negative. If you fix a vulnerability, be sure to document the steps so they could be scripted.
+
+== Permanently fixing one or more vulnerabilities (10+ extra credit points).
+
+First, you need to figure out the configuration change required to fix the vulnerability. It should be something that you can script.
+
+* something installed that doesn't need to be
+* something that should be there, that isn't
+* permissions that need to be tightened down.
+
+* 1 vulnerability fixed: 10 points
+* 2 : 15 points
+* 3 : 20 points.
+* 10 or more: 30 points
+
+In order to gain the extra credit, this fix should be performed in a hardened Packer image.
+
+* Create a new VM and run the vulnerability scanner.
+* Save the output to a text file, named "initial-output.log"
+* Run the necessary commands to fix the vulnerability.
+* Put them into a shell script.
+* Run the scanner again, saving the output to "final-output.log" and showing that they are fixed
+
+IMPORTANT: Submit the 2 output files, and your script for extra credit.
+
+You can script commands like
+
+ apt-get install <some program>
+
+You can't script an interactive text editor (like nano). To change configuration files, sed is your friend. Simple example:
+
+....
+char@seis664:~$ echo myScriptContent > test.txt
+char@seis664:~$ cat test.txt
+myScriptContent
+char@seis664:~$ sed -i s/Script/New/g test.txt
+char@seis664:~$ cat test.txt
+myNewContent
+....
+
+You may need to Google "regular expressions."
+
+=== Web vulnerability testing scan
+(if time)
+
+We will now install Java and apache2 on the VM that you created for the lynis scan or you can create a new VM. On your VM, perform an update and then install java and apache2.  You can check if apache2 got installed by issuing the curl command.
+
+....
+sudo apt-get update
+sudo apt-get install -y default-jdk apache2
+curl localhost:80
+....
+
+Install owasp-zap.  
+Go to https://www.zaproxy.org/download/ and scroll down until you find the link 'ZAP Linux Repos'.  Click on this link to go to the download page.
+On the download page, select your operating system, then click on 'Add repository and install manually'.  
+
+For example, if you chose the Ubuntu operation system:
+
+image::owasp_zap_download.png[]
+
+Run the commands that get displayed for the operating system that you chose.  
+After owasp-zap is installed, use the 'find' command to determine where zap.sh was installed.  
+
+....
+sudo find / -name zap.sh
+....
+
+This command will display the directory that contains the executable 'zap.sh'.
+
+Run zap.sh and redirect the output to a file so you can view it later, e.g zap_sh_out.  For example, if 'zap.sh'* was found in the /usr/bin/owasp-zap directory, your command would be:
+
+....
+sudo /usr/bin/owasp-zap/zap.sh -cmd -quickurl http://localhost:80 > zap_sh_out
+....
+
+We run this script externally to the machine being tested, and give it the URL. It then probes the URL and the server, as a form of penetration testing. 
+It will again generate a number of findings. Research them and figure out if there is an easy fix. 
+
+NOTE: You will get raw XML dumped to the terminal. You can cut and paste this to an *.xml document on your workstation and open it with a browser for an easier view.
+
+=== Optional ITSM process
+Time and instructor lab preparation permitting:
+
+* The vulnerability should be registered as a Problem in Jira SD, against the server it is detected on.
+
+* The server rebuild that fixes it will be executed as a Change.
+
+* The Change and the Problem should reference the git pull request ID.
+
+* The Change will then be confirmed as having fixed the Problem, which will then be closed out.
+
+
+== Tools
+The following tools were evaluated as part of developing this lab.
+
+=== Lynis
+
+https://cisofy.com/lynis
+
+http://linux-audit.com/linux-vulnerabilities-explained-from-detection-to-treatment
+
+=== ZAP
+https://www.zaproxy.org
+
+
+
