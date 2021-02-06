@@ -6,4 +6,4 @@ This repository contains labs supporting the Digital Practitioner Body of Knowle
 There is at this writing one technical lab a week. 
 
 It contains an assortment of text files and some binaries (small images).
-    
+Learning to use GCP!    
